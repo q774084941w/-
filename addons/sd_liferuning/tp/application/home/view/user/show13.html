@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/style.css"/>
+		<style type="text/css">
+			#wrap #form2{padding: 35px;}
+			#form2 .lin_one{width: 100%;float: left;line-height: 40px;font-size: 14px;}
+			#form2 .lin_one span{width:80%}
+			#form2 .lin_two:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+			#form2 .lin_tow{width: 50%;display: inline-block;float: left;line-height: 40px;font-size: 14px;}
+			#form2 .lin_tow span{width: 280px}
+			#form2 .lin_tow:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+			#form2{background: #fff;width: 840px;padding: 16px;max-height: 667px;min-height: 667px;overflow-y: scroll;overflow-x: hidden;min-width: 820px;}
+			#form2 div img{display: inline-block;width: 120px;height: 120px;}
+			#form2 div label{display: inline-block;width: 70px;text-align: right;color: #333333;float: left;padding-right: 10px}
+			#form2 div span{display: inline-block; color: #999999;float: left;}
+		</style>
+	</head>
+	<body>
+	<div id="wrap" class="wrap" style="display: block;">
+		<div class="wrap-con wrap-con2" id="form2">
+			<form action="" method="post" class="form-2">
+				<div class="lin_one">
+					<label>昵称:</label><span>{$data.nickname}</span>
+				</div>
+				<div class="lin_tow">
+					<label>头像:</label><img src="{$data.head}">
+				</div>
+				<div class="lin_tow">
+					<label>负责人姓名:</label><span>{$data.uname}</span>
+				</div>
+				<div class="lin_tow">
+					<label>负责人电话:</label><span>{$data.utel}</span>
+				</div>
+				<div class="lin_tow">
+					<label>店面名称:</label><span>{$data.carname}</span>
+				</div>
+				<div class="lin_tow">
+					<label>店铺地址:</label><span>{$data.uaddress}</span>
+				</div>
+				<div class="lin_tow">
+					<label>注册时间:</label><span>{:date('Y-m-d H:i:s',$data.addtime)}</span>
+				</div>
+
+
+				<div class="lin_one">
+					<label>营业执照:</label><img src="{$data.uimg}" style="height: 400px;width: 200px">
+				</div>
+
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+	</body>
+</html>
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>

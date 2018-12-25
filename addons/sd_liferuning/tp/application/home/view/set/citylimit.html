@@ -1,0 +1,99 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="10,8"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			区域限制购买
+		</div>
+		<div class="Statistics">
+			<div class="left d">
+				<button class="yh_btn-primary showmodel"><a href="addlimit">添加规则</a></button>
+			</div>
+			<span class="right">共有数据：<b></b>条</span>
+			<div class="clear"></div>
+		</div>
+
+
+		<div class="label-3 label">
+			<div class="tit t">
+				<p>区域限制</p>
+			</div>
+			<div class="Tab">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+					<thead>
+						<tr>
+							<th>等级</th>
+							<th>等级名称</th>
+							<th>折扣</th>
+							<th>购买所需金额</th>
+							<th>升级条件</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<thead>
+						
+						<tr>
+							<td>1</td>
+							<td>VIP会员</td>
+							<td>20</td>
+							<td>0.00</td>
+							<td>90</td>
+							<td><b class="putaway">已开启</b></td>
+							<td>
+								<button class="openbtn ml bottom shelves" onclick="shelves()">关闭</button>
+								<button class="modifybtn ml open-win" data-type="show?" onclick="compile()">编辑</button>
+								<button class="openbtn" onclick="del()">删除</button>
+							</td>
+						</tr>
+						
+					</thead>
+				</table>
+			</div>
+			<div style="text-align: center" class="pages">
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<iframe src="show" style="height: 100%; width: 100%;"></iframe>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".open-win").click(function(){
+		var dataurl = $(this).attr('data-type');
+		$("iframe").attr('src',dataurl)
+	})
+	function save_cust(id,obj) {
+		$.ajax({
+			url:"{:url('user/add_cust')}",
+			dataType:'json',
+			type:'get',
+			data:{
+			    id:id,
+			},
+			success:function (res) {
+				console.log(res)
+            }
+		})
+    }
+</script>
+{/block}
+

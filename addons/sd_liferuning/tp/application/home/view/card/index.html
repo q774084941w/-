@@ -1,0 +1,165 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="11,9,false,开户行管理"/>
+<div class="c-r right">
+
+    <div class="label1">
+        <div class="title">
+            添加开户行
+        </div>
+        <!--<div class="information">-->
+        <!--<i></i>-->
+        <!--<p class="h">优惠券</p>-->
+        <!--<p>可设置优惠券，显示用户兑换记录。</p>-->
+        <!--<p>优惠券三种发放方式：积分中心、优惠券码、商家后台发送，只有第一种消耗用户积分，后两者不需要。</p>-->
+        <!--<p>优惠券关闭以后，该批次优惠券用户端不再显示。</p>-->
+        <!--<p></p>-->
+        <!--</div>-->
+
+        <!--button type="button" class="yh_btn-primary showmodel">
+            <span>新增优惠券</span>
+        </button-->
+        <div class="">
+
+        </div>
+        <button class="yh_btn-primary showmodel mtop"><a href="add">添加</a></button>
+
+        <div class="label-3 label">
+            <div class="Tab">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                    <thead>
+                    <tr>
+
+                        <th style="width: 40px;">ID</th>
+                        <th style="width: 85px;">logo</th>
+                        <th style="width: 180px;">开户行名称</th>
+
+                        <th style="width: 150px;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+            {volist name='data' id='vo'}
+                    <tr>
+
+                        <td style="width: 40px; " class="goodsid" id="goodsid">{$vo.id}</td>
+                        <td style="width: 180px;"><img src="{$vo.pic}" width="180"></td>
+                        <td style="width: 75px;">{$vo.uname}</td>
+
+
+
+
+
+
+
+                        <td style="width: 150px;"><button class="modifybtn open-win ml" onclick="compile('edit?id={$vo.id}')">编辑</button>
+                            <button class="openbtn" onclick="del('{$vo.id}','delete')">删除</button></td>
+
+
+
+
+                    </tr>
+            {/volist}
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align: center" class="pages">
+                {//$data->render()}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/dateRange.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/monthPicker.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    function del(id,url){
+        if(window.confirm('你确定要删除吗吗？')){
+            var data = {
+                id:id
+            };
+            $.ajax({
+                type:"get",
+                data: data,
+                url:url,
+                dataType: "json",
+                success: function(data){
+                    if (data == 1) {
+                        prompt('删除成功',data)
+                        window.location.reload();
+                    } else{
+                        prompt('删除失败',data)
+                    }
+                },
+                error:function(){
+                    prompt('操作失败',0)
+                }
+            });
+        }else{
+            //alert("取消");
+            return false;
+        }
+
+
+    }
+    $("#div_date_demo3 span").css('line-height','1.5')
+    var dateRange = new pickerDateRange('date_demo3', {
+        aRecent7Days : 'aRecent7DaysDemo3', //最近7天
+        isTodayValid : false,
+        //startDate : '2013-04-14',
+        //endDate : '2013-04-21',
+        //needCompare : true,
+        //isSingleDay : true,
+        //shortOpr : true,
+        defaultText : ' 至 ',
+        inputTrigger : 'input_trigger_demo3',
+        theme : 'ta',
+        success : function(obj) {
+            $("#dCon_demo3").html('开始时间 : ' + obj.startDate + '<br/>结束时间 : ' + obj.endDate);
+            console.log(obj.startDate +'------' +obj.endDate)
+        }
+    });
+    $(function () {
+        var leng = $('.Tab tr')
+        for (var i = 0; i < leng.length; i++){
+            var txt = leng.eq(i).find('.green b').text()
+            //alert(txt)
+            if(txt == '已开启'){
+                leng.eq(i).find('.green b').addClass('putaway')
+            }
+            if(txt == '已关闭'){
+                leng.eq(i).find('.green b').addClass('sold ')
+            }
+        }
+
+    })
+    function shelves(j,v){
+        var pid = j.parent().parent().find('.goodsid').text()
+        var data = {
+            goodsid:pid,status:v,
+        };
+        $.ajax({
+            type:'post',
+            url:"soldOut",			//请求地址加参数
+            data: data,
+            success: function(data){
+                window.location.reload();
+                //Parent.find('.green').addClass('red')
+
+            },
+            error:function(){
+                alert('更新失败')
+            }
+        });
+    }
+</script>
+
+{/block}
+

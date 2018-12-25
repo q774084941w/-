@@ -1,0 +1,286 @@
+{extend name="public/base" /}
+		<!--尾部-->
+		<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="0,1,false,用户分析"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			用户分析
+		</div>
+		<div class="label-1 label">
+			<ul class="circle-div">
+				<div class="circle">
+					<svg id="" xmlns="http://www.w3.org/2000/svg" class="circleProcess-s">
+						<circle id="circle" cx="50%" cy="50%" r="40%" stroke-width="5%" stroke-dashoffset='0%'></circle>
+					</svg>
+					<svg id="circleProcess-0" xmlns="http://www.w3.org/2000/svg" class="circleProcess">
+						<circle id="circle-0" cx="50%" cy="50%" r="40%" stroke-width="5%"></circle>
+					</svg>
+					<div class="circletxt">
+						{if condition="$stitc != ''"}
+						<h1>0</h1>
+						<span>昨日新用户</span>
+						{else /}
+						<h1>{$stitc->visit_uv_new}</h1>
+						<span>昨日新用户</span>
+						{/if}
+					</div>
+				</div>
+
+				<div class="circle">
+					<svg id="" xmlns="http://www.w3.org/2000/svg" class="circleProcess-s">
+						<circle id="circle" cx="50%" cy="50%" r="40%" stroke-width="5%" stroke-dashoffset='0%'></circle>
+					</svg>
+					<svg id="circleProcess-1" xmlns="http://www.w3.org/2000/svg" class="circleProcess">
+						<circle id="circle-1" cx="50%" cy="50%" r="40%" stroke-width="5%"></circle>
+					</svg>
+					<div class="circletxt">
+						{if condition="$stitc != ''"}
+							<h1>0</h1>
+							<span>打开次数</span>
+						{else /}
+							<h1>{$stitc->session_cnt}</h1>
+							<span>打开次数</span>
+						{/if}
+
+					</div>
+				</div>
+
+				<div class="circle">
+					<svg id="" xmlns="http://www.w3.org/2000/svg" class="circleProcess-s">
+						<circle id="circle" cx="50%" cy="50%" r="40%" stroke-width="5%" stroke-dashoffset='0%'></circle>
+					</svg>
+					<svg id="circleProcess-2" xmlns="http://www.w3.org/2000/svg" class="circleProcess">
+						<circle id="circle-2" cx="50%" cy="50%" r="40%" stroke-width="5%"></circle>
+					</svg>
+					<div class="circletxt">
+						{if condition="$stitc != ''"}
+						<h1>0</h1>
+						<span>访问人数</span>
+						{else /}
+						<h1>{$stitc->visit_uv}</h1>
+						<span>访问人数</span>
+						{/if}
+
+					</div>
+				</div>
+
+
+				<div class="circle">
+					<svg id="" xmlns="http://www.w3.org/2000/svg" class="circleProcess-s">
+						<circle id="circle" cx="50%" cy="50%" r="40%" stroke-width="5%" stroke-dashoffset='0%'></circle>
+					</svg>
+					<svg id="circleProcess-3" xmlns="http://www.w3.org/2000/svg" class="circleProcess">
+						<circle id="circle-3" cx="50%" cy="50%" r="40%" stroke-width="5%"></circle>
+					</svg>
+					<div class="circletxt">
+						{if condition="$stitc != ''"}
+						<h1>0</h1>
+						<span>访问次数</span>
+						{else /}
+						<h1>{$stitc->visit_pv}</h1>
+						<span>访问次数</span>
+						{/if}
+
+					</div>
+				</div>
+
+				<div class="clear">
+
+				</div>
+			</ul>
+			<div class="clear">
+
+			</div>
+		</div>
+
+		<!--<div class="label-2 label">-->
+			<!--<div class="tit t">-->
+				<!--<p>新用户数</p>-->
+			<!--</div>-->
+			<!--<div class="" id="main-xyh" style="width: 1020px;height: 500px;"></div>-->
+		<!--</div>-->
+
+		<!--<div class="label-2 label">-->
+			<!--<div class="tit t">-->
+				<!--<p>访问人数</p>-->
+			<!--</div>-->
+			<!--<div class="" id="main-fw" style="width: 1020px;height: 500px;"></div>-->
+		<!--</div>-->
+	</div>
+</div>
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    function load()
+    {
+        $.ajax({
+            url:"{:url('Index/userStics')}",
+            dataType:'json',
+            success:function (data) {
+                console.log(data);
+                var myChart = echarts.init(document.getElementById('main-xyh'));
+                var option = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+
+                    },
+                    xAxis:  {
+                        type: 'category',
+                        boundaryGap: false,
+                        default: '',
+                        data: ['20170704','20170706','20170708','201707010','201707012','201707014','201707016','201707018','201707020','201707022']
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: {
+                            formatter: '{value}'
+                        }
+                    },
+                    series: [
+                        {
+                            name:'用户数最小值',
+                            type:'line',
+                            data:[0],
+                            itemStyle:{
+                                normal:{
+                                    color:'rgb(67, 163, 251)'
+                                },
+                            },
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+
+                    ],
+
+
+                };
+                myChart.setOption(option);
+            },
+            error:function (err) {
+
+            }
+        })
+    }
+
+
+
+
+//	var myChartq = echarts.init(document.getElementById('main-fw'));
+//	var optionq = {
+//		tooltip: {
+//			trigger: 'axis'
+//		},
+//		legend: {
+//
+//		},
+//		xAxis:  {
+//			type: 'category',
+//			boundaryGap: false,
+//			default: '#000',
+//			data: ['20170704','20170706','20170708','201707010','201707012','201707014','201707016','201707018','201707020','201707022']
+//		},
+//		yAxis: {
+//			type: 'value',
+//			axisLabel: {
+//				formatter: '{value}'
+//			}
+//		},
+//		series: [
+//			{
+//				name:'用户数最小值',
+//				type:'line',
+//				data:[0],
+//				itemStyle:{
+//					normal:{
+//						color:'rgb(67, 163, 251)'
+//					},
+//				},
+//				markPoint: {
+//					data: [
+//						{type: 'max', name: '最大值'},
+//						{type: 'min', name: '最小值'}
+//					]
+//				},
+//				markLine: {
+//					data: [
+//						{type: 'average', name: '平均值'}
+//					]
+//				}
+//			},
+//
+//		]
+//	};
+//	myChartq.setOption(optionq);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	var circleProcess = document.getElementById('circleProcess-0');
+	var circle = document.getElementById('circle-0');
+	var rangeValue = 0;
+	var cc;
+	function setCircle() {
+		rangeValue = Number(rangeValue);
+		circle.setAttribute("stroke-dashoffset", (255 - rangeValue) + "%");
+		rangeValue += 1;
+		if(rangeValue == 205){
+			clearInterval(cc);
+		}
+	}
+	cc = setInterval("setCircle()",1);
+
+
+
+
+
+
+	//      var rangeValue = 0;
+	//      var cc;
+	//      var circleProcess;
+	//      var circle
+	function setCircle1() {
+		rangeValue = Number(rangeValue);
+		circle.setAttribute("stroke-dashoffset", (255 - rangeValue) + "%");
+		rangeValue += 1;
+		if(rangeValue == 200){
+			clearInterval(cc);
+			return false
+		}
+		//console.log(rangeValue);
+	}
+	function Circle(obj,objs){
+		//circleProcess = document.getElementById(obj);    //获取svg的id
+		// circle = document.getElementById(objs);			//获取园的id
+
+
+		cc = setInterval('setCircle()',1);
+	}
+	//Circle('circleProcess-0','circle-0')
+	//Circle('circleProcess-1','circle-1')
+ load()
+</script>
+{/block}
+
+
+
+
+
+
+
+
+
+

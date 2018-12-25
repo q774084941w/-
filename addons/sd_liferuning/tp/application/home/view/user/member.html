@@ -1,0 +1,106 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="5,4,false,会员等级"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			会员等级设置
+		</div>
+		<div class="Statistics">
+			<div class="left d">
+				<button class="yh_btn-primary showmodel"><a href="memberset">添加会员</a></button>
+			</div>
+			<span class="right">共有数据：<b>{$data|count}</b>条</span>
+			<div class="clear"></div>
+		</div>
+
+
+		<div class="label-3 label">
+			<div class="tit t">
+				<p>会员等级设置</p>
+			</div>
+			<div class="Tab">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>商家ID</th>
+							<th>等级</th>
+							<th>等级名称</th>
+							<th>折扣</th>
+							<th>所需成长值</th>
+							<th>会员图标</th>
+							<th>加入会员时间</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<thead>
+						{foreach name="data" item="vo"}
+						<tr>
+							<td>{$vo.id}</td>
+							<td>{$vo.bid}</td>
+							<td>{$vo.member_grade}</td>
+							<td>{$vo.grade_name}</td>
+							<td>{$vo.zhekou}</td>
+							<td>{$vo.growth}</td>
+							<td><img src="{$vo.pic}"></td>
+							<td>{$vo.createtime}</td>
+						{if condition="$vo.stute eq '已开启'"}
+							<td><b class="putaway">{$vo.stute}</b></td>
+							<td>
+								<button class="openbtn ml bottom shelves" onclick="member('{$vo.id}','{:url(\'user/states\')}','关闭',0)">关闭</button>
+								<button class="modifybtn ml open-win" data-type="shows?id={$vo.id}">查看</button>
+								<!--<button class="modifybtn ml" onclick="compile('{:url(\'user/upload\')}')">编辑</button>-->
+								<button class="modifybtn ml" onclick="compile('{:url(\'user/updates\')}?id={$vo.id}')">编辑</button>
+								<button class="openbtn" onclick="member('{$vo.id}','{:url(\'user/del\')}','删除')">删除</button>
+							</td>
+						{else}
+							<td><b class="sold">{$vo.stute}</b></td>
+							<td>
+								<button class="modifybtn ml bottom shelves" onclick="member('{$vo.id}','{:url(\'user/states\')}','开启',1)">开启</button>
+								<button class="modifybtn ml open-win" data-type="shows?id={$vo.id}">查看</button>
+								<!--<button class="modifybtn ml" onclick="compile('{:url(\'user/update\')}?id={$vo.id}')">编辑</button>-->
+								<button class="modifybtn ml" onclick="compile('{:url(\'user/updates\')}?id={$vo.id}')">编辑</button>
+								<button class="openbtn" onclick="member('{$vo.id}','{:url(\'user/del\')}','删除')">删除</button>
+							</td>
+						{/if}
+						</tr>
+						{/foreach}
+					</thead>
+				</table>
+			</div>
+			<div style="text-align: center" class="pages">
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<iframe src="shows" style="height: 100%; width: 100%;"></iframe>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".open-win").click(function(){
+		var dataurl = $(this).attr('data-type');
+		$("iframe").attr('src',dataurl)
+	})
+
+</script>
+{/block}
+

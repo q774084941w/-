@@ -1,0 +1,192 @@
+
+{extend name="home/public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+
+
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			添加产品
+		</div>
+		<div class="form" id="form">
+			<form action="../commtype/insert.shtml" method="post">
+				<div><label class="ltxt">分类名称:</label>
+					<div class="bor bor6 bor0" >
+						<span>请选择</span><i></i>
+						<ul style="display: none;">
+						</ul>
+					</div>
+					<div class="bor bor7 bor0">
+						<span>请选择</span><i></i>
+						<ul style="display: none;">
+						</ul>
+					</div>
+					<div class="bor bor8 bor0">
+						<span>请选择</span><i></i>
+						<ul style="display: none;">
+						</ul>
+					</div>
+					<span></span>
+				</div>
+
+				<input type="hidden" name="Ptid" id="Ptid" value="" />
+				<input type="hidden" name="Level" id="Level" value="" />
+				<div><label class="ltxt">名称:</label><input type="text" name="namm" id="" value="" /><span></span></div>
+				<div><label class="ltxt">排序:</label><input type="text" name="solt" id="" value="" /><span></span></div>
+				<div><button class="btns">保存</button></div>
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script src="__static__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__static__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+
+	//		$(".bor4 ul li").click(function(){
+	//			var arr = $(this).html()
+	//			Ajaxs(arr)
+	//		})
+	//
+	//一级分类
+	//	$(".bor6").click(function(){
+	//		$(".bor6 ul").children('li')
+	//	})
+
+	var ptids = "0";   //获取每级id
+	var levels = "0";   //获取级别
+
+
+
+	$(".bor6").unbind('click').bind('click',function(){
+		$(".bor7 ul li").remove()
+		//alert('-')
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:"__publicPath__/commtype/addajax.shtml",
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (var i = 0; i < data.length; i++){      //一级分类
+					//alert(data[i].title)
+					are += "<li data-type="+data[i].ptid+">"+data[i].name+"</li>";
+					levels = data[i].level
+					console.log(levels)
+					//$(".bor6 ul").html('')
+					//alert('1')
+					//alert($(".bor6 ul").html('666'))
+//						for (var j = 0; j < data[i].sub.length; j++) {   //二级菜单
+//							//alert(data[i].sub[j].title)
+//						}
+				}
+				$(".bor6 ul").html('')
+				$(".bor6 ul").append(are)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+	var Li;  				//一级索引
+	var towLi;				//二级索引
+	//二级分类
+	$(document).on("click", ".bor6 ul li", function(){
+		$(".bor7 ul li").remove()
+		$(".bor7 span").text('请选择')
+		$(".bor8 ul li").remove()
+		$(".bor8 span").text('请选择')
+		Li = $(this).index()
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:"__publicPath__/commtype/addajax.shtml",
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (towLi = 0; towLi < data[Li].sub.length; towLi++) {   //二级菜单
+					are += "<li data-type="+data[Li].sub[towLi].ptid+">"+data[Li].sub[towLi].name+"</li>"
+					levels = data[Li].sub[towLi].level
+				}
+				$(".bor7 ul").html('')
+				$(".bor7 ul").append(are)
+				console.log(levels)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+	//三级分类
+	$(document).on("click", ".bor7 ul li", function(){
+		$(".bor8 ul li").remove()
+		$(".bor8 span").text('请选择')
+		var stowLi = $(this).index()
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:"__publicPath__/commtype/addajax.shtml",
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (var i = 0; i < data[Li].sub[stowLi].sub.length; i++) {   //三级菜单
+					//alert(data[Li].sub[stowLi].sub[i].title)
+					are += "<li data-type="+data[Li].sub[stowLi].sub[i].ptid+">"+data[Li].sub[stowLi].sub[i].name+"</li>"
+					levels = data[Li].sub[stowLi].sub[i].level
+				}
+				$(".bor8 ul").html('')
+				$(".bor8 ul").append(are)
+				console.log(levels)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+
+
+	$(".btns").click(function(){
+		if ($(".bor6 span").text() != "请选择") {
+			ptids = $(".bor6 span").attr('data-type')
+			if ($(".bor7 span").text() != "请选择"){
+				ptids = $(".bor7 span").attr('data-type')
+			}
+		} else{
+			return false
+			//console.log("****")
+		}
+		$("#Ptid").val(ptids)
+		$("#Level").val(levels)
+		//Ptid += $(".bor7 span").attr('data-type')
+		console.log("级别："+ptids+" 级数："+levels)
+		//return false
+	})
+</script>
+
+
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

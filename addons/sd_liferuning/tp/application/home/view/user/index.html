@@ -1,0 +1,227 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<link rel="stylesheet" type="text/css" href="__STATIC__/layer/theme/default/layer.css"/>
+<script src="__STATIC__/layer/layer.js"></script>
+<input type="hidden" name="mun_url" id="mun_url" value="5,0,false,会员管理"/>
+<style type="text/css">
+	.c .c-r .query .left label select{width: 100px;height: 27px;}
+	.searchbtn{float: right;background: #39f;border: 1px solid #39f;color: #fff;padding: 2px 7px;transition: color .2s linear,background-color .2s linear,border .2s linear;cursor: pointer;margin-left: 10px}
+</style>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			用户管理
+		</div>
+		<div class="label-3 label">
+			<div class="tit t">
+				<p>用户管理</p>
+			</div>
+			<div class="query">
+
+				<div class="left">
+					<label>
+					<select name="selet" onchange="selet($(this))">
+						<option value="3">选择类型</option>
+						<option value="0">普通用户</option>
+						<option value="1">VIP会员</option>
+					</select>
+					</label>
+					<button class="blue" onclick="javascript:location.href='excels'"><a href="excels">导出全部数据</a></button>
+				</div>
+				<!--<form action="{:url('user/index')}" method="post" id="formo">-->
+				<div class="right">
+					<label>
+						<input type="text" name="search" id="search"  value="{:input('search')}" style="margin: 0;height: 25px;" placeholder="用户名" />
+						<input type="text" name="tel" id="tel"  value="{:input('tel')}" style="margin: 0;height: 25px;" placeholder="电话" />
+						<button type="submit" class="searchbtn">搜索</button>
+						<a href="https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/index.php/user/index.shtml" class="searchbtn">清空</a>
+					</label>
+				</div>
+				<div class="clear"></div>
+				<!--</form>-->
+			</div>
+			<div class="Tab">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+					<thead>
+						<tr>
+							<th><input type="checkbox" name="" id="" value="" /></th>
+							<th>ID</th>
+							<th>用户名</th>
+							<th>性别</th>
+							<th>手机号</th>
+							<!--<th>出生日期</th>-->
+							<th>地址</th>
+							<th>加入时间</th>
+							<th>身份</th>
+							<td>当前积分</td>
+							<td>当前余额</td>
+							<td>下单数</td>
+							<td>电话</td>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<thead>
+						{foreach name="data" item="vo"}
+						<tr>
+							<td><input type="checkbox" name="" id="" value="" /></td>
+							<td>{$vo.uid}</td>
+							<td>{$vo.nickname}</td>
+							<td>{if condition="$vo['sex'] ==1"}男{else /}女{/if}</td>
+							<td>{$vo.phone}</td>
+							<!--<td>{$vo.birthday}1saszcx12</td>-->
+							<td>{$vo.address}</td>
+							<td>{$vo.regtime}</td>
+							{if condition="$vo['step']==1"}
+
+							<td>VIP{$vo.member_grade}</td>
+							{else /}
+							<td>普通用户</td>
+							{/if}
+							<td>{$vo.integral}</td>
+							<td>{$vo.money}</td>
+							<td>{$vo.count}</td>
+							<td>{$vo.tel}</td>
+							<td><button class="modifybtn ml open-win" data-type="show?id={$vo.uid}">查看</button>
+								<a class="modifybtn ml top" href="{:url('user/cust',['uid'=>$vo['uid']])}">添加跑腿人员</a>
+								<a class="modifybtn ml top" href="{:url('user/telorder',['uid'=>$vo['uid'],'tel'=>$vo['tel'],'nickname'=>$vo['nickname']])}">电话下单</a>
+								<button class="modifybtn ml layer-open" data-type='{$vo.uid}'>充值</button>
+						</tr>
+						{/foreach}
+					</thead>
+				</table>
+			</div>
+			<div style="text-align: center" class="pages">
+				{$data->render()}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<iframe src="show" style="height: 100%; width: 100%;"></iframe>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".open-win").click(function(){
+		var dataurl = $(this).attr('data-type');
+		$("iframe").attr('src',dataurl)
+	})
+	function save_cust(id,obj) {
+		$.ajax({
+			url:"{:url('user/add_cust')}",
+			dataType:'json',
+			type:'get',
+			data:{
+			    id:id,
+			},
+			success:function (res) {
+				console.log(res)
+            }
+		})
+    }
+	
+	if (location.search == '' || location.search == undefined) {
+		
+	}else{
+		var url = location.search;
+		console.log(url)
+	}
+	
+	//获取url参数
+	function getUrlParam(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]); return null;
+	}
+	
+	
+	
+	//下拉框
+	function selet(o){
+		var searchval = getUrlParam('search');
+		window.location.href='https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/index.php/user/index.shtml?selet='+o.val()+'&search='+searchval
+	}
+	//搜索
+	$('.searchbtn').click(function(){
+		var selet = getUrlParam('selet');
+		var searchval = $('#search').val();
+		var tel = $('#tel').val();
+
+
+			window.location.href='https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/index.php/user/index.shtml?selet='+selet+'&search='+searchval+'&tel='+tel;
+			$.ajax({
+				url:"{:url('user/index')}",
+				type:'get',
+				data:{
+                    selet:selet,
+				    search:searchval,
+				},
+				success:function (res) {
+					
+	            }
+			})
+	});
+
+	$('.layer-open').click(function () {
+        var id = $(this).attr('data-type');
+        layer.prompt({
+            formType: 0,
+            value: 0,
+            title: '充值',
+        }, function(value, index, elem){
+			switch (value) {
+				case 0:
+				    break;
+				case '':
+				    break;
+				case undefined:
+				    break;
+				default:
+				    //true
+                    if(!isNaN(value)){
+                        $.ajax({
+                            url:"{:url('user/recharge')}",
+                            type:'post',
+                            data:{
+                                id:id,
+                                number:value
+                            },
+							dataType: 'json',
+                            success:function (res) {
+                                console.log(res)
+								if(res.code==1)
+								{
+                                    layer.msg('充值成功');
+								}
+								else
+								{
+                                    layer.msg('充值失败');
+								}
+                            }
+                        })
+
+                    }else{
+
+                    }
+            }
+            layer.close(index);
+        });
+    });
+
+</script>
+{/block}
+

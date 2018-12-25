@@ -1,0 +1,124 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="6,4"/>
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">
+            对接订单列表
+        </div>
+
+
+        <div class="label-3 label">
+            <!--<div class="Statistics">
+                <span class="right">共有数据：<b>11</b>条</span>-->
+            <!--<span class="right">共收钱：<b>0.55</b>元</span>
+            <div class="clear"></div>
+        </div>-->
+
+            <div class="query">
+                <!--<div class="left">-->
+                <!--<label>显示-->
+                <!--<select name="">-->
+                <!--<option value="">10</option>-->
+                <!--<option value="">25</option>-->
+                <!--<option value="">50</option>-->
+                <!--<option value="">100</option>-->
+                <!--</select>条-->
+                <!--</label>-->
+                <!--</div>-->
+                <!--<div class="right">-->
+                <!--<label>从当前数据中检索:-->
+                <!--<input type="text" name="" id="" value="" />-->
+                <!--</label>-->
+                <!--</div>-->
+                <div class="clear"></div>
+            </div>
+            <div class="Tab Tabs">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th style="width: 40px;"><input type="checkbox" name="" id="" value="" /></th>
+                        <th style="width: 60px;">ID</th>
+                        <th style="width: 100px;">创建程序id<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+                        <th style="width: 80px;">状态</th>
+                        <th style="width: 80px;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="data" item="vo"}
+                    <tr>
+                        <td style="width: 40px;"><input type="checkbox" name="" id="" value="" /></td>
+                        <td style="width: 60px;">{$vo.jid}</td>
+                        <td style="width: 100px;">{$vo.hjmall_id}</td>
+                        <td style="width: 80px;">
+                            {if condition="$vo.status==0" }
+                            <b class="putaway">等待审核</b>
+                            {elseif condition="$vo.status==-1" }
+                            <b class="sold">拒绝</b>
+                            {else}
+                            <b class="putaway">同意</b>
+                            {/if}
+                        </td>
+                        <td style="width: 80px;">
+                            {if condition="$vo.status==0" }
+                            <a class="modifybtn ml" onclick="jiancha('{$vo.jid}')" id="jiancha" >检验申请是否合格</a>
+                            <button class="modifybtn ml" onclick="upprompt('{$vo.jid}','','推送')">同意</button>
+                            <button class="openbtn"  onclick="upprompt('{$vo.jid}','','推送')">拒绝</button>
+                            {elseif condition="$vo.status==-1" }
+                            <b class="sold">已处理</b>
+                            {else}
+                            <b class="putaway">已处理</b>
+                            {/if}
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align: center" class="pages">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="wrap" class="wrap">
+    <div class="wrap-body express">
+        <div class="title">
+            详情查看
+        </div>
+        <iframe src="show" style="height: 100%; width: 100%;"></iframe>
+        <span class="close-wrap close-win">×</span>
+        <div class="wrap-btn">
+            <span class="close-btn close-win">取消</span>
+            <span class="next-btn close-win">确认</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".open-win").click(function(){
+        var dataurl = $(this).attr('data-type');
+        $("iframe").attr('src',dataurl)
+    })
+    function jiancha(id) {
+        $.ajax({
+            url:"{:url('order/Hejiang')}",
+            dataType:'json',
+            type:'get',
+            data:{
+                jid:id,
+            },
+            success:function (res) {
+                if(res.code==1){
+                    alert(res.mess);
+                }
+            }
+        })
+    }
+</script>
+
+{/block}

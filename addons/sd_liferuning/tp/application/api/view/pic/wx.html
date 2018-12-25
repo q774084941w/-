@@ -1,0 +1,53 @@
+<html>
+<head>
+	<title></title>
+</head>
+<script src="/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+<body>
+	<a class="label label-success radius" onClick="list_edit(this,4)">预定</a>
+</body>
+<script type="text/javascript">
+
+		function list_edit(obj,id){
+   // alert(id)
+		var ids= id
+    	//var $SCRIPT_GETTOKEN='https://api.weixin.qq.com/cgi-bin/token';
+        $.ajax({
+            type: 'get',
+            url: "{:url('pic/wx1')}",
+			data:{
+                grant_type:'client_credential',
+				appid:'wx652e074156ab8306',
+				secret:'1b4349e3d63999dc1ab53c00605ed9ad'
+			},
+            dataType: 'jsonp',
+            success: function(res){
+              //  $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
+              //  $(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+                    console.log("成功时返回数据"+res);
+                var data=res;
+                if(data['access_token']==null||data['access_token']=='undefined'){
+                    //alert(res);
+                }else{
+                    var access_token=data['access_token'];
+                    var access_time=data['expires_in']-60;
+                    var accJson={
+                        access_token:access_token,
+                        access_time:access_time
+                    } 
+                    localStorage.setItem(JSON.stringify(accJson));
+                    var jsapi_ticket=getJspai(access_token);//获取JSAPI
+                    var $ALLCS=createQM(jsapi_ticket);//生成所有参数//权限验证配置需要信息
+                    
+                    //Authen_configu($ALLCS);
+                }   
+            },
+            error:function(data) {
+                console.log(data.msg);
+            },
+    });
+
+}
+
+</script>
+</html>

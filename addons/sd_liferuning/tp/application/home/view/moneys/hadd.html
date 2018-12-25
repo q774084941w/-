@@ -1,0 +1,26 @@
+{extend name="public/base" /}
+<!--尾部--><!--返回顶部-->
+{block name="content"}
+{__block__}
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">添加时间</div>
+        <div class="form" id="form">
+            <form action="hourinsert.shtml" enctype="multipart/form-data" method="post">
+                <div>
+                    <label class="ltxt">时间:</label>
+                    <input type="text" placeholder="例如：10:00 时间格式"  name="hour" id="" value="" /><span></span>
+                </div>
+                <div>
+                    <label class="ltxt">价格:</label>
+                    <input type="text" placeholder="服务金额默认为0" name="hprice" id="" value="" />
+                    <span></span>
+                </div>
+                <input type="hidden" value="{$wid}" name="wid" id="" value="" />
+                <div><button type="submit" class="btns">保存并提交</button><button class="cancel">取消</button></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+{/block}

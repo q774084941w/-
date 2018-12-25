@@ -1,0 +1,105 @@
+
+{extend name="home/public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			插件管理
+		</div>
+
+		<div class="information">
+			<i></i>
+			<p class="h">运费模板</p>
+			<p>填写运费模版名称，选择计费方式和配送方式后完成模版设置。</p>
+		</div>
+
+
+		<div class="label-3 label-4">
+			<div class="">
+				<button class="blue ml"><a href="add">新建运费模板</a></button>
+				<button class="cancel-o1"><a href="#" class="cancel-o">返回</a></button>
+				<div class="clear"></div>
+			</div>
+			<div class="Tab Tabs">
+				<div class="tabtit">
+					<p>件数模板</p>
+				</div>
+				<table border="0" cellspacing="0" cellpadding="0" class="yftab">
+					<tr>
+						<th>模板名称</th>
+						<th>首件（件）</th>
+						<th>运费（元）</th>
+						<th>续件（件）</th>
+						<th>续费（元）</th>
+						<th>创建时间</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+				</table>
+				<table border="0" cellspacing="0" cellpadding="0" class="yftab">
+					{foreach name="data" item="vo" }
+					{if condition="$vo.unit == 1"}
+					<tr>
+						<td>{$vo.title}</td>
+						<td>{$vo.first}</td>
+						<td>{$vo.freight}</td>
+						<td>{$vo.next}</td>
+						<td>{$vo.freight1}</td>
+						<td>{$vo.createtime}</td>
+						<td>状态</td>
+						<td><button class="openbtn ml">关闭</button><button class="modifybtn open-win">编辑</button></td>
+					</tr>
+					{/if}
+					{/foreach}
+				</table>
+			</div>
+
+			<div class="hr">
+
+			</div>
+			<div class="Tab Tabs">
+				<div class="tabtit">
+					<p>重量模板</p>
+				</div>
+				<table border="0" cellspacing="0" cellpadding="0" class="yftab">
+					<tr>
+						<th>模板名称</th>
+						<th>首重（kg）</th>
+						<th>运费（元）</th>
+						<th>续重（kg）</th>
+						<th>续费（元）</th>
+						<th>创建时间</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+				</table>
+				<table border="0" cellspacing="0" cellpadding="0" class="yftab">
+					{foreach name="data" item="vo" }
+					{if condition="$vo.unit == 0"}
+					<tr>
+						<td>{$vo.title}</td>
+						<td>{$vo.first}</td>
+						<td>{$vo.freight}</td>
+						<td>{$vo.next}</td>
+						<td>{$vo.freight1}</td>
+						<td>{$vo.createtime}</td>
+						<td>状态</td>
+						<th>操作</th>
+					</tr>
+					{/if}
+					{/foreach}
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+{/block}
+

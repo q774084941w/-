@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+{block name="head"}
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/foundation-datepicker.css"/>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/font-awesome.css"/>
+		<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			.foot{
+				font-size: 12px;
+				color: #000000;
+			}
+			.foot a{
+				color: #000000;
+			}
+			.h-name .top_up{color: #fff;padding: 0 20px;font-size: 14px;cursor: pointer;}
+			.userimg{width: 50px;height: 50px;margin: 0 auto;}
+			.userimg a{display: block;width: 50px;height: 50px;}
+			.userimg img{width: 100%;height: 100%;margin: 0 auto;border-radius: 50%;}
+			.add_blank{
+				position: absolute;
+				top:10px;
+				left: 30%;
+				width: 20%;
+				font-size: 32px;
+				height: 40px;
+				text-align: center;
+				background: #ff9966;
+				line-height: 40px;
+				display: none;
+			}
+		</style>
+		<title></title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+{/block}
+<?php global $_W;
+//unset($_W['setting']['copyright']['blogo']);
+
+
+?>
+<!--新订单提醒-->
+<script type="text/javascript">
+    function timeout() {
+        var res;
+        $.ajax({
+            url:'index.php?act=dingshi',
+            type:'get',
+            datatype:'text',
+            async:false,
+            success:function (data) {
+                res = data;
+            }
+        });
+        return res;
+    }
+    var i=timeout();
+
+    function hello() {
+        $.ajax({
+            url:'{:url("order/playMsg")}',
+            type:'post',
+			data:{
+                uid: 1,
+                bid:1,
+            },
+            dataType:'json',
+            async:false,
+            success:function (result) {
+                console.log(result.code)
+                if (result.code == 1){
+                    $(".add_blank").show()
+                    playSound();
+                }
+            }
+        });
+    }
+    setInterval("hello()",10000);<!--10秒定时请求一次-->
+</script>
+<!--展示9秒关闭-->
+<script type="text/javascript">
+    $(function(){
+        setInterval(function(){
+            $(".add_blank").hide();
+        },9000);
+    });
+</script>
+<!--订单声音提示-->
+<script>
+    var playSound = function () {
+        var borswer = window.navigator.userAgent.toLowerCase();
+        if ( borswer.indexOf( "ie" ) >= 0 )
+        {
+            //IE内核浏览器
+            var strEmbed = '<embed name="embedPlay" src="__STATIC__/remind.mp3" autostart="true" hidden="true" loop="false"></embed>';
+            if ( $( "body" ).find( "embed" ).length <= 0 )
+                $( "body" ).append( strEmbed );
+            var embed = document.embedPlay;
+
+            //浏览器不支持 audion，则使用 embed 播放
+            embed.volume = 100;
+            //embed.play();这个不需要
+        } else
+        {
+            //非IE内核浏览器
+            var strAudio = "<audio id='audioPlay' src='__STATIC__/remind.mp3' hidden='true'>";
+
+            if($("#audioPlay").length<=0){
+                $( "body" ).append( strAudio );
+            }
+
+            var audio = document.getElementById( "audioPlay" );
+
+            //浏览器支持 audio
+            audio.play();
+        }
+    }
+</script>
+<body style="background-color: #ebebed;">
+
+<div class="bj">
+
+
+
+	<!--头部-->
+	{block name="top"}
+	<div class="head">
+
+		<!--<div class="h-top">
+			<ul>
+				<li><a href="#"></a><span></span></li>
+				<li><a href="#"></a><span></span></li>
+				<li><a href="#"></a><span></span></li>
+				<li><a href="#"></a></li>
+			</ul>
+			<div class="clear"></div>
+		</div>-->
+		<div class="h-name">
+
+			<div class="top_up right" style="display: none;"><a href="<?php echo 'https://'.$_SERVER['HTTP_HOST'];?>">返回首页</a></div>
+			<div class="top_up right"><a onclick="Clear('清除')">清理缓存</a></div>
+			<!--达到要求弹出div-->
+			<div class=" top_up add_blank" >您有新的订单,请注意查看</div>
+
+			<div class="name" >
+
+				{if condition="$blogo['logo'] != ''"}
+				<a href="<?php echo 'https://'.$_SERVER['SERVER_NAME']; ?>">
+					<img src="{$blogo['logo']}" style="height: 60px;width: 120px;display: block;"/>
+				</a>
+				{else /}
+
+				{/if}
+				<div class="assistant right">
+					<div class="img">
+						<a href="<?php echo 'https://'.$_SERVER['HTTP_HOST'];?>" style="float: left;margin-right: 10px;font-size: 14px;">返回首页</a>
+						<!--<img src="__STATIC__/home/img/assistant.png"/>-->
+					</div>
+					<div class="b-div">
+						<img src="__STATIC__/home/img/assistant.png"/>
+						<p class="t2"><a href="<?php echo 'https://'.$_SERVER['HTTP_HOST'];?>">返回首页</a></p>
+					</div>
+				</div>
+				</div>
+
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+
+
+
+
+
+	{/block}
+	<!--内容-->
+	<div class="c">
+
+		<div class="content " style="margin-top: 0px;" >
+			{block name="menu"}
+			<div class="c-l left">
+						<div class="c-left">
+							<!--<div class="userimg">
+								{if condition="$blogo['logo'] != ''"}
+								<a href="<?php echo 'https://'.$_SERVER['SERVER_NAME']; ?>">
+									<img src="{$blogo['logo']}"/>
+								</a>
+								{else /}
+
+								{/if}
+							</div>-->
+							<div class="list">
+								<div class="">
+									<a href="{:url('index/index')}"><i class="fa fa-bar-chart-o"></i><span>统计分析</span></a>
+								</div>
+								<!--<ul>
+									<li><a href="{:url('index/index')}">概况分析</a></li>
+									<li><a href="{:url('index/user')}">用户分析</a></li>
+								</ul>-->
+							</div>
+							<div class="list">
+								<div class="">
+									<a href="{:url('banner/Home')}"><i class="fa fa-picture-o"></i><span>授权管理</span></a>
+								</div>
+								<!--<ul>
+									<li><a href="{:url('banner/index')}">图片管理</a></li>
+								</ul>-->
+							</div>
+							<div class="list">
+								<div class="">
+									<a href="{:url('moneys/percent')}"><i class="fa fa-folder-open-o"></i><span>服务费管理</span></a>
+								</div>
+								<!--<ul>
+									<li><a href="{:url('moneys/times')}">配送时间</a></li>
+									<li><a href="{:url('moneys/percent')}">提成管理</a></li>
+									<li><a href="{:url('moneys/distance')}">配送距离</a></li>
+								</ul>-->
+							</div>
+							<div class="list">
+								<div class="">
+									<a href="{:url('freight/index')}"><i class="fa fa-window-maximize"></i><span>运费管理</span></a>
+								</div>
+								<!--<ul>
+									<li><a href="{:url('commtype/index')}">分类管理</a></li>-->
+									<!--<li><a href="{:url('goods/index')}">商品管理</a></li>-->
+									<!--<li><a href="{:url('integral/index')}">积分商品管理</a></li>
+									<li><a href="{:url('freight/index')}">运费模板管理</a></li>
+								</ul>-->
+							</div>
+							<div class="list">
+								<div class="">
+									<a href="{:url('service/reward')}"><i class="fa fa-window-restore"></i><span>服务管理</span></a>
+								</div>
+								<!--<ul>
+									<li><a href="{:url('service/index')}">服务列表</a></li>
+
+								</ul>-->
+							</div>
+							<div class="list">
+								<div class="">
+									<a href="{:url('user/index')}"><i class="fa fa-print"></i><span>会员管理</span></a>
+								</div>
+								<!--<ul>
+									<li><a href="{:url('user/index')}">会员列表</a></li>
+									<li><a href="{:url('user/userindex')}">跑腿用户</a></li>
+									<li><a href="{:url('user/user')}">审核列表</a></li>
+									<li><a href="{:url('user/money')}">保证金设置</a></li>
+								</ul>-->
+							</div>
+
+							<div class="list">
+								<div class="">
+									<a href="{:url('order/index')}"><i class="fa fa-clipboard"></i><span>订单管理</span></a>
+								</div>
+								<!--<ul>
+									<li><a href="{:url('order/index')}">待付款</a></li>
+									<li><a href="{:url('order/delivergoods')}">待接单</a></li>
+									<li><a href="{:url('order/takegoods')}">配送中</a></li>
+									<li><a href="{:url('order/complete')}">已完成</a></li>
+								</ul>-->
+							</div>
+							<div class="list">
+								<div class="">
+									<a href="{:url('takeout/record')}"><i class="fa fa-money"></i><span>提现管理</span></a>
+								</div>
+								<!--<ul>
+									<li><a href="{:url('takeout/index')}">提现审核</a></li>
+									<li><a href="{:url('takeout/record')}">提现记录</a></li>
+									<li><a href="{:url('takeout/price_out')}">保证金退款</a></li>
+								</ul>-->
+							</div>
+							<div class="list">
+								<div class="">
+									<a href="{:url('order/capital')}"><i class="fa fa-rmb"></i><span>资金管理</span></a>
+								</div>
+								<!--<ul>-->
+									<!--<li><a href="{:url('order/capital')}">交易666</a></li>-->
+								<!--</ul>-->
+							</div>
+							<div class="list">
+								<div class="">
+									<a href="{:url('coupon/index')}"><i class="fa fa-gg"></i><span>营销管理</span></a>
+								</div>
+								<!--<ul>
+									<li><a href="{:url('coupon/index')}">优惠券列表</a></li>
+								</ul>-->
+							</div>
+							<!--<div class="list">-->
+								<!--<div class="">-->
+									<!--<i class="hzpnews"></i><span>资讯管理</span>-->
+								<!--</div>-->
+								<!--<ul>-->
+									<!--<li><a href="{:url('hzpnews/index')}">资讯列表</a></li>-->
+
+								<!--</ul>-->
+							<!--</div>-->
+
+							<!--<div class="list">-->
+								<!--<div class="">-->
+									<!--<i class="comment"></i><span>评论管理</span>-->
+								<!--</div>-->
+								<!--<ul>-->
+									<!--<li><a href="{:url('comment/index')}">评论列表</a></li>-->
+
+								<!--</ul>-->
+							<!--</div>-->
+							<div class="list">
+								<div class="">
+									<a href="{:url('task/index')}"><i class="fa fa-gg"></i><span>任务大厅</span></a>
+								</div>
+								<!--<ul>
+									<li><a href="{:url('coupon/index')}">优惠券列表</a></li>
+								</ul>-->
+							</div>
+
+							<div class="list">
+								<div class="">
+									<a href="{:url('business/edit')}"><i class="fa fa-gear"></i><span>基本设置</span></a>
+								</div>
+								<!--<ul>
+									<li><a href="{:url('setsms/index')}">短信设置</a></li>
+									<li><a href="{:url('payments/index')}">支付设置</a></li>
+									<li><a href="{:url('business/index')}">商家基本信息</a></li>
+								</ul>-->
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="c-left_two left">
+						<ul class="l_tow_sub">
+							<li><a href="{:url('index/index')}">概况分析</a></li>
+							<li><a href="{:url('index/user')}">用户分析</a></li>
+						</ul>
+						<ul  class="l_tow_sub">
+							<!--<li><a href="{:url('banner/index')}">图片管理</a></li>-->
+							<li><a href="{:url('banner/Home')}">权限获取页面</a></li>
+						</ul>
+						<ul  class="l_tow_sub">
+							<!--<li><a href="{:url('moneys/times')}">配送时间</a></li>-->
+							<li><a href="{:url('moneys/percent')}">提成管理</a></li>
+						</ul>
+						<ul  class="l_tow_sub">
+							<li><a href="{:url('freight/index')}">运费模板管理</a></li>
+							<li><a href="{:url('freight/distance')}">距离模板管理</a></li>
+							<li><a href="{:url('freight/date')}">跑腿时间计费模板</a></li>
+							<!--<li><a href="{:url('freight/license')}">代驾时间计费模板</a></li>-->
+						</ul>
+						<ul  class="l_tow_sub">
+							<!--<li><a href="{:url('service/index')}">服务列表</a></li>-->
+							<!--<li><a href="{:url('service/classList')}">服务分类</a></li>-->
+							<li><a href="{:url('service/reward')}">悬赏金额</a></li>
+						</ul>
+						<ul  class="l_tow_sub">
+							<li><a href="{:url('user/index')}">用户列表</a></li>
+							<li><a href="{:url('user/userindex')}">跑腿用户</a></li>
+							<li><a href="{:url('user/user')}">审核列表</a></li>
+							<li><a href="{:url('user/money')}">保证金设置</a></li>
+							<!--<li><a href="{:url('user/memberList')}">会员列表</a></li>
+							<li><a href="{:url('user/member')}">会员等级</a></li>
+							<li><a href="{:url('user/userTag')}">标签管理</a></li>
+							<li><a href="{:url('user/purchase')}">设置会员金额</a></li>-->
+							<li><a href="{:url('user/Label')}">用户标签</a></li>
+							<li><a href="{:url('user/opinion')}">意见反馈</a></li>
+						</ul>
+						<ul  class="l_tow_sub">
+							<li><a href="{:url('order/index')}">待付款</a></li>
+							<li><a href="{:url('order/delivergoods')}">待接单</a></li>
+							<li><a href="{:url('order/takegoods')}">配送中</a></li>
+							<li><a href="{:url('order/complete')}">已完成</a></li>
+							<li><a href="{:url('order/cancel')}">已取消</a></li>
+							<li><a href="{:url('order/HeJiangShenQing')}">对接订单申请</a></li>
+							<!--<li><a href="{:url('order/duijieorder')}">对接订单申请</a></li>-->
+						</ul>
+						<ul  class="l_tow_sub">
+							<li><a href="{:url('takeout/record')}">跑腿端提现</a></li>
+							<li><a href="{:url('outprice/index')}">用户端提现</a></li>
+							<li><a href="{:url('takeout/price_out')}">保证金退款</a></li>
+							<li><a href="{:url('outprice/weixin')}">零钱提现</a></li>
+						</ul>
+						<ul  class="l_tow_sub">
+							<li><a href="{:url('order/capital')}">交易记录</a></li>
+
+						</ul>
+						<ul  class="l_tow_sub">
+							<!--<li><a href="{:url('coupon/index')}">优惠券列表</a></li>-->
+							<!--<li><a href="{:url('spread/index')}">推广列表</a></li>-->
+							<!--<li><a href="{:url('reward/index')}">跑腿奖励</a></li>-->
+						</ul>
+						<ul  class="l_tow_sub">
+							<li><a href="{:url('task/index')}">任务分配</a></li>
+						</ul>
+						<ul  class="l_tow_sub">
+							<!--<li><a href="{:url('setsms/edit')}">短信设置</a></li>
+							<li><a href="{:url('setsms/yard')}">收货码提示设置</a></li>
+							<li>
+								<span><i class="fa fa-caret-right"></i>模板消息设置</span>
+								<div class="">
+									<a href="{:url('message/index')}">模板消息设置</a>
+									<a href="{:url('message/service')}">服务号提醒</a>
+								</div>
+								&lt;!&ndash;<ul>
+									<li><a href="{:url('message/index')}">模板消息设置</a></li>
+									<li><a href="{:url('message/service')}">服务号提醒</a></li>
+								</ul>&ndash;&gt;
+							</li>-->
+							<!--<li><a href="{:url('payments/edit')}">支付设置</a></li>-->
+							<li><a href="{:url('business/edit')}">商家基本信息</a></li>
+							<li><a href="{:url('index/TempletManage')}">小程序首页设置</a></li>
+							<li><a href="{:url('index/OrderTempletManage')}">小程序下单设置</a></li>
+							<li><a href="{:url('message/notice')}">系统公告</a></li>
+							<li><a href="{:url('set/index')}">小程序设置</a></li>
+							<li><a href="{:url('clause/index')}">使用条款设置</a></li>
+							<li><a href="{:url('user/lists')}">导航栏</a></li>
+							<!--<li><a href="{:url('set/addlimit')}">区域限制购买</a></li>-->
+							<li><a href="{:url('card/index')}">开户行管理</a></li>
+							<li><a href="{:url('user/personal')}">用户中心</a></li>
+							<!--<li><a href="{:url('Region/index')}">区域代理</a></li>-->
+
+						</ul>
+					</div>
+			<!--<div id="main" style="width: 600px;height:400px;"></div>-->
+			{/block}
+			{block name="content"}
+			{/block}
+			<!--<div id="main" style="width: 600px;height:400px;"></div>-->
+		</div>
+	</div>
+	<!--尾部-->
+	{block name="foot"}
+	<div class="foot">
+	</div>
+	{/block}
+	<!--返回顶部-->
+</div>
+<script src="__STATIC__/home/js/dateRange.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	//索引0开始
+	var mun_url = $('#mun_url').val();											//获取页面参数
+	var arrmun_url = mun_url.split(",")											//转成数组格式
+	var leftul = $(".c .c-l .list ul").eq(arrmun_url[0]).find('li').length		//获取元素数量
+	$(".c .c-l .list").eq(arrmun_url[0]).addClass('act')
+
+
+	console.log($('.c-left_two .l_tow_sub').eq(11).find('li').length)
+	$('.c-left_two ul').eq(arrmun_url[0]).show()
+	$(".c .c-l .list ul").eq(arrmun_url[0]).css('height',50*leftul)				//设置高度
+	$(".c .c-l .list ul").eq(arrmun_url[0]).find('li').eq(arrmun_url[1]).attr('class','act')	//添加样式
+	$('.c-left_two .l_tow_sub').eq(arrmun_url[0]).find('li').eq(arrmun_url[1]).addClass('act')
+	if(arrmun_url[2]){
+		$('.c-left_two .l_tow_sub').eq(arrmun_url[0]).find('li').eq(arrmun_url[1]).find('div').show()
+		$('.c-left_two .l_tow_sub').eq(arrmun_url[0]).find('li').eq(arrmun_url[1]).find('a').eq(arrmun_url[2]).addClass('hove')
+		$('.c-left_two .l_tow_sub').eq(arrmun_url[0]).find('li').find('i').removeClass('fa-caret-right')
+		$('.c-left_two .l_tow_sub').eq(arrmun_url[0]).find('li').find('i').addClass('fa-caret-down')
+	}
+
+	if(arrmun_url[3]){
+	    document.title=arrmun_url[3];
+	}
+
+	$(".c-left_two ul li > span").click(function(){
+		if(!$(this).parent().hasClass('act')){
+			$(this).find('i').removeClass('fa-caret-right')
+			$(this).find('i').addClass('fa-caret-down')
+			$(this).parent().addClass('act')
+			$(this).parent().find('div').show()
+		}else{
+			$(this).find('i').removeClass('fa-caret-down')
+			$(this).find('i').addClass('fa-caret-right')
+			$(this).parent().removeClass('act')
+			$(this).parent().find('div').hide()
+		}
+	})
+    function Clear(txt){
+        $("#tan").remove();
+        var htmls = "<div id='tan'><span class='spanbj'></span><div class='tan'><div class='tit_p'>提示</div><div class='p_body'>您确定要清除缓存？</div><div class='btn-b'><span class='cancel span-hide'>取消</span><span class='modifybtn span-que'>确定</span><div class='clear'></div></div></div></div>"
+        $("body").append(htmls);
+        $(document).on("click", ".span-que", function(){
+            $("#tan").remove();
+            var url='{:url("index/clearCache")}';
+
+            $.ajax({
+                type:"get",
+                url:url,	//"__publicPath__/home/commtype/addajax.shtml"
+                dataType: "json",
+                success: function(data){
+                    console.log(data);
+                    if (data.code == 1) {
+                        prompt(txt+'成功',data)
+                        window.location.reload();
+                    } else{
+                        prompt(txt+'失败',data)
+                        window.location.reload();
+                    }
+                },
+                error:function(){
+                    prompt('操作失败',0)
+                }
+            });
+        })
+        $(document).on("click", ".span-hide", function(){
+            $("#tan").remove();
+        })
+    }
+//    function load()
+//    {
+//        $.ajax({
+//            url:"{:url('Index/blogo')}",
+//            dataType:'json',
+//            success:function (data) {
+//                console.log(data)
+//            },
+//            error:function (err) {
+//
+//            }
+//        })
+//    }
+//    load();
+</script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+<!--mun_url[1]).attr('class','act')	//添加样式-->
+</script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+

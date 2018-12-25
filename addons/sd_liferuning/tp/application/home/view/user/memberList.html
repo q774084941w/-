@@ -1,0 +1,108 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="5,4"/>
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">
+            会员管理
+        </div>
+
+        <div class="Statistics">
+
+        </div>
+        <div class="Statistics">
+            <div class="left d">
+                <form action="" method="post">
+
+                </form>
+            </div>
+            <span class="right">共有数据：<b>{$data|count}</b>条</span>
+            <div class="clear"></div>
+        </div>
+
+
+        <div class="label-3 label">
+            <div class="tit t">
+                <p>会员管理</p>
+            </div>
+            <div class="Tab">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th style="width: 40px;"><input type="checkbox" name="" id="" value="" /></th>
+                        <th style="width: 60px;">ID</th>
+                        <th style="width: 100px;">用户名</th>
+                        <th style="width: 60px;">性别</th>
+                        <th style="width: 120px;">手机号</th>
+                        <th style="width: 80px;">会员等级</th>
+                        <th style="width: 100px;">地址</th>
+                        <th style="width: 150px;">购买会员时间</th>
+                        <th style="width: 150px;">会员到期时间</th>
+                        <th style="width: 80px;">操作</th>
+                    </tr>
+                    </thead>
+                    <thead>
+                    {foreach name="data" item="vo"}
+                    <tr>
+                        <td style="width: 40px;"><input type="checkbox" name="" id="" value="" /></td>
+                        <td style="width: 60px;">{$vo.uid}</td>
+                        <td style="width: 100px;">{$vo.nickname}</td>
+                        <td style="width: 60px;">{if condition="$vo['sex'] ==1"}男{else /}女{/if}</td>
+                        <td style="width: 120px;">{$vo.phone}</td>
+                        <td style="width: 80px;">VIP{$vo.member_grade}</td>
+                        <td style="width: 100px;">{$vo.address}</td>
+                        <td style="width: 150px;">{$vo.viptime}</td>
+                        <td style="width: 150px;">{$vo.vip}</td>
+                        <td style="width: 80px;"><button class="modifybtn ml open-win" data-type="show?id={$vo.uid}">查看</button>
+                            <!--<a class="modifybtn ml top" href="{:url('user/cust',['uid'=>$vo['uid']])}">添加跑腿人员</a>-->
+                    </tr>
+                    {/foreach}
+                    </thead>
+                </table>
+            </div>
+            <div style="text-align: center" class="pages">
+                {$data->render()}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="wrap" class="wrap">
+    <div class="wrap-body express">
+        <div class="title">
+            详情查看
+        </div>
+        <iframe src="show" style="height: 100%; width: 100%;"></iframe>
+        <span class="close-wrap close-win">×</span>
+        <div class="wrap-btn">
+            <span class="close-btn close-win">取消</span>
+            <span class="next-btn close-win">确认</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".open-win").click(function(){
+        var dataurl = $(this).attr('data-type');
+        $("iframe").attr('src',dataurl)
+    })
+    function save_cust(id,obj) {
+        $.ajax({
+            url:"{:url('user/add_cust')}",
+            dataType:'json',
+            type:'get',
+            data:{
+                id:id,
+            },
+            success:function (res) {
+                console.log(res)
+            }
+        })
+    }
+</script>
+{/block}
+

@@ -1,0 +1,119 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<style type="text/css">
+    #app .list{display: inline-block;width: 516px;}
+    #app .list p{padding: 8px;font-size: 14px;position: relative;border: 1px solid #d7dde4;margin-bottom: 15px;display: inline-block;margin-right: 10px;}
+    #app .list p em{margin-right: 50px;}
+    #app .list p b{position: absolute;right: 5px;padding: 0 5px;}
+</style>
+<input type="hidden" name="mun_url" id="mun_url" value="5,5,false,标签管理"/>
+<div class="c-r right" id="app">
+    <div class="label1">
+        <div class="title">
+            用户标签
+        </div>
+        <div class="form" id="form">
+            <form action="editer" method="post" enctype="multipart/form-data">
+
+                <div><label class="ltxt">标签:</label>
+                    <input type="text" name="list" id="list" value="" style="width: 200px;"/><a class="modifybtn_max addlist">添加</a>
+                    <span></span>
+                </div>
+                <div>
+                    <label></label>
+                    <div class="list">
+                        <p v-for="(item,i) in list"><em>{{item.name}}</em><b class="openbtn" @click="delcity(i)">删除</b></p>
+                    </div>
+                </div>
+                <div><button class="btns">保存</button>
+                    <!--<button class="cancel" onclick="history.go(-1)">取消</button></div>-->
+                    <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--<div id="main" style="width: 600px;height:400px;"></div>-->
+
+<script src="__STATIC__/home/csc/js/vue.js"></script>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            list:[
+
+            ],
+            dellist:[]
+        },
+        methods:{
+            delcity:function(e){
+                var list = app.list;
+                app.dellist.push(list[e].id)
+                list.splice(e,1)
+
+
+            }
+        }
+    });
+    $.ajax({
+        type:'post',
+        url:'',
+        dataType:'json',
+        success:function(res){
+            if(res.code==1){
+                app.list = res.data;
+            }
+        }
+    })
+
+    //添加
+    $('.addlist').click(function(){
+        var list = $('#list').val()
+        if (list == '' || list==null) {
+            prompt('不可为空',0);
+            return false
+        }
+        app.list.push({name:list,id:0});
+        $('#list').val('')
+    });
+
+    $('.btns').click(function(){
+        $.ajax({
+            type:"post",
+            data: {list:app.list,del:app.dellist},
+            dataType: 'json',
+            url:"TagSave",
+            success:function(result){
+                if(result.code==1){
+                    prompt(result.msg,1)
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000)
+                }else{
+                    prompt(result.msg,0)
+                }
+            }
+        });
+        return false;
+    });
+</script>
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,67 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="10,4"/>
+<script src="__STATIC__/uedi/ueditor.config.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/uedi/ueditor.all.js" type="text/javascript" charset="utf-8"></script>
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">
+            系统公告
+        </div>
+
+
+
+        <div class="label-4">
+            <div class="form" id="forms">
+                <div class="breadcrumb">
+									<span>
+										<a href="#">系统公告 </a>
+										<span class="separator">/</span>
+									</span>
+                    <span>
+										<span>添加公告</span>
+									</span>
+                </div>
+
+                <form action="" method="post" enctype="multipart/form-data" class="form-2">
+                    <div><label class="ltxt">标题:</label><input type="text" name="title" id="" value="" /><span></span></div>
+
+                    <div><label class="ltxt">内容:</label>
+                        <script id="container" name="content" type="text/plain"></script>
+                        <span></span>
+                    </div>
+                    <div><label></label><button class="btns btn-right subbtn">完成</button><a href="javaScript:history.back()" class='btns btn-right'>返回</a></div>
+                    <div class="clear"></div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div id="toup">
+    <img src="__STATIC__/home/img/toup.png"/>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function(e) {
+        var ue = UE.getEditor('container');
+        $('input').lc_switch();
+    });
+
+    $(".subbtn").click(function(){
+        if (!regulars('','title','标题','')) {
+            return false
+        }
+    })
+</script>
+{/block}
+

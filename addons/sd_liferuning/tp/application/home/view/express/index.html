@@ -1,0 +1,138 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="10,1"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			快递管理
+		</div>
+		<div class="label-3 label">
+
+			<div class="Statistics">
+
+				<button class="blue"><a href="add">添加快递</a></button>
+
+				<div class="clear"></div>
+			</div>
+
+			<div class="Tab Tabs">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					<tr>
+						<th style="width: 60px;"><input type="checkbox" name="" id="" value="" /></th>
+						<th style="width: 100px;">ID</th>
+						<th style="">快递名称</th>
+
+						<th style="width: 200px;">添加时间</th>
+						<th style="width: 200px;">操作</th>
+
+					</tr>
+				</table>
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					{foreach name="data" item="vo"}
+					<tr>
+						<td style="width: 60px;"><input type="checkbox" name="" id="" value="" /></td>
+						<td style="width: 100px;" class="banid">{$vo.exid}</td>
+
+						<td style="" class="align-r">{$vo.name}</td>
+
+						<td style="width: 200px;" class="align-r">{$vo.createtime}</td>
+
+
+						<td style="width: 200px;"><button class="openbtn" onclick="del('{$vo.exid}','__publicPath__/home/express/delete')">删除</button></td>
+					</tr>
+					{/foreach}
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<div class="wrap-con"id="forms">
+			<form action="" method="post" class="form-2">
+				<div><label>标题:</label><input type="text" name="" id="" value="" style="width: 225px;float: left;"/><label>标题:</label><input type="text" name="" id="" value="" style="width: 225px;;"/><span></span></div>
+
+				<div><label>标题:</label><input type="text" name="" id="" value="" /><span></span></div>
+				<div><label>图片:</label><img src="img/goumai.jpg" width="200px"height="180px"/><span></span></div>
+				<div><label>标题:</label><textarea name="" rows="" cols=""></textarea><span></span></div>
+
+			</form>
+		</div>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+//	function shelves(j,v){
+//
+//		var pid = j.parent().parent().find('.banid').text()
+//		var data = {
+//			banid:pid,status:v,
+//		};
+//		$.ajax({
+//			type:'get',
+//			url:"__publicPath__/home/banner/delete",			//请求地址加参数
+//			data: data,
+//			success: function(data){
+//				window.location.reload();
+//				//Parent.find('.green').addClass('red')
+//
+//
+//			},
+//			error:function(){
+//				alert('更新失败')
+//			}
+//		});
+//	}
+
+
+	//  1.id		2.请求地址
+	function del(id,url){
+		if(window.confirm('你确定要删除吗吗？')){
+			var data = {
+				id:id
+			};
+			$.ajax({
+				type:"get",
+				data: data,
+				url:url,
+				dataType: "json",
+				success: function(data){
+					if (data == 1) {
+						prompt('删除成功',data)
+						window.location.reload();
+					} else{
+						prompt('删除失败',data)
+					}
+				},
+				error:function(){
+					prompt('操作失败',0)
+				}
+			});
+		}else{
+			//alert("取消");
+			return false;
+		}
+
+
+
+
+	}
+
+</script>
+
+
+{/block}
+

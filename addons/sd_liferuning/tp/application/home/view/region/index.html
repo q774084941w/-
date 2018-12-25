@@ -1,0 +1,137 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="11,14,0,区域代理"/>
+
+<div class="c-r right">
+
+    <div class="label1">
+        <div class="title">
+            区域代理
+        </div>
+        <!--<div class="information">-->
+        <!--<i></i>-->
+        <!--<p class="h">优惠券</p>-->
+        <!--<p>可设置优惠券，显示用户兑换记录。</p>-->
+        <!--<p>优惠券三种发放方式：积分中心、优惠券码、商家后台发送，只有第一种消耗用户积分，后两者不需要。</p>-->
+        <!--<p>优惠券关闭以后，该批次优惠券用户端不再显示。</p>-->
+        <!--<p></p>-->
+        <!--</div>-->
+
+        <!--button type="button" class="yh_btn-primary showmodel">
+            <span>新增优惠券</span>
+        </button-->
+        <div class="">
+
+        </div>
+        <button class="yh_btn-primary showmodel mtop" onclick="javascript:location.href='add'"><a href="add">添加区域代理</a></button>
+
+        <div class="label-3 label">
+            <div class="Tab">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                    <thead>
+                    <tr>
+
+                        <th style="width: 40px;">ID</th>
+                        <th style="width: 75px;">代理名称</th>
+                        <th style="width: 180px;">姓名</th>
+                        <th style="width: 85px;">手机号</th>
+                        <th style="width: 150px;">余额</th>
+                        <th style="width: 150px;">分润百分比</th>
+                        <th style="width: 150px;">状态</th>
+                        <th style="width: 150px;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="data" item="vo"}
+                    <tr>
+
+                        <td style="width: 40px; " class="goodsid" id="goodsid">{$vo.proxy_id}</td>
+                        <td style="width: 75px;">{$vo.proxy_uname}</td>
+                        <td style="width: 180px;">{$vo.proxy_name}</td>
+                        <td style="width: 85px;">{$vo.proxy_tel}</td>
+                        <td style="width: 85px;">{$vo.proxy_price}</td>
+                        <td style="width: 85px;">{$vo.share}%</td>
+                        <th style="width: 150px;">{$vo.proxy_status}</th>
+
+
+
+
+                        <td style="width: 150px;">
+                            <!--<button class="modifybtn open-win ml" onclick="compile('edit?id={$vo.proxy_id}')">编辑</button>-->
+                            {if condition='$vo.proxy_status eq "开启"'}
+                            <button class="openbtn" onclick="confirm('{$vo.proxy_id}','status',0)">关闭</button>
+                            <button class="modifybtn" onclick="chou('{$vo.proxy_id}','{$vo.share}','share')">抽成</button>
+                            {else/}
+                            <button class="modifybtn" onclick="confirm('{$vo.proxy_id}','status',1)">开启</button>
+                            {/if}
+                            <button class="openbtn" onclick="dele('{$vo.proxy_id}','delete')">删除</button></td>
+
+
+
+
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align: center" class="pages">
+                {$data->render()}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/dateRange.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/monthPicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/layer/layer.js"></script>
+<script>
+    function confirm(id,url,status) {
+        layer.confirm('您确定执行此操作',{btn: ['确定','取消'],icon:3},function(){
+            $.post(url,{id:id,status:status},function(res){
+                    if(res.code==1){
+                        layer.msg('操作成功');
+                        location.reload();
+                    }else{
+                        layer.msg('操作失败')
+                    }
+            },'json')
+        })
+    }
+   function dele(id,url) {
+       layer.confirm('您确定删除吗',{btn: ['确定','取消'],icon:2},function(){
+           $.post(url,{id:id,status:status},function(res){
+               if(res.code==1){
+                   layer.msg('删除成功');
+                   location.reload();
+               }else{
+                   layer.msg('删除失败')
+               }
+           },'json')
+       })
+   }
+    function chou(id,share,url) {
+        layer.prompt({title: '请输入平台利润抽成百分比',value:share,  formType: 3}, function(text){
+
+           $.post(url,{id:id,share:text},function(res){
+                if(res.code==1){
+
+                    location.reload();
+                }else{
+                    layer.msg(res.msg);
+                }
+           },'json')
+
+        });
+    }
+</script>
+
+{/block}
+

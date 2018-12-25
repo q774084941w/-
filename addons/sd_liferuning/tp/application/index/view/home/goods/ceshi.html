@@ -1,0 +1,72 @@
+{extend name="home/public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			酒店房间管理
+		</div>
+		<div class="label-3 label">
+			<div class="search">
+				<div class="">
+					<input type="text" name="" id="" value="" placeholder="产品名称"/><button><i></i><span>搜产品</span></button>
+				</div>
+			</div>
+			<div class="Statistics">
+				<button class="delete">批量删除</button>
+				<button class="blue"><a href="add">添加商品</a></button>
+				<span class="right">共有数据：<b>XX</b>条</span>
+				<div class="clear"></div>
+			</div>
+
+			<div class="Tab Tabs">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					<tr>
+						<th style="width: 40px;"><input type="checkbox" name="" id="" value="" /></th>
+						<th style="width: 60px;">排序</th>
+						<th style="width: 80px; ">图片</th>
+						<th style="width: 180px;">产品名</th>
+						<th style="width: 90px;">分类</th>
+						<th style="width: 60px;">单价</th>
+						<th style="width: 60px;">会员价</th>
+						<th style="width: 60px;">销量</th>
+						<th style="width: 60px;">总库存</th>
+						<th style="width: 80px;">推荐</th>
+
+						<th>发布状态</th>
+						<th style="width: 160px;">操作</th>
+					</tr>
+				</table>
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					{foreach name="data" item="vo"}
+					<tr>
+						<td style="width: 40px;"><input type="checkbox" name="" id="" value="" /></td>
+						<td style="width: 60px;">{$vo.goodsid}</td>
+						<td style="width: 80px;"><img src="{$vo.pic}" style="width: 60px;"/></td>
+						<td style="width: 180px;" class="align-r">{$vo.name}</td>
+						<td style="width: 90px;" class="align-r">衣服->裤子</td>
+						<td style="width: 60px;" class="align-r">{$vo.min_price}</td>
+						<td style="width: 60px;" class="align-r">{$vo.member}</td>
+						<td style="width: 60px;" class="align-r">{$vo.sales}</td>
+						<td style="width: 60px;" class="align-r">{$vo.stock}</td>
+						<td style="width: 80px;" class="align-r">首页推荐</td>
+
+						<td style="width:;"><span class="green success">已发布</span></td>
+						<td style="width: 160px;"><button class="modifybtn open-win ml">下架</button><button class="modifybtn open-win ml">编辑</button><button class="openbtn">删除</button></td>
+					</tr>
+					{/foreach}
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+{/block}
+

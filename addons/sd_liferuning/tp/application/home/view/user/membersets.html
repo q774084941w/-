@@ -1,0 +1,109 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="5,4,false,会员等级设置"/>
+<div class="c-r right" id="app">
+    <div class="label1">
+        <div class="title">会员等级设置</div>
+        <div class="form" id="form">
+            <form action="editmember" class="eform" method="post" enctype="multipart/form-data">
+                <div><label class="ltxt">等级:</label>
+                    <div class="bor bor2 bor4">
+                        <span data-type = "0">{$data.member_grade}</span><i></i>
+                        <ul style="display: none;">
+                            <li data-type = "1" @click="number=1">1</li>
+                            <li data-type = "2" @click="number=2">2</li>
+                            <li data-type = "3" @click="number=3">3</li>
+                            <li data-type = "4" @click="number=4">4</li>
+                            <li data-type = "5" @click="number=5">5</li>
+                            <!--<li data-type = "6" @click="number=6">6</li>-->
+                            <!--<li data-type = "7" @click="number=7">7</li>-->
+                            <!--<li data-type = "8" @click="number=8">8</li>-->
+                            <!--<li data-type = "9" @click="number=9">9</li>-->
+                        </ul>
+                    </div>
+                    <span>数字越大等级越高</span>
+                </div>
+                <input type="hidden" name="bid" value="52" />
+
+                <div><label class="ltxt">等级名称:</label><input style="width: 245px;" type="text" name="grade_name" id="" value="{$data.grade_name}" />
+                    <span></span>
+                </div>
+                <div><label class="ltxt">所需成长值:</label><input style="width: 245px;" type="text" name="growth" id="" value="{$data.growth}" />
+                    <span></span>
+                </div>
+                <div><label class="ltxt">升级条件:</label><input style="width: 245px;" type="number" name="shegnji_where" id="" value="{$data.shegnji_where}" />
+                    <span>会员升级条件：<em style="color: red;">累计完成订单金额满</em></span>
+                </div>
+                <div><label class="ltxt">折扣:</label><input style="width: 245px;" type="text" name="zhekou" id="" value="{$data.zhekou}" />折
+                    <span>请输入0.1~10之间的数字</span>
+                </div>
+                <div><label class="ltxt">会员图片:</label>
+                    <div class="upimg indeximg">
+                        <input type="file" name="file" id="" value="" onchange="Upimg(this,'.indeximg')" />
+                        <img src="{$data.pic}"/>
+                        <input type="hidden" name="pic" id="" value="" />
+                    </div>
+                    <span>请选择会员图片</span>
+                </div>
+                <input type="hidden" name="id" id="" value="{$data.id}" />
+                <div>
+                    <label class="ltxt">状态:</label>
+                    <div class="radio radioa">
+                        <label><input type="radio" name="stute"  id="" value="1" checked="checked">开启</label>
+                        <label><input type="radio" name="stute"  id="" value="0" >关闭</label>
+                    </div>
+                    <span>是否开启</span>
+                </div>
+                <div><label class="ltxt">会员权益提示:</label><textarea name="quanyi" rows="" cols="" style="height: 150px;resize: none;" value="">{$data.quanyi}</textarea>
+                    <span></span>
+                </div>
+                <div><label class="ltxt">会员购买提示:</label><textarea name="tishi" rows="" cols="" style="height: 150px;resize: none;" value="">{$data.tishi}</textarea>
+                    <span>购买此会员介绍</span>
+                </div>
+                <div><button class="btns">保存</button>
+                    <!--<button class="cancel" onclick="history.go(-1)">取消</button>-->
+                </div>
+                <input type="hidden" name="member_grade" id="number" v-model="number" />
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--<div id="main" style="width: 600px;height:400px;"></div>-->
+<script src="__STATIC__/home/csc/js/vue.js"></script>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            number:'1'
+        },
+    });
+</script>
+<script type="text/javascript">
+$('.btns').click(function(){
+    if ($('form input[type="file"]').val() == '') {
+        prompt('请添加图片',0)
+        return false
+    }
+})
+</script>
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

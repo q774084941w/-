@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/reset.css"/>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/style.css"/>
+	<style type="text/css">
+		#wrap #form2{padding: 35px;}
+		#form2 .lin_one{width: 100%;float: left;line-height: 40px;font-size: 14px;}
+		#form2 .lin_one span{width:80%}
+		#form2 .lin_two:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+		#form2 .lin_two{width: 50%;display: inline-block;float: left;line-height: 40px;font-size: 14px;}
+		#form2 .lin_tow span{width: 280px}
+		#form2 .lin_two:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+		#form2{background: #fff;width: 840px;padding: 16px;max-height: 667px;min-height: 667px;overflow-y: scroll;overflow-x: hidden;min-width: 820px;}
+		#form2 div img{display: inline-block;width: 120px;height: 120px;}
+		#form2 div label{display: inline-block;width: 70px;text-align: right;color: #333333;float: left;padding-right: 10px}
+		#form2 div span{display: inline-block; color: #999999;float: left;}
+	</style>
+</head>
+<body>
+<div id="wrap" class="wrap" style="display: block;">
+	<div class="wrap-con wrap-con2" id="form2">
+		<form action="" method="post" class="form-2">
+			<div class="lin_two">
+				<label>订单号:</label><span>{$data.order_no}</span>
+			</div>
+			<div class="lin_two">
+				<label>商品名:</label><span>{$data.gname}</span>
+			</div>
+			<div class="lin_two">
+				<label>支付金额:</label><span>{$data.money}</span>
+			</div>
+			<div class="lin_two">
+				<label>商品数量:</label><span>{$data.num}</span>
+			</div>
+
+			<div class="lin_two">
+				<label>收货姓名:</label><span>{$data.name}</span>
+			</div>
+			<div class="lin_two">
+				<label>收货电话:</label><span>{$data.phone}</span>
+			</div>
+			<div class="lin_one">
+				<label>收货地址:</label><span>{$data.address}</span>
+			</div>
+			<div class="lin_two">
+				<label>创建时间:</label><span>{$data.or_createtime}</span>
+			</div>
+			<div class="lin_two">
+				<label>支付时间:</label><span>{$data.paytime}</span>
+			</div>
+			<div class="lin_two">
+				<label>发货时间:</label><span>{$data.sendtime}</span>
+			</div>
+			<div class="lin_two">
+				<label>收货时间:</label><span>{$data.taketime}</span>
+			</div>
+			<div class="lin_one">
+				<label>备注:</label><span>{$data.remark}</span>
+			</div>
+			<div class="lin_one">
+				<label>评论内容:</label><span>{$data.content}</span>
+			</div>
+			<div class="lin_one">
+				<label>评论图片:</label>
+				{foreach name="data['pics']" item="vo"}
+				<img src="{$vo}">
+				{/foreach}
+			</div>
+			<div class="lin_one">
+				<label>回复内容:</label><span>{$data.reply}</span>
+			</div>
+			<div class="lin_one">
+				<label>回复图片:</label>
+				{foreach name="data['reply_pics']" item="vo"}
+				<img src="{$vo}">
+				{/foreach}
+			</div>
+
+			<div class="clear"></div>
+		</form>
+	</div>
+</div>
+</body>
+</html>
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>

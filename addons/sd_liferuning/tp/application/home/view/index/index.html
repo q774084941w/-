@@ -1,0 +1,159 @@
+{extend name="public/base" /}
+		<!--尾部-->
+		<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="0,0,false,统计分析"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title" id="but">
+			概况分析
+		</div>
+		<div class="label-1 label">
+			<div class="tit t">
+				<p>昨日概况</p>
+			</div>
+			<ul>
+				{if condition="$stitc != ''"}
+					<div class="l"><div><p>打开次数</p><p>0</p></div></div>
+					<div class="l"><div><p>访问次数 /人数</p><p>0/0</p></div></div>
+					<div class="l"><div><p>新访问用户数</p><p>0</p></div></div>
+					<div class="l"><div><p>分享次数 /人数</p><p>0</p></div></div>
+				{else /}
+				<div class="l"><div><p>打开次数</p><p>{$stitc->visit_total}</p></div></div>
+				<div class="l"><div><p>访问次数 /人数</p><p>0/0</p></div></div>
+				<div class="l"><div><p>新访问用户数</p><p>0</p></div></div>
+				<div class="l"><div><p>分享次数 /人数</p><p>{$stitc->share_pv}/{$stitc->share_uv}</p></div></div>
+				{/if}
+
+
+			</ul>
+			<div class="clear">
+
+			</div>
+		</div>
+
+		<!--<div class="label-2 label">-->
+			<!--<div class="tit t">-->
+				<!--<p>累计访问用户数</p>-->
+			<!--</div>-->
+			<!--<div class="" id="main-lj" style="width: 1020px;height: 500px;"></div>-->
+		<!--</div>-->
+
+
+	</div>
+</div>
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    function load()
+    {
+	
+        $.ajax({
+
+            url:"{:url('Index/stics')}",
+	dataType:'json',
+            success:function (data) {
+	
+                console.log(data.res)
+                var data = data
+	
+                var Time = new Array()   //实例化日期
+                var Type = new Array()  //实例化类型
+                var Value = new Array()  //实例化值
+
+                for (var i = 0; i < data.length; i++){
+                    Time.push(data[i].times)
+                    Value.push(data[i].open)
+                    Type.push(data[i].group)
+                    //riqi += data[i].name+','
+                    //alert(data[i].name)
+                    //alert(riqi)
+                }
+                var myChart = echarts.init(document.getElementById('main-lj'));
+                var option = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+
+                    },
+                    xAxis:  {
+                        type: 'category',
+                        boundaryGap: false,
+                        default: '#000',
+                        data: Time,
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: {
+                            formatter: '{value}'
+                        }
+                    },
+                    series: [
+                        {
+                            name:'用户数最小值',
+                            type:'line',
+                            data:Value,
+                            itemStyle:{
+                                normal:{
+                                    color:'rgb(67, 163, 251)'
+                                },
+                            },
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+
+
+                    ]
+                };
+                myChart.setOption(option);
+
+            },
+            error:function (err) {
+
+            }
+        })
+	}
+
+
+	//var arrq = riqi.split(',')
+
+
+//	$('#but').click(function () {
+//	    alert(11)
+//        $.ajax({
+//            url:"{:url('Index/stati')}",
+//			dataType:'json',
+//            success:function (data) {
+//                console.log()
+//
+//            },
+//            error:function (err) {
+//
+//            }
+//        })
+//    })
+load();
+</script>
+{/block}
+
+
+
+
+
+
+
+
+
+

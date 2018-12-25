@@ -1,0 +1,165 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="7,0"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			提现审核
+		</div>
+
+
+
+
+		<div class="label-3 label">
+			<div class="Statistics">
+				<!--<span class="right">共有数据：<b>11</b>条</span>-->
+				<!--<span class="right">共收钱：<b>0.55</b>元</span>-->
+				<div class="clear"></div>
+			</div>
+
+			<div class="query">
+				<div class="left">
+
+				</div>
+				<div class="right">
+					<label>从当前数据中检索:
+						<input type="text" name="" id="" value="" />
+					</label>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="Tab Tabs">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					<tr>
+						<th style="width: 40px;"><input type="checkbox" name="" id="" value="" /></th>
+						<th style="width: 40px;">ID</th>
+						<th style="width: 120px;">昵称<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+						<th style="width: 80px;">提现金额<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+
+						<th style="width: 80px;">支付宝姓名<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+						<th style="width: 100px;">支付宝账号<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+						<th style="width: 100px;">请求时间<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+
+						<th style="width: 100px;">操作<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+
+					</tr>
+				</table>
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					{foreach name="data" item="vo"}
+					<tr>
+						<td style="width: 40px;"><input type="checkbox" name="" id="" value="" /></td>
+						<td style="width: 40px; " class="goodsid" id="goodsid">{$vo.takeid}</td>
+						<td style="width: 120px;">{$vo.uname}</td>
+						<td style="width: 80px;">{$vo.money}</td>
+						<td style="width: 80px;">{$vo.name}</td>
+						<td style="width: 100px;">{$vo.alipay}</td>
+						<td style="width: 100px;">{$vo.createtime}</td>
+
+						<td style="width: 100px;"><button class="openbtn ml" onclick="refuse('{$vo.takeid}','__publicPath__/home/takeout/refuse')">拒绝</button><button class="modifybtn ml" onclick="consent('{$vo.takeid}','__publicPath__/home/takeout/consent')">同意</button></td>
+
+					</tr>
+					{/foreach}
+				</table>
+			</div>
+			<div style="text-align: center" class="pages">
+				{$data->render()}
+			</div>
+		</div>
+	</div>
+</div>
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<iframe src="show" style="height: 100%; width: 100%;"></iframe>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".open-win").click(function(){
+		var dataurl = $(this).attr('data-type');
+		$("iframe").attr('src',dataurl)
+	})
+
+	function consent(id,url,obj){
+		$("#tan").remove();
+		var htmls = "<div id='tan'><span class='spanbj'></span><div class='tan'><div class='tit_p'>提示</div><div class='p_body'>您是否确认？</div><div class='btn-b'><span class='cancel span-hide'>取消</span><span class='modifybtn span-que'>确定</span><div class='clear'></div></div></div></div>"
+		$("body").append(htmls);
+		$(document).on("click", ".span-que", function(){
+			$("#tan").remove();
+			var data = {
+				id:id
+			};
+			$.ajax({
+				type:"get",
+				data: data,
+				url:url,	//"__publicPath__/home/commtype/addajax.shtml"
+				dataType: "json",
+				success: function(data){
+					if (data == 1) {
+						$(obj).parent().parent().remove()
+						prompt('成功',data)
+						window.location.reload();
+					} else{
+						prompt('失败',data)
+						window.location.reload();
+					}
+				},
+				error:function(){
+					prompt('操作失败',0)
+				}
+			});
+		})
+		$(document).on("click", ".span-hide", function(){
+			$("#tan").remove();
+		})
+
+	}
+	function refuse(id,url,obj){
+		$("#tan").remove();
+		var htmls = "<div id='tan'><span class='spanbj'></span><div class='tan'><div class='tit_p'>提示</div><div class='p_body'>您是否拒绝？</div><div class='btn-b'><span class='cancel span-hide'>取消</span><span class='modifybtn span-que'>确定</span><div class='clear'></div></div></div></div>"
+		$("body").append(htmls);
+		$(document).on("click", ".span-que", function(){
+			$("#tan").remove();
+			var data = {
+				id:id
+			};
+			$.ajax({
+				type:"get",
+				data: data,
+				url:url,	//"__publicPath__/home/commtype/addajax.shtml"
+				dataType: "json",
+				success: function(data){
+					if (data == 1) {
+						$(obj).parent().parent().remove()
+						prompt('成功',data)
+						window.location.reload();
+					} else{
+						prompt('失败',data)
+						window.location.reload();
+					}
+				},
+				error:function(){
+					prompt('操作失败',0)
+				}
+			});
+		})
+		$(document).on("click", ".span-hide", function(){
+			$("#tan").remove();
+		})
+
+	}
+</script>
+
+{/block}
+

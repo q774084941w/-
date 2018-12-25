@@ -1,0 +1,46 @@
+
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="2,1,false,服务费管理"/>
+
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">
+            提成设置
+        </div>
+        <div class="form" id="form">
+            <form action="savePercent.shtml" enctype="multipart/form-data" method="post">
+                <div><label class="ltxt">设置百分比:</label><input type="text" name="percent" id="" value="{$percent}" style="width: 80px;" />%<span></span></div>
+
+
+                <div><button type="submit" class="btns">保存</button></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

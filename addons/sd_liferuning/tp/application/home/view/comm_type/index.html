@@ -1,0 +1,363 @@
+
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="2,0"/>
+<style>
+	.c .c-r .label-3 .Tab table td img{
+		width:12px;height: 12px}
+	.c .c-r .label-3 table .two{display: none;color: #009900;background: #F5F7F9;}
+	.c .c-r .label-3 table .two td:nth-child(2){text-align: left;}
+	.c .c-r .label-3 table .two .sublevel{margin: 0 0 0 20px}
+	.c .c-r .label-3 table .three{display: none;color: #009900;background: #e8eef3;}
+	.c .c-r .label-3 table .three td:nth-child(2){text-align: left;}
+	.c .c-r .label-3 table .three .sublevel{margin: 0 0 0 30px}
+	.c .c-r .label-3 .Tab table .tab_imgurl img{width:60px;height: 60px;}
+</style>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			分类管理
+		</div>
+		<div class="label-3 label">
+
+			<div class="Statistics">
+
+				<button class="blue"><a href="add">添加分类</a></button>
+
+				<div class="clear"></div>
+			</div>
+
+			<div class="Tab Tabs">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					<tr>
+						<th style="width: 40px;"></th>
+						<th style="width: 218px;">分类名称</th>
+						<th style="width: 65px;">ID</th>
+						<th style="width: 100px;">图片</th>
+						<th style="width: 190px;">创建时间</th>
+						<th style="width: 94px;">是否显示</th>
+						<th style="width: 94px;">排序</th>
+						<th style="width: 180px;">操作</th>
+					</tr>
+				</table>
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;" class="tabdiv">
+					<!--<tbody class="ass">
+                    <tr>
+                        <td style="width: 40px;" class="show-img"><img src="img/show.gif" class="Iimg"/></td>
+
+                        <td style="width: 200px;"><input type="text" name="" id="" value="手机"/></td>
+                        <td style="width: 60px;">20</td>
+                        <td style="width: 180px;">2017-05-10</td>
+                        <td style="width: 86px;">是</td>
+                        <td style="width: 86px;">是</td>
+                        <td style="width: 86px;"><input type="text" name="" id="" value="1" style="width: 50px;" onblur="upajax(55,'index.html',this)"/></td>
+                        <td style="width: 86px;"><input type="text" name="" id="" value="20" style="width: 50px;"/></td>
+                        <td style="width: 160px;"><button class="modifybtn open-win ml">查看</button><button class="modifybtn open-win ml">编辑</button><button class="openbtn" onclick="del('11','',this)">删除</button></td>
+                    </tr>
+                    </tbody>-->
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	// 添加一级
+	$(document).on("click", ".form_fl button", function(){
+		var inpval = $(this).parents('form').find('input').eq(0).val()
+		if (inpval == '') {
+			prompt('请先填写分类名',0)
+			return false;
+		}else{
+
+		}
+	})
+
+	// 添加二级
+	$(document).on("click", ".form_fltow button", function(){
+		var inpval = $(this).parents('form').find('input').eq(0).val()
+		var upval = $(this).parents('.ass').find('input').eq(0).val()
+		var pid = $(this).parents('.ass').find('.one .pid').text()
+		alert(upval +'------------'+pid)
+		if (upval == '' || pid == ''){
+			prompt('请先提交一级分类',0)
+			return false;
+		}
+		if (inpval == ''){
+			prompt('请先填写分类名',0)
+			return false;
+		}
+	})
+
+	//	function Preservation_three(e){
+	////		alert('111')
+	////		return false;
+	//		var inpval = e.parents('tr').find('td').eq(1).find('input').val()
+	//			if (inpval == '') {
+	//				prompt('请先填写分类名',0)
+	//				return false;
+	//			}
+	//	}
+
+
+
+	//更改图片地址
+	//$(".Iimg").click(function(){
+	$(document).on("click", ".Iimg", function(){
+		var src = $(this).attr('src')
+		var srcshow = "__STATIC__/home/img/show.gif"		//显示图片地址
+		var srchide = "__STATIC__/home/img/hide.gif"		//隐藏图片地址
+		var img_this = $(this)
+		var superior = img_this.parent().parent().parent()
+		var one = img_this.parent().parent().attr('class')		//一级
+
+
+		if (src == srcshow) {
+			$(this).attr("src",srchide)
+//			if ($(".three").attr('data-type') == one_type) {
+//				$(".three").attr('data-type').show()
+//			}
+			if (one == 'one') {
+				superior.find('.two').show()
+				superior.find('.twobtn').show()
+			}
+
+		} else{
+			$(this).attr("src",srcshow)
+			if (one == 'one'){
+				superior.find('.two').hide()
+				superior.find('.twobtn').hide()
+			}
+		}
+	})
+
+
+	$(document).on("click", ".Iimg_two", function(){
+		var src = $(this).attr('src')
+		var srcshow = "__STATIC__/home/img/show.gif"		//显示图片地址
+		var srchide = "__STATIC__/home/img/hide.gif"		//隐藏图片地址
+		var one_type = $(this).parents('tr').attr('data-type')		//==="1-2-3"
+		var two_type = $(this).parents('.ass').find('.three')		  //.attr('data-type')
+		for (var i = 0; i < two_type.length; i++) {
+			if (src == srchide) {
+				if (two_type.eq(i).attr("data-type").substring(0,1) == one_type.substring(0,1) && two_type.eq(i).attr("data-type").substring(2,3) == one_type.substring(2,3)) {
+					two_type.eq(i).show()
+				} else{
+					two_type.eq(i).hide()
+				}
+			}else{
+				two_type.eq(i).hide()
+			}
+
+		}
+	})
+
+
+	var are = '';					  //一级
+	var are_two = '';				//二级
+	var are_three = '';			//三级
+	$.ajax({
+		type:"get",
+		url:"__publicPath__/home/commtype/ajaxindex",
+		data: '',
+		dataType: "json",
+		success: function(data){
+
+			for (var i = 0; i < data.length; i++){      //一级分类
+				var urls = "'editsolt'";
+				var edit = "'edit'";
+				are = '<tbody class="ass"><tr class="one" data-type='+data[i].rank+'><td style="width: 40px;"><img src="__STATIC__/home/img/show.gif" class="Iimg"></td><td style="width: 218px;"><input type="text" name="" id="" value='+data[i].name+' onblur="upajax('+data[i].tid+','+urls+',this,0)" disabled="disabled"></td><td class="pid" style="width: 65px;">' + data[i].tid
+						+ '<td style="width: 100px;" class ="tab_imgurl"><img src="' +data[i].logo+
+						'"/></td><td style="width: 190px;">'+data[i].updatetime+'</td><td style="width: 94px;"><b class='+data[i].sclass+'>'+data[i].statuss+'</b></td>'
+						+ '<td style="width: 94px;"><input type="text" name="" id="" value='+data[i].solt+' style="width: 50px;" onblur="upajax('+data[i].tid+','+urls+',this,0)"></td><td>' +
+						'<button class="modifybtn ml" onclick="compilest('+data[i].tid+','+edit+',0)">编辑</button><button class='+data[i].oclass+'  onclick="shelvese('+data[i].tid+','+data[i].status+')">'+data[i].operate+'</button>' +
+						'</td></tr></tbody>';
+
+//					Level = data[i].level
+				$(".tabdiv").append(are)
+				//console.log(i+'级')
+				for (var j = 0; j < data[i].sub.length; j++){
+					//console.log(i)
+					are_two = '<tr class="two" data-type='+data[i].sub[j].rank+'><td><img src="__STATIC__/home/img/show.gif" class="Iimg Iimg_two"></td><td><i class="sublevel"></i><input type="text" name="" id="" value='+data[i].sub[j].name+' onblur="upajax('+data[i].sub[j].ptid+','+urls+',this,1)" disabled="disabled"></td><td class="pid">' + data[i].sub[j].ptid
+							+ '<td style="width: 100px;" class ="tab_imgurl"><img src="' +data[i].sub[j].pic
+							+ '"/></td><td>'+data[i].sub[j].updatetime+'</td><td><b class='+data[i].sub[j].sclass+'>'+data[i].sub[j].statuss+'</b></td>'
+							+ '<td><input type="text" name="" id="" value='+data[i].sub[j].solt+' style="width: 50px;" onblur="upajax('+data[i].sub[j].ptid+','+urls+',this,1)"></td><td>' +
+							'<button class="modifybtn ml" onclick="compilest('+data[i].sub[j].ptid+','+edit+',1)">编辑</button><button class='+data[i].sub[j].oclass+' onclick="shelves('+data[i].sub[j].ptid+','+data[i].sub[j].status+')">'+data[i].sub[j].operate+'</button></td></tr>';
+
+					$(".ass").eq(i).append(are_two)
+					//console.log(data[i].sub[j].sub.length)
+
+					for (var v = 0; v < data[i].sub[j].sub.length; v++) {
+						are_three = '<tr class="three" data-type='+data[i].sub[j].sub[v].rank+'><td></td><td><i class="sublevel"></i><input type="text" name="" id="" value='+data[i].sub[j].sub[v].name+' onblur="upajax('+data[i].sub[j].sub[v].ptid+','+urls+',this,1)" disabled="disabled"></td><td class="pid">' + data[i].sub[j].sub[v].ptid
+								+ '<td style="width: 100px;" class ="tab_imgurl"><img src="' +data[i].sub[j].sub[v].pic
+								+ '"/></td><td>'+data[i].sub[j].sub[v].updatetime+'</td><td><b class='+data[i].sub[j].sub[v].sclass+'>'+data[i].sub[j].sub[v].statuss+'</b></td>'
+								+ '<td><input type="text" name="" id="" value='+data[i].sub[j].sub[v].solt+' style="width: 50px;" onblur="upajax('+data[i].sub[j].sub[v].ptid+','+urls+',this,1)"></td><td>' +
+								'<button class="modifybtn ml" onclick="compilest('+data[i].sub[j].sub[v].ptid+','+edit+',1)">编辑</button><button class='+data[i].sub[j].sub[v].oclass+' onclick="shelves('+data[i].sub[j].sub[v].ptid+','+data[i].sub[j].sub[v].status+')">'+data[i].sub[j].sub[v].operate+'</button></td></tr>';
+
+						$(".ass").eq(i).find('.two').eq(j).after(are_three)
+					}
+
+
+
+
+				}
+
+
+			}
+			//console.log(are)
+			//$(".tabdiv").append("<tbody class='oneadd'><tr class='onebtn'><td colspan='10'><button class='onebtn_add'>添加一级分类分类</button></td></tr></tbody>")
+			//$(".ass").append("<tr class='twobtn'><td colspan='10'><button class='twobtn_add'>添加二级分类分类</button></td></tr>")
+
+		},
+		error:function(){
+			alert('失败')
+		}
+	});
+
+
+	//保存上传
+	function Preservation(e){
+		var inpval = e.parents('tr').find('td').eq(1).find('input').val()
+		if (inpval == '') {
+			prompt('请先填写分类名',0)
+			return false;
+		}
+
+
+	}
+
+
+	//保存上传
+	function Preservation_two(e){
+		var ase = e.parents('.ass').find('.one td').eq(1).find('input').val()
+		var inpval = e.parents('tr').find('td').eq(1).find('input').val()
+		var pid = e.parents('.ass').find('.one .pid').text()
+		if (ase == '' || pid == '') {
+			prompt('请先提交一级分类',0)
+			return false;
+		}
+		if(inpval == ''){
+			prompt('请先填写分类名',0)
+			return false;
+		}else{
+			var data = {id:pid}
+			$.ajax({
+				type:"get",
+				url:"data/select.json",
+				data: data,
+				dataType: "json",
+				success: function(data){
+					window.location.reload();
+				},
+				error:function(){
+					alert('失败')
+				}
+			});
+		}
+	}
+
+
+	function compilest(id,url,v) {
+		window.location.href=url+"?id="+id+"&v="+v;
+	}
+
+	//上下架
+	function shelves(ptid,v){
+		$("#tan").remove();
+		var htmls = "<div id='tan'><span class='spanbj'></span><div class='tan'><div class='tit_p'>提示</div><div class='p_body'>是否确认操作？</div><div class='btn-b'><span class='cancel span-hide'>取消</span><span class='modifybtn span-que'>确定</span><div class='clear'></div></div></div></div>"
+		$("body").append(htmls);
+
+
+		$(document).on("click", ".span-que", function(){
+			$("#tan").remove();
+			var data = {
+				status:v,ptid:ptid
+			};
+			$.ajax({
+				type:"get",
+				data: data,
+				url:"__publicPath__/home/commtype/soldOut",			//请求地址加参数
+				dataType: "json",
+				success: function(data){
+					if (data == 1) {
+						prompt('关闭成功',data)
+						window.location.reload();
+					} else{
+						prompt('关闭失败',data)
+						//window.location.reload();
+					}
+				},
+				error:function(){
+					prompt('操作失败',0)
+				}
+			});
+		})
+		$(document).on("click", ".span-hide", function(){
+			$("#tan").remove();
+		})
+	}
+
+	function shelvese(tid,v){
+		$("#tan").remove();
+		var htmls = "<div id='tan'><span class='spanbj'></span><div class='tan'><div class='tit_p'>提示</div><div class='p_body'>是否确认操作？</div><div class='btn-b'><span class='cancel span-hide'>取消</span><span class='modifybtn span-que'>确定</span><div class='clear'></div></div></div></div>"
+		$("body").append(htmls);
+
+
+		$(document).on("click", ".span-que", function(){
+			$("#tan").remove();
+			var data = {
+				tid:tid,status:v
+			};
+			$.ajax({
+				type:"get",
+				data: data,
+				url:"__publicPath__/home/commtype/soldOut",			//请求地址加参数
+				dataType: "json",
+				success: function(data){
+					if (data == 1) {
+						prompt('关闭成功',data)
+						window.location.reload();
+					} else{
+						prompt('关闭失败',data)
+						//window.location.reload();
+					}
+				},
+				error:function(){
+					prompt('操作失败',0)
+				}
+			});
+		})
+		$(document).on("click", ".span-hide", function(){
+			$("#tan").remove();
+		})
+	}
+
+
+</script>
+
+
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

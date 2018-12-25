@@ -1,0 +1,119 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="5,2,false,审核列表"/>
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">
+            审核列表
+        </div>
+
+        <div class="Statistics">
+
+        </div>
+        <div class="Statistics">
+            <div class="left d">
+                <a class="blue" href="{:url('user/user')}">跑腿审核</a>
+                <a class="blue" href="{:url('user/seller')}">商家审核</a>
+                <form action="" method="post">
+
+                </form>
+            </div>
+            <span class="right">共有数据：<b>{$data->total()}</b>条</span>
+            <div class="clear"></div>
+        </div>
+
+
+        <div class="label-3 label">
+            <div class="tit t">
+                <p>审核列表</p>
+            </div>
+            <div class="Tab">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                	<thead>
+                		<tr>
+	                        <th style="width: 40px;"><input type="checkbox" name=""  value="" /></th>
+	                        <th style="width: 60px;">ID</th>
+	                        <th style="width: 50px;">用户名</th>
+	                        <th style="width: 50px;">商铺名称</th>
+	                        <th style="width: 40px;">联系电话</th>
+	                        <th style="width: 160px;">店铺地址</th>
+	                        <th style="width: 160px;">营业执照</th>
+	                        <th style="width: 160px;">申请时间</th>
+	                        <th style="width: 180px;">操作</th>
+	                    </tr>
+                	</thead>
+                    <tbody>
+                    	{foreach name="data" item="vo"}
+	                    <tr>
+	                        <td style="width: 40px;"><input type="checkbox" name=""  value="" /></td>
+	                        <td style="width: 60px;">{$vo.id}</td>
+	                        <td style="width: 50px;">{$vo.nickname}</td>
+	                        <td style="width: 50px;">{$vo.uname}</td>
+	                        <td style="width: 160px;">{$vo.utel}</td>
+	                        <th style="width: 160px;">{$vo.uaddress}</th>
+	                        <th style="width: 160px;"><img src="{$vo.uimg}" style="width: 150px;height: 100px;"></th>
+	                        <td style="width: 160px;">{:date('Y-m-d H:i:s',$vo.addtime)}</td>
+	                        <td style="width: 180px;"><button class="modifybtn ml open-win" data-type="show?id={$vo.uid}&type=13">查看</button>
+	                            <button class="modifybtn" onclick="dels('{$vo.id}','seller_status',1)">通过</button>
+	                            <button class="openbtn" onclick="dels('{$vo.id}','seller_status',2)">拒绝</button>
+	
+	
+	                    </tr>
+	                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align: center" class="pages">
+                {$data->render()}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="wrap" class="wrap">
+    <div class="wrap-body express">
+        <div class="title">
+            详情查看
+        </div>
+        <iframe src="show" style="height: 100%; width: 100%;"></iframe>
+        <span class="close-wrap close-win">×</span>
+        <div class="wrap-btn">
+            <span class="close-btn close-win">取消</span>
+            <span class="next-btn close-win">确认</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(".open-win").click(function(){
+        var dataurl = $(this).attr('data-type');
+        $("iframe").attr('src',dataurl)
+    })
+</script>
+<script>
+    function dels(id,url,status){
+       if(window.confirm('您确定此操作?')){
+           $.ajax({
+               type: "get",
+               data: {id:id,status:status},
+               url: url,
+               dataType: "json",
+               success:function(data){
+                   if(data==1){
+                       window.location.reload();
+                   }else{
+                       alert('操作失败！');
+                   }
+               }
+           })
+
+       }
+    }
+</script>
+{/block}
+

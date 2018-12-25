@@ -1,0 +1,199 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="5,0,false,电话下单"/>
+<script src="__STATIC__/uedi/ueditor.config.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/uedi/ueditor.all.js" type="text/javascript" charset="utf-8"></script>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			电话下单
+		</div>
+
+
+
+		<div class="label-4">
+			<div class="form" id="forms">
+				<div class="breadcrumb">
+									<span>
+										<a href="#">电话下单添加管理 </a>
+										<span class="separator">/</span>
+									</span>
+									<span>
+										<span>电话下单添加信息</span>
+									</span>
+				</div>
+
+				<form action="{:url('order/insertOrder')}" method="post"  class="form-2">
+					<div><label class="ltxt">类型:</label>
+						<select name="type"  style="width: 550px;">
+							<option value="帮我买">帮我买</option>
+							<option value="帮我送">帮我送</option>
+						</select>
+						<span></span>
+					</div>
+					<div><label class="ltxt">电话:</label><input type="text" name="tel" id="tel" value="{$tel}" /><span></span></div>
+					<div><label class="ltxt">商品名称:</label><input type="text" name="goodsname"  value=""  placeholder="请输入商品名称"/><span></span></div>
+
+					<div><label class="ltxt">起始地址:</label><input type="text" name="myadds"  value=""  placeholder="请填入拾取的地址名称" />
+						<span>为保证导航准确请<a href="https://lbs.qq.com/tool/getpoint/" target="_blank" style="color:darkblue">地址拾取</a></span>
+					</div>
+					<div><label class="ltxt">起始地址坐标:</label><input type="text"   class="coordinate" id="myadds" placeholder="请填入拾取的地址的坐标，以便计算价格" /><span></span></div>
+
+					<div><label class="ltxt">收货地址:</label><input type="text" name="mudadds"  value="" placeholder="请填入拾取的地址名称"/>
+						<span>为保证导航准确请<a href="https://lbs.qq.com/tool/getpoint/" target="_blank" style="color:darkblue">地址拾取</a></span>
+					</div>
+					<div><label class="ltxt">收货地址坐标:</label><input type="text" class="coordinate" id="mudadds" placeholder="请填入拾取的地址的坐标，以便计算价格" /><span></span></div>
+
+					<div><label class="ltxt">价格:</label><input type="text" name="price" value="24" id="price" /><span></span></div>
+					<div><label class="ltxt">计算距离:</label><input type="text" name="distance" value="0" id="distance" /><span></span></div>
+					<div><label class="ltxt">配送时间:</label><input style="width: 550px;
+    height: 22px;" type="datetime-local" name="times" value="" /><span></span></div>
+					<!--<div><label class="ltxt">小费:</label>--><input type="hidden" name="tip" value="0" /><!--<span></span></div>-->
+					<div><label class="ltxt">用户名:</label><input type="text" name="username" value="{$nickname}" /><span></span></div>
+					<!--<div><label class="ltxt">重量:</label>
+						&lt;!&ndash;<input type="text" name="weight" value="5" />&ndash;&gt;
+						<select name="weight" style="width: 550px;" id="weight">
+							<option value="5">小于5公斤</option>
+							<option value="10">5-10公斤</option>
+							<option value="20">10-20公斤</option>
+						</select>
+						<input type="hidden" id="old_weight" value="0">
+						<span></span>
+					</div>-->
+					<div><label class="ltxt">方式:</label>
+						<!--<input type="text" name="weight" value="5" />-->
+						<select name="weight" style="width: 550px;" id="weight">
+							<option value="0">无</option>
+							<option value="5">電單車</option>
+							<option value="10">私家車</option>
+							<option value="20">小貨車</option>
+						</select>
+						<input type="hidden" id="old_weight" value="0">
+						<input type="hidden" name="select_name" id="select_name" value="">
+						<span></span>
+					</div>
+
+					<!--<div><label class="ltxt">商品价值:</label>--><input type="hidden" name="worth" value="0" /><!--<span></span></div>-->
+					<!--<div><label class="ltxt">红包:</label>--><input type="hidden" name="redbao" value="0" /><!--<span></span></div>-->
+					<div><label class="ltxt">是否议价:</label>
+						<select name="distype" style="width: 550px;">
+						<option value="0">否</option>
+						<option value="1">是</option>
+						</select>
+						<span></span>
+					</div>
+
+					<div><label class="ltxt">留言:</label><textarea name="message" placeholder="选填"></textarea><span></span></div>
+					<div><label></label><button class="btns btn-right subbtn">完成</button><a href="javaScript:history.back()" class="btns btn-right">返回</a></div>
+					<div class="clear"></div>
+					<input type="hidden" name="uid" id="uid" value="{$uid}" />
+
+					<input type="hidden" name="ins"  value="0" />
+					<input type="hidden" name="proxy_id"  value="0" />
+					<input type="hidden" name="xphoto"  value="" />
+					<input type="hidden" name="yinpin"  value="" />
+					<input type="hidden" name="old_order_no"  value="" />
+					<input type="hidden" name="bid"  value="1" />
+					<input type="hidden" name="order_type"  value="" />
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<div id="toup">
+	<img src="__STATIC__/home/img/toup.png"/>
+</div>
+
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/dateRange.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/monthPicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/img_yasuo.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function(e) {
+		var ue = UE.getEditor('container');
+		$('input').lc_switch();
+
+		$('.coordinate').change(function () {
+			var mudadds = $('#mudadds').val();
+			var myadds  = $('#myadds').val();
+			if (mudadds!=''&&myadds!='') {
+			    $.ajax({
+                    url: "{:url('goods/addprice')}",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        'mudadds':mudadds,
+						'myadds' :myadds,
+						'bid'  : 1,
+					},
+                    success: function (msg) {
+                        console.log(msg);
+						if (msg.code==1) {
+							$('#price').val(msg.data.price);
+							$('#distance').val(msg.data.distance);
+						}
+                    }
+                });
+			}
+        });
+
+		$('#weight').change(function () {
+			var weight = $(this).val();
+			var old_weight = $('#old_weight').val();
+			var price = $('#price').val();
+			switch (weight) {
+				case '5':
+					thisprice = 0;
+                    select_name = "電單車";
+				    break;
+				case '10':
+                    thisprice = 9;
+                    select_name = "私家車";
+				    break;
+				case '20':
+                    thisprice = 18;
+                    select_name = "小貨車";
+				    break;
+				default:
+                    thisprice = 0;
+                    select_name = "";
+            }
+            var lastprice = price - old_weight + thisprice;
+			console.log(lastprice);
+            $('#price').val(lastprice);
+            $('#old_weight').val(thisprice);
+            $('#select_name').val(select_name)
+        })
+	});
+
+    $(".subbtn").click(function(){
+        if (!regulars('','goodsname','商品名称','')) {
+            return false
+        }
+        if (!regulars('','mudadds','目的地地址','')) {
+            return false
+        }
+        if (!regulars('','myadds','收货地址','')) {
+            return false
+        }
+        if (!regulars('','price','价格','')) {
+            return false
+        }
+        if (!regulars('','tel','电话','')) {
+            return false
+        }
+    })
+</script>
+{/block}
+

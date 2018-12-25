@@ -1,0 +1,69 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="8,0"/>
+<script src="__STATIC__/uedi/ueditor.config.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/uedi/ueditor.all.js" type="text/javascript" charset="utf-8"></script>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			菜单管理
+		</div>
+
+
+
+		<div class="label-4">
+			<div class="form" id="forms">
+				<div class="breadcrumb">
+									<span>
+										<a href="#">菜单管理 </a>
+										<span class="separator">/</span>
+									</span>
+									<span>
+										<span>修改菜单</span>
+									</span>
+				</div>
+
+				<form action="editinsert" method="post" enctype="multipart/form-data" class="form-2">
+					<div><label class="ltxt">标题:</label><input type="text" name="title" id="title" value="{$data.title}" /><span></span></div>
+
+
+
+
+
+
+					<div><label class="ltxt">内容:</label>
+						<script id="container" name="content" type="text/plain">{$data.content}</script>
+						<span></span>
+					</div>
+					<div><label></label><button class="btns btn-right subbtn">完成</button><button class="btns btn-right">返回</button></div>
+					<div class="clear"></div>
+
+					<input type="hidden" name="neid" id="neid" value="{$data.neid}" />
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<div id="toup">
+	<img src="__STATIC__/home/img/toup.png"/>
+</div>
+
+
+<script type="text/javascript">
+
+	$(document).ready(function(e) {
+		var ue = UE.getEditor('container');
+		$('input').lc_switch();
+	});
+
+
+</script>
+{/block}
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[超人跑腿]]></name>
+		<identifie><![CDATA[sd_liferuning]]></identifie>
+		<version><![CDATA[1.7.2]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[微猫科技]]></ability>
+		<description><![CDATA[微猫科技]]></description>
+		<author><![CDATA[微猫源码]]></author>
+		<url><![CDATA[http://www.weixin2015.cn]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+		<card embed="true" />
+      <supports>
+			<item type="wxapp"/>
+		</supports>
+	</platform>
+	<bindings>
+		<menu call="getMenus">
+		</menu>
+		<page>
+			<entry title="首页" do="sd_liferuning/pages/constmer/index/index" state="" direct="false" />
+		</page>
+	</bindings>
+	<install><![CDATA[weimao.php]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

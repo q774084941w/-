@@ -1,0 +1,54 @@
+
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="5,6,false,设置会员金额"/>
+
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">
+            会员购买金额设置
+        </div>
+        <div class="form" id="form">
+            <form action="memberMoney" enctype="multipart/form-data" method="post">
+                <div><label class="ltxt">金额设置:</label><input type="number" name="money" id="" value="{$data.hymoney}" style="width: 80px;" />元<span></span></div>
+                <div><button type="submit" class="btns">保存</button></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.btns').click(function(){
+        if ($('form input[type="number"]').val() == '') {
+            prompt('请输入金额',0)
+            return false
+        }else if($('form input[type="number"]').val() < 0.01 ){
+            prompt('金额不能小于等于0',0)
+            return false
+        }
+    })
+</script>
+
+
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

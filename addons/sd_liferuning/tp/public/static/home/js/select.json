@@ -1,0 +1,132 @@
+[
+    {
+        "ptid": 35,
+        "level": 0,
+        "slass": 0,
+        "name": "衣服",
+        "pid": 0,
+        "status": 1,
+        "sub": [
+            {
+                "ptid": 36,
+                "level": 1,
+                "name": "上衣",
+                "pid": 35,
+                "status": 1,
+                "sub": [
+                    {
+                        "ptid": 50,
+                        "level": 2,
+                        "name": "阿迪短袖",
+                        "pid": 36,
+                        "status": 1
+                    }
+                ]
+            },
+            {
+                "ptid": 37,
+                "level": 1,
+                "name": "裤子",
+                "pid": 35,
+                "status": 1,
+                "sub": [
+                    {
+                        "ptid": 38,
+                        "level": 2,
+                        "name": "阿迪短裤",
+                        "pid": 37,
+                        "status": 1
+                    },
+                    {
+                        "ptid": 39,
+                        "level": 2,
+                        "name": "耐克长裤",
+                        "pid": 37,
+                        "status": 1
+                    },
+                    {
+                        "ptid": 40,
+                        "level": 2,
+                        "name": "多多长裤",
+                        "pid": 37,
+                        "status": 1
+                    }
+                ]
+            },
+            {
+                "ptid": 41,
+                "level": 1,
+                "name": "裙子",
+                "pid": 35,
+                "status": 1,
+                "sub": []
+            }
+        ]
+    },
+    {
+        "ptid": 42,
+        "level": 0,
+        "name": "水果",
+        "pid": 0,
+        "status": 1,
+        "sub": [
+            {
+                "ptid": 44,
+                "level": 1,
+                "name": "热带水果",
+                "pid": 42,
+                "status": 1,
+                "sub": [
+                    {
+                        "ptid": 45,
+                        "level": 2,
+                        "name": "香蕉",
+                        "pid": 44,
+                        "status": 1
+                    }
+                ]
+            },
+            {
+                "ptid": 48,
+                "level": 1,
+                "name": "南方水果",
+                "pid": 42,
+                "status": 1,
+                "sub": [
+                    {
+                        "ptid": 49,
+                        "level": 2,
+                        "name": "苹果",
+                        "pid": 48,
+                        "status": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "ptid": 43,
+        "level": 0,
+        "name": "零食",
+        "pid": 0,
+        "status": 1,
+        "sub": [
+            {
+                "ptid": 46,
+                "level": 1,
+                "name": "干果",
+                "pid": 43,
+                "status": 1,
+                "sub": [
+                    {
+                        "ptid": 47,
+                        "level": 2,
+                        "name": "核桃",
+                        "pid": 46,
+                        "status": 1
+                    }
+                ]
+            }
+        ]
+    }
+]

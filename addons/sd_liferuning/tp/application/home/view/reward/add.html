@@ -1,0 +1,104 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="9,1,false,满额奖励"/>
+<div class="c-r right" id="app">
+    <div class="label1">
+        <div class="title">
+            修改满减奖励
+        </div>
+        <div class="form" id="form">
+            <form action="insert" class="eform" method="post" enctype="multipart/form-data">
+            	<div>
+					<label class="ltxt">是否开启:</label>
+					<div class="radio radioa">
+						<label><input type="radio" name="status"  id="" value="1" checked="checked">开启</label>
+						<label><input type="radio" name="status"  id="" value="0" >关闭</label>
+					</div>
+					<span></span>
+				</div>
+				<div><label class="ltxt">满减类型:</label>
+						<div class="bor bor2 bor4">
+							<span data-type = "1">满额奖励</span><i></i>
+							<ul style="display: none;">
+								<li @click="number=1">满额奖励</li>
+								<li @click="number=2">满单奖励</li>
+							</ul>
+						</div>
+						<span></span>
+					</div>
+                <!--<input type="hidden" name="bid" value="" />-->
+                <div v-if="number=='1'"><label class="ltxt">满额:</label><input style="width: 245px;" type="text" name="fulfil_the_quota" id="" value="" />元
+                	<span></span>
+                </div>
+                <div v-if="number=='2'"><label class="ltxt">满单:</label><input style="width: 245px;" type="text" name="fulfil_the_quota" id="" value="" />单
+                	<span></span>
+                </div>
+
+                <div><label class="ltxt">奖励:</label><input style="width: 245px;" type="text" name="reward" id="" value="" />元
+                	<span></span></div>
+
+				<div><label class="ltxt">满减有效日期:</label>
+					<input type="text"  value="" id="demo-1" name="restartime" style="width: 245px;"><b class="b">至</b><input type="text"  value="" id="demo-2" name="reendtime" style="width: 245px;">
+					<span>满减创建后即可被领取，这里设置的「开始时间」是指满减可被使用的时间</span>
+				</div>
+                <div><button class="btns">保存</button>
+                    <!--<button class="cancel" onclick="history.go(-1)">取消</button>-->
+                </div>
+                <input type="hidden" name="type" id="number" v-model="number" />
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--<div id="main" style="width: 600px;height:400px;"></div>-->
+<script src="__STATIC__/home/js/foundation-datepicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/foundation-datepicker.zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/csc/js/vue.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+	    el: '#app',
+	    data: {
+			number:'1'
+	     },
+    });
+</script>
+<script>
+	$('#demo-1').fdatepicker({
+		format: 'yyyy-mm-dd',
+	});
+	$('#demo-2').fdatepicker({
+		format: 'yyyy-mm-dd',
+	});
+//  $(function(){
+//      $("#file").takungaeImgup({
+//          formData: { "path": "Content/Images/", "name": "uploadpic" }, //path参数会发送给服务器，name参数代表上传图片成功后，自动生成input元素的name属性值
+//          url: "data/page.json",    //发送请求的地址，服务器地址
+//          success: function (data) {
+//
+//          },
+//          error: function (err) {
+//              alert(err);
+//          }
+//      });
+//  })
+</script>
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

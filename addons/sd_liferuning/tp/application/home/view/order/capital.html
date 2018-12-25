@@ -1,0 +1,187 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="8,0,false,资金管理"/>
+<style type="text/css">
+	.query .left{display: flex;align-items: center;}
+	.c .c-r .query .left label select{width: 100px;height: 27px;}
+	.c .c-r .query .left .blue{padding: 5px 10px;}
+	.query .left input{width: 150px; height: 23px;border: 1px solid #e3e8ee;margin: 0 3px;text-indent: 5px;padding: 3px 0;}
+	.query .right{height: 30px;line-height: 30px;font-size: 14px;}
+</style>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			交易记录
+		</div>
+		<div class="label-3 label">
+			<div class="tit t">
+				<p>交易记录</p>
+			</div>
+			<div class="query">
+
+				<div class="left">
+					<label>日期</label>
+					<input type="text" name="starttime" id="starttime" value="" />-
+					<input type="text" name="endtime" id="endtime" value="" />
+					<a class="blue ml subbtn">导出数据</a>
+				</div>
+				<!--<form action="{:url('user/index')}" method="post" id="formo">-->
+				<div class="right">
+					<span>共有数据：{$data->total()}条共收钱：{$money}元</span>
+				</div>
+				<div class="clear"></div>
+				<!--</form>-->
+			</div>
+			<div class="Tab">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+					<thead>
+						<tr>
+
+							<th>ID</th>
+							<th>用户</th>
+							<th>手机号</th>
+							<th>订单号</th>
+							<th>支付金额</th>
+							<th>支付时间</th>
+						</tr>
+					{volist name='data' id='vo'}
+						<tr>
+
+							<th>{$vo.id}</th>
+							<th>{$vo.nickname}</th>
+							<th>{$vo.phone}</th>
+							<th>{$vo.order_no}</th>
+							<th>{$vo.price}</th>
+							<th>{$vo.time}</th>
+						</tr>
+						{/volist}
+					</thead>
+					<thead>
+						
+					</thead>
+				</table>
+			</div>
+			<div style="text-align: center" class="pages">
+				{$data->render()}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<iframe src="show" style="height: 100%; width: 100%;"></iframe>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script src="__STATIC__/home/js/foundation-datepicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/foundation-datepicker.zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	$('#starttime').fdatepicker({
+        format: 'yyyy-mm-dd',
+    });
+    $('#endtime').fdatepicker({
+        format: 'yyyy-mm-dd',
+    });    
+    
+    $('.subbtn').click(function(){
+            var starttime = $('#starttime').val()
+            var endtime = $('#endtime').val()
+            if(starttime == '' || starttime == null){
+                prompt("开始日期不可为空",0);
+                return false;
+            }
+            if(endtime == '' || endtime == null){
+                prompt("结束日期不可为空",0);
+            }
+            $.ajax({
+                type:"get",
+                url:"excels",
+                data:{
+                    starttime:new Date($('#starttime').val()).getTime()/1000,
+                    endtime:new Date($('#endtime').val()).getTime()/1000
+                },
+                success:function(){
+                    location.href='excels?starttime='+new Date($('#starttime').val()).getTime()/1000+'&endtime='+new Date($('#endtime').val()).getTime()/1000;
+                },
+                error:function(){
+
+                }
+            });
+        })
+    
+    
+    
+	$(".open-win").click(function(){
+		var dataurl = $(this).attr('data-type');
+		$("iframe").attr('src',dataurl)
+	})
+	function save_cust(id,obj) {
+		$.ajax({
+			url:"{:url('user/add_cust')}",
+			dataType:'json',
+			type:'get',
+			data:{
+			    id:id,
+			},
+			success:function (res) {
+				console.log(res)
+            }
+		})
+    }
+	
+	if (location.search == '' || location.search == undefined) {
+		
+	}else{
+		var url = location.search;
+		console.log(url)
+	}
+	
+	//获取url参数
+	function getUrlParam(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]); return null;
+	}
+	
+	
+	
+	//下拉框
+	function selet(o){
+		var searchval = getUrlParam('search');
+		window.location.href='https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/index.php/user/index.shtml?selet='+o.val()+'&search='+searchval
+	}
+	//搜索
+	$('.searchbtn').click(function(){
+		var selet = getUrlParam('selet');
+		var searchval = $('#search').val()
+		
+
+			window.location.href='https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/index.php/user/index.shtml?selet='+selet+'&search='+searchval
+			$.ajax({
+				url:"{:url('user/index')}",
+				type:'get',
+				data:{
+                    selet:selet,
+				    search:searchval,
+				},
+				success:function (res) {
+					
+	            }
+			})
+	})
+</script>
+{/block}
+

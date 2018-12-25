@@ -1,0 +1,75 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			新闻管理
+		</div>
+		<div class="label-3 label">
+			<div class="search">
+				<div class="">
+					<input type="text" name="" id="" value="" placeholder="产品名称"/><button><i></i><span>搜产品</span></button>
+				</div>
+			</div>
+			<div class="Statistics">
+				<button class="delete">批量删除</button>
+				<button class="blue"><a href="add">添加产品</a></button>
+				<span class="right">共有数据：<b>11</b>条</span>
+				<div class="clear"></div>
+			</div>
+
+			<div class="Tab Tabs">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					<tr>
+						<th style="width: 40px;"><input type="checkbox" name="" id="" value="" /></th>
+						<th style="width: 400px;">新闻内容</th>
+						<th style="width: 100px; ">类别 </th>
+						<th style="width: 200px;">发布时间</th>
+						<th style="width: 180px;">操作</th>
+					</tr>
+				</table>
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					<tr>
+						<td style="width: 40px;"><input type="checkbox" name="" id="" value="" /></td>
+						<td style="width: 400px;" class="beyond">首页推荐首页推荐首页推荐首页推荐首页推荐首页推荐首------------****************///////////13213112</td>
+						<td style="width: 100px;">新闻咨询</td>
+						<td style="width: 200px;">2017-08-22</td>
+						<td style="width: 180px;"><button class="modifybtn ml open-win">查看</button><button class="modifybtn ml">编辑</button><button class="openbtn" onclick="del(0,$(this))">删除</button></td>
+					</tr>
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<div class="wrap-con"id="forms">
+			<form action="" method="post" class="form-2">
+				<div><label>标题:</label><input type="text" name="" id="" value="" style="width: 225px;float: left;"/><label>标题:</label><input type="text" name="" id="" value="" style="width: 225px;;"/><span></span></div>
+
+				<div><label>标题:</label><input type="text" name="" id="" value="" /><span></span></div>
+				<div><label>图片:</label><img src="img/goumai.jpg" width="200px"height="180px"/><span></span></div>
+				<div><label>标题:</label><textarea name="" rows="" cols=""></textarea><span></span></div>
+
+			</form>
+		</div>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+
+
+{/block}
+

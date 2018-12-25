@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/style.css"/>
+		<style type="text/css">
+			#wrap #form2{padding: 35px;}
+			#form2 .lin_one{width: 100%;float: left;line-height: 40px;font-size: 14px;}
+			#form2 .lin_one span{width:80%}
+			#form2 .lin_two:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+			#form2 .lin_tow{width: 50%;display: inline-block;float: left;line-height: 40px;font-size: 14px;}
+			#form2 .lin_tow span{width: 280px}
+			#form2 .lin_tow:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+			#form2{background: #fff;width: 840px;padding: 16px;max-height: 667px;min-height: 667px;overflow-y: scroll;overflow-x: hidden;min-width: 820px;}
+			#form2 div img{display: inline-block;width: 120px;height: 120px;}
+			#form2 div label{display: inline-block;width: 70px;text-align: right;color: #333333;float: left;padding-right: 10px}
+			#form2 div span{display: inline-block; color: #999999;float: left;}
+		</style>
+	</head>
+	<body>
+	<div id="wrap" class="wrap" style="display: block;">
+		<div class="wrap-con wrap-con2" id="form2">
+			<form action="" method="post" class="form-2">
+				<div class="lin_one">
+					<label>商品名:</label><span>{$data.name}</span>
+				</div>
+				<div class="lin_tow">
+					<label>链表页图:</label><img src="{$data.pic}">
+				</div>
+				<div class="lin_tow">
+					<label>单位:</label><span>{$data.unit}</span>
+				</div>
+
+
+				<div class="lin_tow">
+					<label>积分:</label><span>{$data.min_price}</span>
+				</div>
+				<div class="lin_tow">
+					<label>收藏数:</label><span>{$data.favournum}</span>
+				</div>
+				<div class="lin_tow">
+					<label>商品重量:</label><span>{$data.weight} KG</span>
+				</div>
+				<div class="lin_tow">
+					<label>运费模板:</label><span>{$data.template}</span>
+				</div>
+				<div class="lin_tow">
+					<label>计算方式:</label><span>{$data.freight_count}</span>
+				</div>
+				<div class="lin_tow">
+					<label>统一邮费:</label><span>{$data.freight_unify}</span>
+				</div>
+				<div class="lin_tow">
+					<label>总库存:</label><span>{$data.stock}</span>
+				</div>
+				<div class="lin_tow">
+					<label>销量:</label><span>{$data.sales}</span>
+				</div>
+				<div class="lin_tow">
+					<label>上架时间:</label><span>{$data.shelves_time}</span>
+				</div>
+				<div class="lin_tow">
+					<label>修改时间:</label><span>{$data.updatetime}</span>
+				</div>
+				<div class="lin_tow">
+					<label>创建时间:</label><span>{$data.createtime}</span>
+				</div>
+				<div class="lin_one">
+					<label>轮播图:</label>
+					{foreach name="data['pics']" item="vo"}
+					<img src="{$vo}">
+					{/foreach}
+				</div>
+
+
+
+				<div class="lin_one">
+					<label>产品说明:</label><span>{$data.explain}</span>
+				</div>
+				<div class="lin_one">
+					<label>产品介绍:</label><span>{$data.content}</span>
+				</div>
+
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+	</body>
+</html>
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>

@@ -1,0 +1,211 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="11,1,0,模板消息设置"/>
+				<div class="c-r right">
+					<div class="label1">
+						<div class="title">
+							模板消息通知
+						</div>
+						<div class="form" id="form">
+							<form action="" method="post" enctype="multipart/form-data">
+					
+								<div><label class="ltxt">订单支付成功通知id:</label><input type="text" name="apply" id="" value="{$data.apply}" />
+									<span>用户支付完成后向用户发送消息，<a class="open-win moban_hover" style="color:#0275d8">如何获取支付通知模板消息id</a> </span>
+								</div>
+
+								<div><label class="ltxt">退款成功通知id:</label><input type="text" name="cancel" id="" value="{$data.cancel}" />
+									<span>用户取消订单后向用户发送消息 <a class="open-wins  moban_hover" style="color:#0275d8">如何获取订单取消通知模板消息id</a> </span>
+								</div>
+
+								<div><label class="ltxt">订单发货提醒id:</label><input type="text" name="order" id="" value="{$data.order}" />
+									<span>后台发货后向用户发送消息， <a class="open-winss  moban_hover" style="color:#0275d8">如何获取发货通知模板消息id</a></span>
+								</div>
+
+								<!--<div><label class="ltxt">短信模板ID:</label><input type="text" name="templatecode" id="" value="" /><span style="color: red">*设置短信模板时请使用${msg}为变量</span></div>-->
+								
+								<!--<div>-->
+									<!--<label class="ltxt">图片上传:</label>-->
+									<!--<div class="img-box full">-->
+										<!--<section class=" img-section">-->
+											<!--<div class="z_photo upimg-div" >-->
+									               	 <!--<section class="z_file fl">-->
+									               	 	<!--<img src="__STATIC__/home/img/a11.png" tppabs="http://www.jq22.com/demo/imgUp201703281022/img/a11.png" class="add-img">-->
+									               	 	<!--<input type="file" name="image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multip />-->
+									               	 <!--</section>-->
+									               	  <!--<div class="clear"></div>-->
+									         <!--</div>-->
+										 <!--</section>-->
+									<!--</div>-->
+									<!--<span></span>-->
+								<!--</div>-->
+						        <!--<aside class="mask works-mask">-->
+									<!--<div class="mask-content">-->
+										<!--<p class="del-p">您确定要删除作品图片吗？</p>-->
+										<!--<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>-->
+									<!--</div>-->
+								<!--</aside>-->
+								
+								<div><button class="btns">保存</button></div>
+								<div class="clear"></div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!--<div id="main" style="width: 600px;height:400px;"></div>-->
+
+
+<div id="wrap" class="wrap">
+	<div class="wrap-body" style="width:470px;height:auto">
+		<div class="title">
+			详情查看
+		</div>
+		<span class="close-wrap close-win">×</span>
+		<div class="" style="width:450px;height:auto;margin: 0 auto;">
+			<ol>
+				<li>
+					<div>1:进入微信小程序官方后台，找到模板库</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban.png">
+					</div>
+				</li>
+				<li>
+					<div>2:查找指定模板，点击选用</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban1.png">
+					</div>
+				</li>
+				<li>
+					<div>3:选择下图关键词，并按下图调好顺序；点击提交</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban2.png">
+					</div>
+				</li>
+				<li>
+					<div>4:复制模板ID</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban3.png">
+					</div>
+				</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div id="wrap" class="wraps">
+	<div class="wrap-body" style="width:470px;height:auto">
+		<div class="title">
+			详情查看
+		</div>
+		<span class="close-wrap close-win">×</span>
+		<div class="" style="width:450px;height:auto;margin: 0 auto;">
+			<ol>
+				<li>
+					<div>1:进入微信小程序官方后台，找到模板库</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban.png">
+					</div>
+				</li>
+				<li>
+					<div>2:查找指定模板，点击选用</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban4.png">
+					</div>
+				</li>
+				<li>
+					<div>3:选择下图关键词，并按下图调好顺序；点击提交</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban5.png">
+					</div>
+				</li>
+				<li>
+					<div>4:复制模板ID</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban6.png">
+					</div>
+				</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div id="wrap" class="wrapss">
+	<div class="wrap-body" style="width:470px;height:auto">
+		<div class="title">
+			详情查看
+		</div>
+		<span class="close-wrap close-win">×</span>
+		<div class="" style="width:450px;height:auto;margin: 0 auto;">
+			<ol>
+				<li>
+					<div>1:进入微信小程序官方后台，找到模板库</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban.png">
+					</div>
+				</li>
+				<li>
+					<div>2:查找指定模板，点击选用</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban7.png">
+					</div>
+				</li>
+				<li>
+					<div>3:选择下图关键词，并按下图调好顺序；点击提交</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban8.png">
+					</div>
+				</li>
+				<li>
+					<div>4:复制模板ID</div>
+					<div style="text-align: center">
+						<img style="max-width: 100%;height:auto" src="__STATIC__/home/img/moban9.png">
+					</div>
+				</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<script>
+//	$(function(){
+//		$("#file").takungaeImgup({
+//			formData: { "path": "Content/Images/", "name": "uploadpic" }, //path参数会发送给服务器，name参数代表上传图片成功后，自动生成input元素的name属性值
+//			url: "data/page.json",    //发送请求的地址，服务器地址
+//			success: function (data) {
+//
+//			},
+//			error: function (err) {
+//				alert(err);
+//			}
+//		});
+//	})
+//
+//	$.ajax({
+//		type:"get",
+//		url:"data/page.json",
+//		async:true,
+//		success: function(data){
+//			console.log('success')
+//		}
+//
+//	});
+</script>
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

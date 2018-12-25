@@ -1,0 +1,133 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="9,0"/>
+<style type="text/css">
+	canvas{display: none;}
+	.1img-section img{display: block;width: 160px;height: 150px;}
+	.comment_img{border: 1px solid #d7dde4;margin: 10px;}
+	.comment_img img{width: 160px;height: 150px;display: inline-block;margin: 10px;transition:All 0.2s ease-in-out;-webkit-transition:All 0.2s ease-in-out;-moz-transition:All 0.2s ease-in-out;-o-transition:All 0.2s ease-in-out;}
+	.comment_img img:hover{ transform:scale(1.5);-webkit-transform:scale(1.5);-moz-transform:scale(1.5);-o-transform:scale(1.5);-ms-transform:scale(1.5);}
+</style>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			评论详情
+		</div>
+
+		<div class="label">
+			<div class="commenttit">
+				<p class="left"><b class="minml">{$data.nickname}</b>与 <span class="minml">{$data.createtime}</span>对<b class="minml minmr">{$data.name}</b>发表评论：</p>
+
+
+				<div id="xzw_starSys" class="right">
+					<div class="xzw_starBox" id="xzw_starBox">
+						<ul class="star" id="star">
+							<li><a href="javascript:void(0)" title="1" class="one-star">1</a></li>
+							<li><a href="javascript:void(0)" title="2" class="two-stars">2</a></li>
+							<li><a href="javascript:void(0)" title="3" class="three-stars">3</a></li>
+							<li><a href="javascript:void(0)" title="4" class="four-stars">4</a></li>
+							<li><a href="javascript:void(0)" title="5" class="five-stars">5</a></li>
+						</ul>
+						<div class="current-rating" id="showb"></div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<p class="right">评论等级：</p>
+				<div class="clear"></div>
+			</div>
+			<div class="commenttext">
+				<textarea name="" rows="" cols="" style="min-width: 97.5%;max-width: 97.5%;min-height: 200px;" disabled>{$data.content}</textarea>
+				<p></p>
+			</div>
+
+			<div class="comment_img">{foreach name="data.pics" item="vo"}<img src="{$vo}">{/foreach}</div>
+
+
+		</div>
+
+		<div class="label-4">
+			<div class="form" id="form" style="padding-left: 0;">
+
+				<form action="insert" method="post" class="form-2">
+					<div><label class="ltxt" style="">回复内容：</label>
+						<textarea name="reply" rows="" cols="" style="max-width: 640px;width:640px;height: 150px;padding: 10px;font-size: 14px;"></textarea>
+						<span></span>
+					</div>
+					<div class="">
+
+					</div>
+
+					<div>
+						<label class="ltxt">图片上传：</label>
+						<div class="img-box full">
+							<canvas id="canvas"></canvas>
+							<section class=" img-section">
+								<div class="z_photo upimg-div" >
+									<section class="z_file fl">
+										<img src="__STATIC__/home/img/a11.png" tppabs="http://www.jq22.com/demo/imgUp201703281022/img/a11.png" class="add-img">
+										<input type="file" name="" id="demo_input1" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple onchange="UpLoad(this)"/>
+									</section>
+									<div class="clear"></div>
+								</div>
+							</section>
+						</div>
+						<span></span>
+					</div>
+					<input type="hidden" name="reply_pics" id="imgurl" value="" />
+					<input type="hidden" name="coid" id="coid" value="{$data.coid}" />
+					<div class="mtop"><label></label><button class="blue btn-right">完成</button><input type="reset" name="" id="" value="重置" class="blue btn-right"/></div>
+					<div class="clear"></div>
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/img_yasuo.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script type="text/javascript">
+	var  sum_grade = "<?php echo $data['sum_grade']?>";
+	$("#showb").css('width',24*sum_grade)
+
+	//开始加载图片
+	$.ajax({
+		type:"get",
+		url:'data/img.json',
+		data: '',
+		dataType: "json",
+		success: function(data){
+			for (var i = 0; i < data.length; i++) {
+				//alert(data[i].imgurl)
+				var asd = "<img src="+data[i].imgurl+"/>"
+				$(".comment_img").prepend(asd)
+			}
+		},
+		error:function(){
+			//alert('失败')
+		}
+	});
+
+
+	$(".btn-right").click(function(){
+		//获取图片路径
+		var imgurl = '';						//图片存储URL地址
+		var img = $(".up-section");
+		for (var i = 0; i < img.length; i++) {
+			imgurl += img.eq(i).find('.up-img').attr('src')+'_-_'
+		}
+		$("#imgurl").val(imgurl)
+
+	})
+</script>
+{/block}
+

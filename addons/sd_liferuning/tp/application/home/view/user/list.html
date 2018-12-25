@@ -1,0 +1,872 @@
+{extend name="public/base" /}
+{block name="content"}
+
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="11,7,false,导航栏"/>
+<link href="__STATIC__/home/csc/css/font_353057_xjg7zdpmf54mfgvi.css" rel="stylesheet">
+<link href="__STATIC__/home/csc/css/bootstrap.min.css" rel="stylesheet">
+<link href="__STATIC__/home/csc/css/jquery.datetimepicker.min.css" rel="stylesheet">
+<link href="__STATIC__/home/csc/css/flex.css" rel="stylesheet">
+<link href="__STATIC__/home/csc/css/common.css" rel="stylesheet">
+<link href="__STATIC__/home/csc/css/common.v2.css" rel="stylesheet">
+<!--<link rel="stylesheet" href="__STATIC__/home/csc/css/layer.css" id="layuicss-layer">
+<link rel="stylesheet" href="__STATIC__/home/csc/css/laydate.css" id="layuicss-laydate">-->
+<script src="__STATIC__/home/csc/js/jquery.min.js"></script>
+<script src="__STATIC__/home/csc/js/vue.js"></script>
+<script src="__STATIC__/home/csc/js/tether.min.js"></script>
+<script src="__STATIC__/home/csc/js/bootstrap.min.js"></script>
+<script src="__STATIC__/home/csc/js/plupload.full.min.js"></script>
+<script src="__STATIC__/home/csc/js/jquery.datetimepicker.full.min.js"></script>
+<script src="__STATIC__/home/csc/js/common.js"></script>
+<script src="__STATIC__/home/csc/js/common.v2.js"></script>
+<script src="__STATIC__/home/csc/js/clipboard.js"></script>
+<script src="__STATIC__/home/csc/js/Sortable.min.js" type="text/javascript" charset="utf-8"></script>
+<!--<script src="__STATIC__/home/csc/js/layer.js"></script>
+<script src="__STATIC__/home/csc/js/laydate.js"></script>-->
+
+<style>
+    .modal-sm .panel{padding:0 1rem;}
+    .radio-label, .checkbox-label{line-height: normal;height: auto;}
+    .btn{font-size: 14px;}
+    .panel{font-size: 14px;padding: 0;}
+    .panel .panel-header{height: 80px;line-height: 80px;padding:0;padding-left: 28px;}
+    .panel .nav-item {
+        border: 1px solid #eee;
+        border-radius: 3px;
+        margin: 0 5px 5px 0;
+        display: inline-block;
+        padding: 6px;
+        width: 66px;
+        height: 66px;
+        overflow: hidden;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    .panel .nav-item .nav-icon {
+        display: block;
+        width: 35px;
+        height: 35px;
+        margin: 0 auto 10px auto;
+    }
+
+    .panel .nav-item .nav-text {
+        display: block;
+        text-align: center;
+        font-size: .75rem;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .panel .nav-delete,
+    .panel .nav-edit {
+        position: absolute;
+        bottom: 0;
+        color: #fff !important;
+        font-size: .75rem;
+        width: 50%;
+        text-align: center;
+        display: block;
+        padding: 2px 0;
+        visibility: hidden;
+        opacity: 0;
+        transition: 200ms;
+
+        background: rgba(0, 102, 212, 0.73);
+        border-radius: 0 0 0 2px;
+        left: 0;
+    }
+
+    .panel .nav-item:hover .nav-delete,
+    .panel .nav-item:hover .nav-edit {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .panel .nav-delete {
+        background: rgba(255, 69, 68, 0.73);
+        border-radius: 0 0 2px 0;
+        right: 0;
+        left: auto;
+    }
+
+    .panel .nav-add {
+        cursor: pointer;
+        border: 1px dashed #ccc;
+    }
+
+    .panel .nav-add .iconfont {
+        display: block;
+        font-size: 46px;
+        color: #aaa;
+        text-align: center;
+    }
+
+    .panel .nav-add:hover {
+        background: #f6f6f6;
+    }
+
+    .panel .navigation-bar {
+        text-align: center;
+        padding: 8px;
+        box-shadow: 0 1px 1px 1px rgba(0, 0, 0, .15);
+        max-width: 200px;
+    }
+</style>
+<div class="c-r right">
+    <div class="panel" id="app">
+        <div class="panel-header">添加底部导航</div>
+        <div class="panel-body">
+            <form class="auto-form" method="post" action="">
+                <div class="form-group row">
+                    <div class="form-group-label col-sm-2 text-right">
+                        <label class="col-form-label required">顶部导航栏</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="mb-3">
+                            <label>文字颜色：</label>
+                            <label class="radio-label">
+                                <input v-if="navigation_bar_color.frontColor=='#000000'"
+                                       checked
+                                       value="#000000" id="radio1" name="navigation_bar_color[frontColor]" type="radio"
+                                       class="custom-control-input">
+                                <input v-else
+                                       value="#000000" id="radio1" name="navigation_bar_color[frontColor]" type="radio"
+                                       class="custom-control-input">
+                                <span class="label-icon"></span>
+                                <span class="label-text">黑色</span>
+                            </label>
+                            <label class="radio-label">
+                                <input v-if="navigation_bar_color.frontColor=='#ffffff'"
+                                       checked
+                                       value="#ffffff" id="radio1" name="navigation_bar_color[frontColor]" type="radio"
+                                       class="custom-control-input">
+                                <input v-else
+                                       value="#ffffff" id="radio1" name="navigation_bar_color[frontColor]" type="radio"
+                                       class="custom-control-input">
+                                <span class="label-icon"></span>
+                                <span class="label-text">白色</span>
+                            </label>
+                        </div>
+                        <label>背景颜色：</label>
+                        <input type="color" name="navigation_bar_color[backgroundColor]"
+                               v-model="navigation_bar_color.backgroundColor">
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="navigation-bar"
+                             :style="'color: '+navigation_bar_color.frontColor+';background: '+navigation_bar_color.backgroundColor">
+                            顶部导航栏效果
+                        </div>
+                    </div>
+                </div>
+
+                <div hidden>
+                    <input name="navbar[background_image]" v-bind:value="navbar.background_image">
+                    <input name="navbar[border_color]" v-bind:value="navbar.border_color">
+                </div>
+
+                <div class="form-group row">
+                    <div class="form-group-label col-sm-2 text-right">
+                        <label class="col-form-label">底部导航图标</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <div style="display: inline-block" id="sortList">
+                            <template v-for="(nav,i) in navbar.navs">
+                                <div class="nav-item">
+                                    <img class="nav-icon" :src="nav.icon">
+                                    <div class="nav-text" :style="'color:'+nav.color">{{nav.text}}</div>
+                                    <a class="nav-delete" href="javascript:" :data-index="i">删除</a>
+                                    <a class="nav-edit" href="javascript:" :data-index="i">编辑</a>
+                                    <div hidden>
+                                        <input :name="'navbar[navs][nav'+i+'][url]'" :value="nav.url">
+                                        <input :name="'navbar[navs][nav'+i+'][icon]'" :value="nav.icon">
+                                        <input :name="'navbar[navs][nav'+i+'][active_icon]'" :value="nav.active_icon">
+                                        <input :name="'navbar[navs][nav'+i+'][text]'" :value="nav.text">
+                                        <input :name="'navbar[navs][nav'+i+'][color]'" :value="nav.color">
+                                        <input :name="'navbar[navs][nav'+i+'][active_color]'" :value="nav.active_color">
+                                        <input :name="'navbar[navs][nav'+i+'][open_type]'" :value="nav.open_type">
+                                        <template v-if="nav.open_type == 'wxapp'">
+                                            <input :name="'navbar[navs][nav'+i+'][appid]'" :value="nav.appid">
+                                            <input :name="'navbar[navs][nav'+i+'][path]'" :value="nav.path">
+                                        </template>
+                                        <template v-if="nav.open_type == 'tel'">
+                                            <input :name="'navbar[navs][nav'+i+'][tel]'" :value="nav.tel">
+                                        </template>
+                                        <template v-if="nav.open_type == 'web'">
+                                            <input :name="'navbar[navs][nav'+i+'][web]'" :value="nav.web">
+                                        </template>
+
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="nav-item nav-add"><i class="iconfont icon-add"></i></div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="form-group-label col-sm-2 text-right">
+                    </div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary auto-form-btn" href="javascript:">保存</a>
+                        <a class="btn btn-secondary reset-navbar"
+                           href="reset">恢复默认设置</a>
+                    </div>
+                </div>
+            </form>
+
+            <div class="modal fade nav-edit-modal" data-backdrop="static" style="z-index: 1041">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">导航菜单编辑</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group row">
+                                <div class="col-sm-4 text-right">
+                                    <label class="col-form-label required">图标</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="upload-group">
+                                        <div class="input-group">
+                                            <input class="form-control file-input" name="icon_upload">
+                                            <span class="input-group-btn">
+                                            <a class="btn btn-secondary upload-file" href="javascript:" title="上传文件">
+                                                <span class="iconfont icon-cloudupload"></span>
+                                            </a>
+                                        </span>
+                                            <!--<span class="input-group-btn">-->
+                                            <!--<a class="btn btn-secondary select-file" href="javascript:" title="从文件库选择">-->
+                                            <!--<span class="iconfont icon-viewmodule"></span>-->
+                                            <!--</a>-->
+                                            <!--</span>-->
+                                            <span class="input-group-btn">
+                                            <a class="btn btn-secondary delete-file" href="javascript:" title="删除文件">
+                                                <span class="iconfont icon-close"></span>
+                                            </a>
+                                        </span>
+                                        </div>
+                                        <div class="upload-preview text-center upload-preview">
+                                            <span class="upload-preview-tip">64&times;64</span>
+                                            <img class="upload-preview-img" src="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4 text-right">
+                                    <label class="col-form-label required">选中状态图标</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="upload-group">
+                                        <div class="input-group">
+                                            <input class="form-control file-input" name="active_icon_upload">
+                                            <span class="input-group-btn">
+                                            <a class="btn btn-secondary upload-file" href="javascript:" title="上传文件">
+                                                <span class="iconfont icon-cloudupload"></span>
+                                            </a>
+                                        </span>
+                                            <!--<span class="input-group-btn">-->
+                                            <!--<a class="btn btn-secondary select-file" href="javascript:" title="从文件库选择">-->
+                                            <!--<span class="iconfont icon-viewmodule"></span>-->
+                                            <!--</a>-->
+                                            <!--</span>-->
+                                            <span class="input-group-btn">
+                                            <a class="btn btn-secondary delete-file" href="javascript:" title="删除文件">
+                                                <span class="iconfont icon-close"></span>
+                                            </a>
+                                        </span>
+                                        </div>
+                                        <div class="upload-preview text-center upload-preview">
+                                            <span class="upload-preview-tip">64&times;64</span>
+                                            <img class="upload-preview-img" src="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div hidden>
+                                <input v-model="editnav.icon">
+                                <input v-model="editnav.active_icon">
+                                <input v-model="editnav.color">
+                                <input v-model="editnav.active_color">
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4 text-right">
+                                    <label class="col-form-label required">名称</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control" v-model="editnav.text">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4 text-right">
+                                    <label class="col-form-label required">文字选中颜色</label>
+                                </div>
+                                <div class="col-sm-6 col-form-label">
+                                    <input v-model="editnav.active_color" type="color">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4 text-right">
+                                    <label class="col-form-label required">页面</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <select class="form-control editnav-url" v-model="editnav.url">
+                                        <template v-for="(page,i) in pages">
+                                            <option :value="page.url" :data-index="page.open_type" v-if="editnav && editnav.url==page.url" selected>
+                                                {{page.name}}
+                                            </option>
+                                            <option :value="page.url" :data-index="page.open_type" v-else>{{page.name}}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row" v-if="editnav.open_type == 'tel'">
+                                <div class="col-sm-4 text-right">
+                                    <label class="col-form-label required">联系电话</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control" v-model="editnav.tel">
+                                </div>
+                            </div>
+                            <template v-if="editnav.open_type == 'wxapp'">
+                                <div class="form-group row">
+                                    <div class="col-sm-4 text-right">
+                                        <label class="col-form-label required">小程序appid</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" v-model="editnav.appid">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4 text-right">
+                                        <label class="col-form-label required">跳转路径</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" v-model="editnav.path">
+                                        <div class="fs-sm">打开的页面路径，如pages/index/index，开头请勿加“/”</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <div class="form-group row" v-if="editnav.open_type == 'web'">
+                                <div class="col-sm-4 text-right">
+                                    <label class="col-form-label required">外链网址</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control" v-model="editnav.web">
+                                    <div class="fs-sm">打开的网页链接（注：域名必须已在微信官方小程序平台设置业务域名）</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary save-nav">确认</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    var editnav = {
+        index: null,
+        url: '',
+        icon: '',
+        active_icon: '',
+        text: '',
+        color: '#888',
+        active_color: '#20AD20',
+        open_type: 'redirect',
+    };
+    var app = new Vue({
+        el: '#app',
+        data: {
+            //navbar: false,
+            navigation_bar_color: {
+                backgroundColor:'#ffffff',          //背景色
+                frontColor:'#000000'                //文字颜色
+            },
+            editnav: editnav,
+            arrse:[1,2,3],
+            navbar:{                                //底部导航      app.navbar.navs
+                navs:[
+                    //{active_color:'#ff4544',active_icon:'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//nav//201805/20180528CiZ8oj1527488170896.png'},
+                    //{active_color:'#ff4544',active_icon:'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//nav//201805/20180528CiZ8oj1527488170896.png'}
+                ]
+            },
+            pages: [
+                {
+                    name: '首页',
+                    url: '/sd_liferuning/pages/constmer/index/index',
+                    open_type:'redirect'
+                },
+                {
+                    name: '悬赏',
+                    url: '/sd_liferuning/pages/constmer/reward/index',
+                    open_type:'redirect'
+                },
+
+                {
+                    name: '个人',
+                    url: '/sd_liferuning/pages/constmer/user/index',
+                    open_type:'redirect'
+                },
+                {
+                    name: '订单',
+                    url: '/sd_liferuning/pages/constmer/order-list/index',
+                    open_type:'redirect'
+                },{
+                    name: '骑手中心',
+                    url: '/service/pages/service/index/index',
+                    open_type:'redirect'
+                },
+                {
+                    name: '一键拨号',
+                    url: 'tel',
+                    open_type:'tel'
+                },
+                {
+                    name: '小程序',
+                    url: 'wxapp',
+                    open_type:'wxapp'
+                },
+                {
+                    name: '客服',
+                    url: 'contact',
+                    open_type:'contact'
+                },
+                {
+                    name: '外链',
+                    url: 'web',
+                    open_type:'web'
+                },
+            ],
+        },
+    });
+
+    //$.loading();
+    $.ajax({
+        dataType: 'json',
+        url:'navlist',
+        success: function (res) {
+            $.loadingHide();
+            if (res.code == 0) {
+                var navs = res.data.navbar;
+
+                console.log(res.data.navbar);
+                app.navbar.navs = res.data.navbar;
+                app.navigation_bar_color.backgroundColor=res.data.backgroundColor;
+                app.navigation_bar_color.frontColor=res.data.frontColor;
+                setTimeout(function () {
+                    Sortable.create(document.getElementById('sortList'), {
+                        animation: 150,
+                    }); // That's all.
+                }, 300);
+            }
+        }
+    });
+    Sortable.create(document.getElementById('sortList'), {
+        animation: 150,
+    }); // That's all.
+    // 恢复默认配置
+    $(document).on('click', '.reset-navbar', function () {
+        var href = $(this).attr('href');
+        $.confirm({
+            content: '确认恢复默认配置？',
+            confirm: function () {
+                location.href = href;
+            }
+        });
+        return false;
+    });
+
+    $(document).on('change', 'input[name="navigation_bar_color[frontColor]"]', function () {
+        app.navigation_bar_color.frontColor = this.value;
+    });
+
+
+    //添加
+    $(document).on('click', '.nav-add', function () {
+        app.editnav = editnav;
+        $('input[name=icon_upload]').val('');
+        $('input[name=icon_upload]').parents('.upload-group').find('.upload-preview-img').attr('src', '');
+        $('input[name=active_icon_upload]').val('');
+        $('input[name=active_icon_upload]').parents('.upload-group').find('.upload-preview-img').attr('src', '');
+        $('.nav-edit-modal').modal('show');
+    });
+
+    // 删除
+    $(document).on('click', '.nav-delete', function () {
+        var index = parseInt($(this).attr('data-index'));
+        app.navbar.navs.splice(index, 1);
+    });
+
+    //修改
+    $(document).on('click', '.nav-edit', function () {
+        var index = parseInt($(this).attr('data-index'));
+        app.editnav = JSON.parse(JSON.stringify(app.navbar.navs[index]));
+        app.editnav.index = index;
+        $('input[name=icon_upload]').val(app.editnav.icon);
+        $('input[name=icon_upload]').parents('.upload-group').find('.upload-preview-img').attr('src', app.editnav.icon);
+        $('input[name=active_icon_upload]').val(app.editnav.active_icon);
+        $('input[name=active_icon_upload]').parents('.upload-group').find('.upload-preview-img').attr('src', app.editnav.active_icon);
+        $('.nav-edit-modal').modal('show');
+    });
+
+    $(document).on('change', 'input[name=icon_upload]', function () {
+        app.editnav.icon = this.value;
+    });
+
+    $(document).on('change', 'input[name=active_icon_upload]', function () {
+        app.editnav.active_icon = this.value;
+    });
+    // 底部导航添加按钮
+    $(document).on('click', '.save-nav', function () {
+        var new_nav = {
+            url: app.editnav.url,
+            icon: app.editnav.icon,
+            active_icon: app.editnav.active_icon,
+            text: app.editnav.text,
+            color: app.editnav.color,
+            active_color: app.editnav.active_color,
+            open_type: app.editnav.open_type,
+        };
+
+        var arr = []
+
+        if(new_nav.open_type == 'wxapp'){
+            new_nav.appid = app.editnav.appid;
+            new_nav.path = app.editnav.path;
+        }
+        if(new_nav.open_type == 'tel'){
+            new_nav.tel = app.editnav.tel;
+        }
+        if(new_nav.open_type == 'web'){
+            new_nav.web = app.editnav.web;
+        }
+        if (app.editnav.index !== null) {
+            Vue.set(app.navbar.navs, app.editnav.index, new_nav)
+        } else {
+            app.navbar.navs.push(new_nav);
+
+
+        }
+        console.log(app.navbar,'666')
+        $('.nav-edit-modal').modal('hide');
+    });
+    $(document).on('change','.editnav-url',function(){
+        var open_type = $($(this).children('option:selected')).data('index');
+        app.editnav.open_type = open_type;
+    });
+</script>
+
+<script>
+    var group_url = '';
+    //添加分组
+    $(document).on('click', '.add-group', function () {
+        var group = {
+            name: '未命名',
+            is_default: 0
+        };
+        saveGroup(group);
+    });
+
+    //保存单个分组信息
+    function saveGroup(group){
+        $.ajax({
+            url:"",
+            dataType:'json',
+            type:'post',
+            data:{
+                _csrf:_csrf,
+                data:JSON.stringify(group)
+            },
+            success:function(res){
+                if(res.code == 0){
+                    file_app.group_list = res.data;
+                }else{
+                    $.myAlert({
+                        content:res.smg
+                    });
+                }
+            }
+        });
+    }
+
+    //选择分组
+    $(document).on('click', '.selected-group', function (event) {
+        file_app.selected = $(this).data('index');
+        $("input[name='checkbox']").prop('checked', false);
+        file_app.edit_group = -1;
+        file_app.edit_setting = -1;
+        getGroupFile();
+    });
+
+    //打开设置
+    $(document).on('click', '.setting-group', function (event) {
+        event.stopPropagation();//阻止事件冒泡；
+        var index = $(this).data('index');
+        file_app.edit_group = -1;
+        file_app.selected = index;
+        if (file_app.edit_setting == index) {
+            file_app.edit_setting = -1;
+        } else {
+            file_app.edit_setting = index;
+        }
+        getGroupFile();
+    });
+
+    //编辑分组
+    $(document).on('click', '.edit-group', function (event) {
+        event.stopPropagation();//阻止事件冒泡；
+        var index = $(this).data('index');
+        file_app.edit_group = -1;
+        file_app.edit_setting = -1;
+        file_app.edit_group = index;
+    });
+
+    //删除分组
+    $(document).on('click', '.delete-group', function (event) {
+        event.stopPropagation();//阻止事件冒泡；
+        var index = $(this).data('index');
+        file_app.edit_group = -1;
+        file_app.edit_setting = -1;
+        file_app.selected = 0;
+        var group = file_app.group_list[index];
+        if (group.id) {
+            group.is_delete = '1';
+        } else {
+            file_app.group_list.splice(index, 1);
+        }
+        saveGroup(group);
+    });
+
+    //确定修改
+    $(document).on('click', '.save-group', function (event) {
+        event.stopPropagation();//阻止事件冒泡；
+        var group = file_app.group_list[file_app.edit_group];
+        group.name = $('.name-group').val();
+        file_app.edit_group = -1;
+        file_app.edit_setting = -1;
+        saveGroup(group);
+    });
+
+    //取消修改
+    $(document).on('click', '.cancel-group', function (event) {
+        event.stopPropagation();//阻止事件冒泡；
+        file_app.edit_group = -1;
+        file_app.edit_setting = -1;
+    });
+
+    //阻止冒泡事件
+    $(document).on('click', '.name-group', function (event) {
+        event.stopPropagation();//阻止事件冒泡；
+    });
+
+    //保存
+    $(document).on('click', '.save-group-list', function () {
+        if (file_app.file_list.length > 0) {
+            var item = file_app.file_list[0];
+            if (typeof _file_select.success === 'function') {
+                _file_select.success({
+                    name: item.file_url,
+                    url: item.file_url,
+                });
+            }
+        }
+        file_app.file_list = [];
+        file_app.list = [];
+        file_app.selected = 0;
+        file_app.edit_group = -1;
+        file_app.edit_setting = -1;
+        $('#file_select_modal').modal('hide');
+    });
+
+    //取消
+    $(document).on('click', '.cancel-group-list', function () {
+        file_app.file_list = [];
+        file_app.list = [];
+        file_app.selected = 0;
+        file_app.edit_group = -1;
+        file_app.edit_setting = -1;
+        $('#file_select_modal').modal('hide');
+    });
+
+    //全选图片
+    $(document).on('change', "input[name='checkbox']", function () {
+        var list = file_app.list;
+        file_app.file_list = [];
+        $(list).each(function (i) {
+            if ($("input[name='checkbox']:checked").val() == 1) {
+                list[i].selected = 1;
+                var file = list[i];
+                file_app.file_list.push(file);
+            } else {
+                list[i].selected = 0;
+            }
+        });
+        addFile()
+    });
+
+    //选择图片
+    $(document).on('click', '#file_select_modal .file-item', function () {
+        var index = $(this).data('index');
+        file_app.file_list = [];
+        if (file_app.list[index].selected == 1) {
+            file_app.list[index].selected = 0;
+        } else {
+            file_app.list[index].selected = 1;
+        }
+        $("input[name='checkbox']").prop('checked', false);
+        addFile()
+    });
+
+    //选中的图片
+    function addFile() {
+        var list = file_app.list;
+        file_app.file_list = [];
+        $(list).each(function (i) {
+            if (list[i].selected == 1) {
+                var file = list[i];
+                file_app.file_list.push(file);
+            }
+        });
+    }
+
+    //删除选中的图片
+    $(document).on('click', '.delete-file-group', function () {
+        var file_list = file_app.file_list;
+        if (file_list.length == 0) {
+            $.myAlert({
+                content: '请先勾选需要删除的图片'
+            });
+            return false;
+        }
+        $.ajax({
+            url: "",
+            dataType: 'json',
+            type: 'post',
+            data: {
+                _csrf: _csrf,
+                data: JSON.stringify(file_list)
+            },
+            success: function (res) {
+                if (res.code == 0) {
+                    var list = file_app.list;
+                    var new_list = [];
+                    $(list).each(function (i) {
+                        if (list[i].selected != 1) {
+                            new_list.push(list[i]);
+                        }
+                    });
+                    file_app.list = new_list;
+                    file_app.file_list = [];
+                    $("input[name='checkbox']").prop('checked', false);
+                    $.myAlert({
+                        content: '删除成功'
+                    });
+                } else {
+                    $.myAlert({
+                        content: res.msg
+                    });
+                }
+            }
+        });
+    });
+
+    //移动图片到某个分组
+    $(document).on('click', '.batch-group', function () {
+        var file_list = file_app.file_list;
+        var index = $(this).data('index');
+        if (file_list.length == 0) {
+            $.myAlert({
+                content: '请先勾选需要删除的图片'
+            });
+            return false;
+        }
+        $.ajax({
+            url: "",
+            dataType: 'json',
+            type: 'post',
+            data: {
+                _csrf: _csrf,
+                data: JSON.stringify(file_list),
+                group_id: file_app.group_list[index].id
+            },
+            success: function (res) {
+                if (res.code == 0) {
+                    file_app.file_list = [];
+                    $("input[name='checkbox']").prop('checked', false);
+                    file_app.selected = index;
+                    getGroupFile();
+                    $.myAlert({
+                        content: '移动成功'
+                    });
+                } else {
+                    $.myAlert({
+                        content: res.msg
+                    });
+                }
+            }
+        });
+    });
+
+    //获得分组下的图片
+    function getGroupFile() {
+        var more_btn = $('#file_select_modal .file-more');
+        var loading_block = $('#file_select_modal .file-loading');
+        var group_id = file_app.group_list[file_app.selected].id;
+        loading_block.show();
+        more_btn.hide();
+        $.ajax({
+            url: _upload_file_list_url,
+            data: {
+                dataType: 'json',
+                type: 'image',
+                page: 1,
+                group_id: group_id
+            },
+            success: function (res) {
+                more_btn.attr('data-page', 2);
+                loading_block.hide();
+                more_btn.show();
+                file_app.list = res.data.list;
+            }
+        });
+    }
+    //上传图片
+    $(document).on('click', '.upload-group .upload-file-group', function () {
+        var group_id = file_app.group_list[file_app.selected].id;
+        if (group_id <= 0) {
+            group_id = 0;
+        }
+        var btn = $(this);
+        var group = btn.parents('.upload-group');
+        var input = group.find('.file-input');
+        var preview = group.find('.upload-preview');
+        var preview_img = group.find('.upload-preview-img');
+        $.upload_file({
+            url: _upload_url + '&group_id=' + group_id,
+            accept: group.attr('accept') || 'image/*',
+            start: function () {
+                btn.btnLoading(btn.text());
+            },
+            success: function (res) {
+                btn.btnReset();
+                getGroupFile();
+            },
+        });
+    });
+</script>
+
+{/block}

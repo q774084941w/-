@@ -1,0 +1,129 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<style type="text/css">
+    #app .list{display: inline-block;width: 516px;}
+    #app .list p{padding: 8px;font-size: 14px;position: relative;border: 1px solid #d7dde4;margin-bottom: 15px;display: inline-block;margin-right: 10px;}
+    #app .list p em{margin-right: 50px;}
+    #app .list p b{position: absolute;right: 5px;padding: 0 5px;}
+</style>
+<link rel="stylesheet" type="text/css" href="__STATIC__/layer/theme/default/layer.css"/>
+<script src="__STATIC__/layer/layer.js"></script>
+<input type="hidden" name="mun_url" id="mun_url" value="5,4,false,用户标签"/>
+<div class="c-r right" id="app">
+    <div class="label1">
+        <div class="title">
+            用户标签
+        </div>
+        <div class="Statistics">
+            <button class="modifybtn ml layer-open">添加新标签</button>
+            <span class="right">共有数据：<b></b>条</span>
+            <div class="clear"></div>
+        </div>
+
+        <div class="label-3 label">
+            <div class="tit t">
+                <p>意见反馈</p>
+            </div>
+            <div class="Tab">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th style="width: 40px;"><input type="checkbox" name=""  value="" /></th>
+                        <th>ID</th>
+                        <th>名称</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {if !empty($data)}
+                    {foreach name="data" item="vo"}
+                    <tr>
+                        <td ><input type="checkbox" name=""  value="" /></td>
+                        <td >{$vo.la_id}</td>
+                        <td >{$vo.la_name}</td>
+                        <td >{:date("Y-m-d H:i:s",$vo.creat_time)}</td>
+                        <td >
+                            <button class="modifybtn ml layer-edit" data-id='{$vo.la_id}' data-name="{$vo.la_name}">修改</button>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {/if}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.layer-open').click(function () {
+        layer.prompt({
+            formType: 0,
+            value: 0,
+            title: '添加',
+        }, function(value, index, elem){
+
+            $.ajax({
+                url:"{:url('user/Label')}",
+                type:'post',
+                data:{
+                    number:value
+                },
+                success:function (res) {
+                    console.log(res)
+                }
+            });
+
+
+            layer.close(index);
+        });
+    });
+
+
+    $('.layer-edit').click(function () {
+        var id = $(this).attr('data-id');
+        var name = $(this).attr('data-name');
+        layer.prompt({
+            formType: 0,
+            value: 0,
+            title: '添加',
+        }, function(value, index, elem){
+
+            $.ajax({
+                url:"{:url('user/Label')}",
+                type:'post',
+                data:{
+                    number:value
+                },
+                success:function (res) {
+                    console.log(res)
+                }
+            });
+
+
+            layer.close(index);
+        });
+    });
+</script>
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

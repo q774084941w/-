@@ -1,0 +1,67 @@
+
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+
+<input type="hidden" name="mun_url" id="mun_url" value="4,0"/>
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">
+            添加服务分类
+        </div>
+        <div class="form" id="form">
+            {empty name="$data"}
+                <form action="../service/threeinsert" enctype="multipart/form-data" method="post">
+                {else /}
+                <form action="../service/updatethree" enctype="multipart/form-data" method="post">
+            {/empty}
+                    <div><label class="ltxt">分类名称:</label><input type="text" name="sname" id="" value="{$data.sname?$data.sname : ''}" /><span></span></div>
+                    <div>
+                        <label class="ltxt">是否显示我的地址:</label>
+                        <div class="radio radioa">
+                            {empty name="$data"}
+                                    <label><input type="radio" name="my_status" checked id="" value="1" >开启</label>
+                                    <label><input type="radio" name="my_status"  id="" value="0" >关闭</label>
+                                {else /}
+                                    <label><input type="radio" name="my_status" {$data.my_status ==1 ? 'checked' : ''}  id="" value="1" >开启</label>
+                                    <label><input type="radio" name="my_status" {$data.my_status? '' : 'checked'}  id="" value="0" >关闭</label>
+                            {/empty}
+                        </div>
+                        <span></span>
+                    </div>
+                    {notempty name="$pid"}
+                        <input type="hidden" name="pid" id="" value="{$pid}" />
+                    {/notempty}
+                    {notempty name="$data.tid"}
+                    <input type="hidden" name="tid" id="" value="{$data.tid}" />
+                    {/notempty}
+                    <div><button type="submit" class="btns">保存并提交</button><a href="javascript:history.go(-1);" class="cancel">取消</a></div>
+                    <div class="clear"></div>
+                </form>
+        </div>
+    </div>
+</div>
+
+
+
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

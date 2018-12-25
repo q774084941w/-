@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/reset.css"/>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/style.css"/>
+	<style type="text/css">
+		#wrap #form2{padding: 35px;}
+		#form2 .lin_one{width: 100%;float: left;line-height: 40px;font-size: 14px;}
+		#form2 .lin_one span{width:80%}
+		#form2 .lin_two:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+		#form2 .lin_two{width: 50%;display: inline-block;float: left;line-height: 40px;font-size: 14px;}
+		#form2 .lin_two span{width: 280px}
+		#form2 .lin_two:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+		#form2{background: #fff;width: 840px;padding: 16px;max-height: 667px;min-height: 667px;overflow-y: scroll;overflow-x: hidden;min-width: 820px;}
+		#form2 div img{display: inline-block;width: 120px;height: 120px;}
+		#form2 div label{display: inline-block;width: 70px;text-align: right;color: #333333;float: left;padding-right: 10px}
+		#form2 div span{display: inline-block; color: #999999;float: left;}
+		.tab_iframe{width: 100%;border-right:1px solid #d7dde4;border-top:1px solid #d7dde4;}
+		.tab_iframe tr th,.tab_iframe tr td{height: 40px;line-height: 40px;border-left:1px solid #d7dde4;border-bottom:1px solid #d7dde4;width: 25%;}
+		#img-star>img{width: 26px!important;height: 26px!important;}
+	</style>
+</head>
+<body>
+<div id="wrap" class="wrap" style="display: block;">
+	<div class="wrap-con wrap-con2" id="form2">
+		<form action="" method="post" class="form-2">
+			<div class="lin_two">
+				<label>订单号:</label><span>{$data.order_no}</span>
+			</div>
+			<div class="lin_two">
+				<label>状态:</label><span style="color: #ff3300">{$data.status}</span>
+			</div>
+			<div class="lin_two">
+				<label>用户名:</label><span>{$data.nickname}</span>
+			</div>
+			<div class="lin_two">
+				<label>电话:</label><span>{$data.phone}</span>
+			</div>
+
+			<div class="lin_two">
+				<label>支付金额:</label><span>{$data.price}</span>
+			</div>
+
+			<div class="lin_two">
+				<label>收货电话:</label><span>{$data.phone}</span>
+			</div>
+			<div class="lin_one">
+				<label>收货地址:</label><span>{$data.mudadds}</span>
+			</div>
+			<div class="lin_one">
+				<label>取货地址:</label><span>{$data.myadds}</span>
+			</div>
+
+			<div class="lin_one">
+				<label>下单时间:</label><span>{$data.time}</span>
+			</div>
+			<div class="lin_one">
+				<label>接单时间:</label><span>{:empty($data.givetime)?'还未接单':date('Y-m-d H:i:s',$data.givetime)}</span>
+			</div>
+			<div class="lin_one">
+				<label>完成时间:</label><span>{:empty($data.oktime)?'还未完成':date('Y-m-d H:i:s',$data.oktime)}</span>
+			</div>
+
+			<div class="lin_two">
+				<label>评论星级:</label>
+				<span id="img-star">
+						{if empty($data['num_star'])}
+							还未评论星级
+							{else/}
+							{switch name="$data['num_star']"}
+								{case value="1"}
+									<img src="http://83img.chaojiyuanma.com/img/star.png" alt="">
+									<img src="http://83img.chaojiyuanma.com/img/star1.png" alt="">
+									<img src="http://83img.chaojiyuanma.com/img/star1.png" alt="">
+								{/case}
+								{case value="2"}
+									<img src="http://83img.chaojiyuanma.com/img/star.png" alt="">
+									<img src="http://83img.chaojiyuanma.com/img/star.png" alt="">
+									<img src="http://83img.chaojiyuanma.com/img/star1.png" alt="">
+								{/case}
+								{case value="3"}
+									<img src="http://83img.chaojiyuanma.com/img/star.png" alt="">
+									<img src="http://83img.chaojiyuanma.com/img/star.png" alt="">
+									<img src="http://83img.chaojiyuanma.com/img/star.png" alt="">
+								{/case}
+								{default/}
+
+							{/switch}
+						{/if}
+						
+					</span>
+			</div>
+			<div class="lin_two">
+				<label>差评说明:</label><span>{:empty($data.why_text)?'未写差评原因':$data.why_text}</span>
+			</div>
+			{if !empty($data.code)}
+			<div class="lin_two">
+				<label>收货码:</label><span>{:$data.code}</span>
+			</div>
+			{/if}
+			{if !empty($data.select_name)}
+			<div class="lin_two">
+				<label>方式:</label><span>{:$data.select_name}</span>
+			</div>
+			{/if}
+			<div class="lin_one" style="text-align: center">
+
+				<table border="0" cellspacing="" cellpadding="" class="tab_iframe">
+					<tr><th>订单名</th><th>下单人</th><th>总价</th></tr>
+					<tr><td>{$data.goodsname}</td><td>{$data.nickname}</td><td>{$data.price}</td></tr>
+					<tr style="background: #EEEEEE"><td>合计</td><td></td><td>{$data.price}</td></tr>
+				</table>
+			</div>
+			<div class="clear"></div>
+		</form>
+	</div>
+</div>
+</body>
+</html>
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>

@@ -1,0 +1,126 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="11,2,0,支付设置"/>
+<script src="https://cdn.bootcss.com/layer/3.1.0/mobile/layer.js"></script>
+				<div class="c-r right">
+					<div class="label1">
+						<div class="title">
+							修改支付资料
+						</div>
+						<div class="form" id="form">
+							<form action="editer" method="post" enctype="multipart/form-data">
+								<input type="hidden" name="bid" value="{$data.bid}" />
+								<div><label class="ltxt">商户号:</label><input type="text" name="mchid" id="" value="{$data.mchid}" />
+									<span>填写微信商户号</span>
+								</div>
+
+								<div><label class="ltxt">支付密钥:</label><input type="text" name="key" id="" value="{$data.key}" />
+									<span>填写微信商户支付秘钥</span>
+								</div>
+
+								<div><label class="ltxt">appid:</label><input type="text" name="appid" id="" value="{$data.appid}" />
+									<span>填写小程序APPID</span>
+								</div>
+
+								<div><label class="ltxt">secret:</label><input type="text" name="secret" id="" value="{$data.secret}" />
+									<span>填写小程序秘钥</span>
+								</div>
+								<div><label class="ltxt">微信支付(apiclient_cert.pem):</label><textarea style="height: 150px; resize: none" name="apiclient_cert">{$data.apiclient_cert}</textarea>
+									<span>使用文本编辑器打开apiclient_cert.pem文件，将文件的全部内容复制进来</span>
+								</div>
+								<div style="line-height: 22px"><label class="ltxt">微信支付(apiclient_key.pem):</label><textarea style="height: 150px; resize: none" name="apiclient_key">{$data.apiclient_key}</textarea>
+									<span>使用文本编辑器打开apiclient_key.pem文件，将文件的全部内容复制进来</span>
+								</div>
+								<div style="line-height: 22px"><label class="ltxt">零钱提现</label>
+									<input type="checkbox" style="vertical-align:middle;" value="1" name="open_pay" {if condition="$data.open_pay"}checked="checked"{/if}>
+									<span>1.商户号（或同主体其他非服务商商户号）已入驻90日&nbsp;2.商户号（或同主体其他非服务商商户号）有30天连续正常交易
+
+  3、 登录微信支付商户平台-产品中心，开通企业付款。</span>
+								</div>
+								<div><label class="ltxt">零钱提现审核</label>
+
+									<input type="checkbox" style="vertical-align:middle;" value="1" name="auto_pay" {if condition="$data.auto_pay"}checked="checked"{/if}>
+
+									<span>关闭自动到账</span>
+								</div>
+								<!--<div>-->
+									<!--<label class="ltxt">图片上传:</label>-->
+									<!--<div class="img-box full">-->
+										<!--<section class=" img-section">-->
+											<!--<div class="z_photo upimg-div" >-->
+									               	 <!--<section class="z_file fl">-->
+									               	 	<!--<img src="__STATIC__/home/img/a11.png" tppabs="http://www.jq22.com/demo/imgUp201703281022/img/a11.png" class="add-img">-->
+									               	 	<!--<input type="file" name="image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multip />-->
+									               	 <!--</section>-->
+									               	  <!--<div class="clear"></div>-->
+									         <!--</div>-->
+										 <!--</section>-->
+									<!--</div>-->
+									<!--<span></span>-->
+								<!--</div>-->
+						        <!--<aside class="mask works-mask">-->
+									<!--<div class="mask-content">-->
+										<!--<p class="del-p">您确定要删除作品图片吗？</p>-->
+										<!--<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>-->
+									<!--</div>-->
+								<!--</aside>-->
+								
+								<div><button class="btns" style="margin-left: 300px;width: 200px;">保存</button>
+									<!--<button class="cancel" onclick="history.go(-1)">取消</button>-->
+								</div>
+								<div class="clear"></div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!--<div id="main" style="width: 600px;height:400px;"></div>-->
+
+
+
+<script>
+	function open_pay(url,num){
+		layer.msg(url);
+	}
+	$(function(){
+		$("#file").takungaeImgup({
+			formData: { "path": "Content/Images/", "name": "uploadpic" }, //path参数会发送给服务器，name参数代表上传图片成功后，自动生成input元素的name属性值
+			url: "data/page.json",    //发送请求的地址，服务器地址
+			success: function (data) {
+
+			},
+			error: function (err) {
+				alert(err);
+			}
+		});
+	})
+
+	$.ajax({
+		type:"get",
+		url:"data/page.json",
+		async:true,
+		success: function(data){
+			console.log('success')
+		}
+
+	});
+</script>
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

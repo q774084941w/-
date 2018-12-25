@@ -1,0 +1,315 @@
+﻿{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="2,2"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			积分产品管理
+		</div>
+		<div class="label-3 label">
+			<div class="search">
+				<div class="">
+					<input type="text" name="" id="" value="" placeholder="产品名称"/><button id="search_name"><i></i><span>搜产品</span></button>
+				</div>
+
+			</div>
+			<div class="Statistics">
+				<button class="blue"><a href="add">添加产品</a></button>
+
+
+				<div class="clear"></div>
+			</div>
+
+			<div class="Tab Tabs">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					<tr>
+						<th style="width: 40px;"><input type="checkbox" name="" id="" value="" /></th>
+						<th style="width: 60px;">ID</th>
+						<th style="width: 80px; ">图片</th>
+						<th style="width: 180px;">产品名</th>
+						<th style="width: 70px;">单价</th>
+						<th style="width: 70px;">销量</th>
+						<th style="width: 75px;">总库存</th>
+
+						<th style="width: 70px;">排序</th>
+						<th style="width: 80px;">发布状态</th>
+						<th style="width: 200px;">操作</th>
+					</tr>
+				</table>
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					{foreach name="data" item="vo"}
+					<tr>
+						<td style="width: 40px;"><input type="checkbox" name="" id="" value="" /></td>
+						<td style="width: 60px;" class="goodsid" id="goodsid">{$vo.goodsid}</td>
+						<td style="width: 80px;"><img src="{$vo.pic}" style="width: 60px;"/></td>
+						<td style="width: 180px;" class="align-r">{$vo.name}</td>
+						<td style="width: 70px;" class="align-r">{$vo.min_price}</td>
+						<td style="width: 70px;" class="align-r">{$vo.sales}</td>
+						<td style="width: 75px;" class="align-r"><input type="text" name="" id="" class="" onblur="upajax({$vo.goodsid},'inventory',this)" value="{$vo.stock}" style="width: 60px;"></td>
+
+						<td style="width: 70px;" class="align-r">{$vo.sort}</td>
+						<td style="width: 80px; text-align: center" class="green">
+							<b>{$vo.status}</b>
+						</td>
+						{if condition="$vo['status'] == '已上架'"}
+						<td style="width: 200px;"><button class="openbtn ml bottom shelves" onclick="shelves($(this),0)">下架</button><button class="modifybtn ml open-win" data-type="show?id={$vo.goodsid}">查看</button><button onclick="compile('edit?id={$vo.goodsid}')" class="modifybtn ml
+						">编辑</button><button class="openbtn" onclick="del('{$vo.goodsid}','__publicPath__/home/integral/delete')">删除</button></td>
+
+						{elseif condition="$vo['status'] == '已下架'"/}
+						<td style="width: 200px;"><button class="modifybtn ml top" onclick="shelves($(this),1)">上架</button><button class="modifybtn ml open-win" data-type="show?id={$vo.goodsid}">查看</button><button class="modifybtn ml" onclick="compile('edit?id={$vo.goodsid}')">编辑</button>
+							<button class="openbtn" onclick="del('{$vo.goodsid}','__publicPath__/home/integral/delete')">删除</button></td>
+
+						{/if}
+						</tr>
+					{/foreach}
+				</table>
+
+			</div>
+			<div style="text-align: center" class="pages">
+				{$data->render()}
+			</div>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<iframe src="show" style="height: 100%; width: 100%;"></iframe>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	//	green
+	function del(id,url){
+		if(window.confirm('你确定要删除吗吗？')){
+			var data = {
+				id:id
+			};
+			$.ajax({
+				type:"get",
+				data: data,
+				url:url,
+				dataType: "json",
+				success: function(data){
+					if (data == 1) {
+						prompt('删除成功',data)
+						window.location.reload();
+					} else{
+						prompt('删除失败',data)
+					}
+				},
+				error:function(){
+					prompt('操作失败',0)
+				}
+			});
+		}else{
+			//alert("取消");
+			return false;
+		}
+
+
+	}
+		 $(function () {
+			 var leng = $('.Tab tr')
+			 for (var i = 0; i < leng.length; i++){
+				 var txt = leng.eq(i).find('.green b').text()
+				 //alert(txt)
+				 if(txt == '已上架'){
+					 leng.eq(i).find('.green b').addClass('putaway')
+				 }
+				 if(txt == '已下架'){
+					 leng.eq(i).find('.green b').addClass('sold ')
+				 }
+			 }
+
+		 })
+
+		$(".open-win").click(function(){
+			var dataurl = $(this).attr('data-type');
+			$("iframe").attr('src',dataurl)
+		})
+
+
+
+
+
+
+	function shelves(j,v){
+		var pid = j.parent().parent().find('.goodsid').text()
+		var data = {
+			goodsid:pid,status:v,
+		};
+		$.ajax({
+			type:'post',
+			url:"__publicPath__/home/goods/soldOut",			//请求地址加参数
+			data: data,
+			success: function(data){
+				window.location.reload();
+					//Parent.find('.green').addClass('red')
+
+			},
+			error:function(){
+				alert('更新失败')
+			}
+		});
+	}
+
+	var Ptid_one = $("#class_one");   //获取每级id
+	var Ptid_tow = $("#class_two");
+	var Ptid_three = $("#class_three");
+	var Level = "0";   //获取级别
+
+	$(".bor6").unbind('click').bind('click',function(){
+		$(".bor7 ul li").remove()
+		//alert('-')
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:"__publicPath__/home/commtype/ajaxindex",
+			data: '',
+			dataType: "json",
+			success: function(data){
+				//alert(data[1].title)
+				for (var i = 0; i < data.length; i++){      //一级分类
+					//alert(data[i].title)
+					are += "<li data-type="+data[i].tid+">"+data[i].name+"</li>";
+					Level = data[i].level
+					//console.log(Level)
+					//$(".bor6 ul").html('')
+					//alert('1')
+					//alert($(".bor6 ul").html('666'))
+//						for (var j = 0; j < data[i].sub.length; j++) {   //二级菜单
+//							//alert(data[i].sub[j].title)
+//						}
+				}
+				$(".bor6 ul").html('')
+				$(".bor6 ul").append(are)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+	var Li;  				//一级索引
+	var towLi;				//二级索引
+	//二级分类
+	$(document).on("click", ".bor6 ul li", function(){
+		$(".bor7 ul li").remove()
+		$(".bor7 span").text('请选择')
+		$(".bor8 ul li").remove()
+		$(".bor8 span").text('请选择')
+		Li = $(this).index()
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:"__publicPath__/home/commtype/ajaxindex",
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (towLi = 0; towLi < data[Li].sub.length; towLi++) {   //二级菜单
+					are += "<li data-type="+data[Li].sub[towLi].ptid+">"+data[Li].sub[towLi].name+"</li>"
+					Level = data[Li].sub[towLi].level
+				}
+				$(".bor7 ul").html('')
+				$(".bor7 ul").append(are)
+				//console.log(Level)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+	//三级分类
+	$(document).on("click", ".bor7 ul li", function(){
+		$(".bor8 span").text('请选择')
+		var stowLi = $(this).index()
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:"__publicPath__/home/commtype/ajaxindex",
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (var i = 0; i < data[Li].sub[stowLi].sub.length; i++) {   //三级菜单
+					//alert(data[Li].sub[stowLi].sub[i].title)
+					are += "<li data-type="+data[Li].sub[stowLi].sub[i].ptid+">"+data[Li].sub[stowLi].sub[i].name+"</li>"
+					Level = data[Li].sub[stowLi].sub[i].level
+				}
+				$(".bor8 ul").html('')
+				$(".bor8 ul").append(are)
+				//console.log(Level)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+
+	$("#search").click(function(){
+		var pid_one = $(".bor6 span").attr('data-type');
+		var pid_two = $(".bor7 span").attr('data-type');
+		var pid_three = $(".bor8 span").attr('data-type');
+
+//		var data = {
+//			pid_one:pid_one,
+//			pid_two:pid_two,
+//			pid_three:pid_three
+//		}
+		window.location.href='xx?pid_one='+pid_one+'&pid_two='+pid_two+'&pid_three='+pid_three;
+//		$.ajax({
+//			type:"get",
+//			url:"data/select.json",
+//			data: data,
+//			dataType: "json",
+//			success: function(data){
+//
+//			},
+//			error:function(){
+//				alert('失败')
+//			}
+//		});
+	})
+
+	$("#search_name").click(function(){
+		var searchname = $(this).parent().find('input').val()
+		if (searchname == '' || searchname == undefined) {
+		} else{
+			window.location.href='goodssearch?name='+searchname;
+//			var data = {name:searchname}
+//			$.ajax({
+//				type:"get",
+//				url:"data/select.json",
+//				data: data,
+//				dataType: "json",
+//				success: function(data){
+//
+//				},
+//				error:function(){
+//					alert('失败')
+//				}
+//			});
+		}
+
+	})
+</script>
+
+{/block}
+

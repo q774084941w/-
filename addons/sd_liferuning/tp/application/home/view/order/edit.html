@@ -1,0 +1,183 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="6,2,false,修改订单"/>
+<script src="__STATIC__/uedi/ueditor.config.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/uedi/ueditor.all.js" type="text/javascript" charset="utf-8"></script>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			修改订单
+		</div>
+
+
+
+		<div class="label-4">
+			<div class="form" id="forms">
+				<div class="breadcrumb">
+									<span>
+										<a href="#">修改订单 </a>
+										<span class="separator">/</span>
+									</span>
+									<span>
+										<span>修改订单信息</span>
+									</span>
+				</div>
+
+				<form action="{:url('order/editPost')}" method="post"  class="form-2">
+					<div><label class="ltxt">订单编号:</label><input type="text" name="order_no" value="{:$data.order_no}"  readonly/><span></span></div>
+					<div><label class="ltxt">类型:</label>
+						<select name="type"  style="width: 550px;">
+							<option value="帮我买" {:$data['type']=='帮我买'?'selected':''} >帮我买</option>
+							<option value="帮我送" {:$data['type']=='帮我送'?'selected':''}>帮我送</option>
+							<option value="商家点单" {:$data['type']=='商家点单'?'selected':''}>商家点单</option>
+						</select>
+						<span></span>
+					</div>
+					<div><label class="ltxt">电话:</label><input type="text" name="phone" id="tel" value="{:$data.phone}" /><span></span></div>
+					<div><label class="ltxt">商品名称:</label><input type="text" name="goodsname"  value="{:$data.goodsname}"  placeholder="请输入商品名称"/><span></span></div>
+
+					<div><label class="ltxt">起始地址:</label><input type="text" name="myadds"  value="{:$data.myadds}"  placeholder="请填入拾取的地址名称" />
+						<span>为保证导航准确请<a href="https://lbs.qq.com/tool/getpoint/" target="_blank" style="color:darkblue">地址拾取</a></span>
+					</div>
+					<div><label class="ltxt">起始地址坐标:</label><input type="text"   class="coordinate" id="myadds" placeholder="请填入拾取的地址的坐标，以便计算价格" /><span></span></div>
+
+					<div><label class="ltxt">收货地址:</label><input type="text" name="mudadds"  value="{:$data.mudadds}" placeholder="请填入拾取的地址名称"/>
+						<span>为保证导航准确请<a href="https://lbs.qq.com/tool/getpoint/" target="_blank" style="color:darkblue">地址拾取</a></span>
+					</div>
+					<div><label class="ltxt">收货地址坐标:</label><input type="text" class="coordinate" id="mudadds" placeholder="请填入拾取的地址的坐标，以便计算价格" /><span></span></div>
+
+					<div><label class="ltxt">价格:</label><input type="text" name="price" value="{:$data.price}" id="price" /><span></span></div>
+					<div><label class="ltxt">配送时间:</label><input style="width: 550px;
+    height: 22px;" type="text" name="times" value="{:empty($data['times'])?date('Y-m-d H:i:s'):date('Y-m-d H:i:s',$data['times'])}" /><span></span></div>
+					<div><label class="ltxt">小费:</label><input type="text" name="tip" value="{:$data.tip}" readonly/><span></span></div>
+					<div><label class="ltxt">用户名:</label><input type="text" name="username" value="{:$data.username}" /><span></span></div>
+					<div><label class="ltxt">重量:</label>
+						<!--<input type="text" name="weight" value="5" />-->
+						<select name="weight" style="width: 550px;" id="weight">
+							<option value="5" {:$data['weight']==5?'selected':''}>小于5公斤</option>
+							<option value="10" {:$data['weight']==10?'selected':''}>5-10公斤</option>
+							<option value="20" {:$data['weight']==20?'selected':''}>10-20公斤</option>
+						</select>
+						<input type="hidden" id="old_weight" value="{:empty($data['weight'])?0:$data['weight']}">
+						<span></span>
+					</div>
+					<div><label class="ltxt">商品价值:</label><input type="text" name="worth" value="{:$data.worth}" readonly/><span></span></div>
+					<div><label class="ltxt">红包:</label><input type="text" name="redbao" value="{:$data.redbao}" readonly/><span></span></div>
+					<div><label class="ltxt">是否议价:</label>
+						<select name="distype" style="width: 550px;">
+						<option value="0" {:$data['distype']==0?'selected':''}>否</option>
+						<option value="1"  {:$data['distype']==1?'selected':''}>是</option>
+						</select>
+						<span></span>
+					</div>
+					<div><label class="ltxt">状态:</label>
+						<select name="status" style="width: 550px;">
+							<option value="-2" {:$data['status']==-2?'selected':''}>取消 </option>
+							<option value="0" {:$data['status']==0?'selected':''}>未付款 </option>
+							<option value="1"  {:$data['status']==1?'selected':''}>待接单</option>
+							<option value="2"  {:$data['status']==2?'selected':''}>配送中</option>
+						</select>
+						<span></span>
+					</div>
+					<div><label class="ltxt">收货码:</label><input type="text" name="code" value="{:$data.code}"  readonly/><span></span></div>
+					<div><label class="ltxt">留言:</label><textarea name="message" placeholder="选填">{:$data.message}</textarea><span></span></div>
+					<div><label></label><button class="btns btn-right subbtn">修改</button><a href="javaScript:history.back()" class="btns btn-right">返回</a></div>
+					<div class="clear"></div>
+					<input type="hidden" name="id"  value="{:$data.id}" />
+
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<div id="toup">
+	<img src="__STATIC__/home/img/toup.png"/>
+</div>
+
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/dateRange.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/monthPicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/img_yasuo.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function(e) {
+		var ue = UE.getEditor('container');
+		$('input').lc_switch();
+
+		$('.coordinate').change(function () {
+			var mudadds = $('#mudadds').val();
+			var myadds  = $('#myadds').val();
+			if (mudadds!=''&&myadds!='') {
+			    $.ajax({
+                    url: "{:url('goods/addprice')}",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        'mudadds':mudadds,
+						'myadds' :myadds,
+						'bid'  : 1,
+					},
+                    success: function (msg) {
+                        console.log(msg);
+						if (msg.code==1) {
+							$('#price').val((msg.data.price)+24)
+						}
+                    }
+                });
+			}
+        });
+
+		$('#weight').change(function () {
+			var weight = $(this).val();
+			var old_weight = $('#old_weight').val();
+			var price = $('#price').val();
+			switch (weight) {
+				case '5':
+					thisprice = 0;
+				    break;
+				case '10':
+                    thisprice = 10;
+				    break;
+				case '20':
+                    thisprice = 20;
+				    break;
+				default:
+                    thisprice = 0;
+            }
+            var lastprice = price - old_weight + thisprice;
+			console.log(lastprice);
+            $('#price').val(lastprice);
+            $('#old_weight').val(thisprice);
+        })
+	});
+
+    $(".subbtn").click(function(){
+        if (!regulars('','goodsname','商品名称','')) {
+            return false
+        }
+        if (!regulars('','mudadds','目的地地址','')) {
+            return false
+        }
+        if (!regulars('','myadds','收货地址','')) {
+            return false
+        }
+        if (!regulars('','price','价格','')) {
+            return false
+        }
+        if (!regulars('','tel','电话','')) {
+            return false
+        }
+    })
+</script>
+{/block}
+

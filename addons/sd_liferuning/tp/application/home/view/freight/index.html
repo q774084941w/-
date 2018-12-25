@@ -1,0 +1,246 @@
+
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="3,0,false,运费管理"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			插件管理
+		</div>
+
+		<div class="information">
+			<i></i>
+			<p class="h">运费模板</p>
+			<p>填写运费模版名称，选择计费方式和配送方式后完成模版设置。</p>
+		</div>
+
+
+		<div class="label-3 label-4 label">
+
+
+
+			<div class="Statistics">
+				<button class="blue ml"><a href="add">新建运费模板</a></button>
+
+				<div class="clear"></div>
+			</div>
+
+			<!--<div class="Tab Tabs">-->
+				<!--<div class="tabtit">-->
+					<!--<p>通用模板</p>-->
+				<!--</div>-->
+				<!--<table border="0" cellspacing="0" cellpadding="0" class="yftab yftab_two">-->
+					<!--<tr>-->
+						<!--<th>模板名称</th>-->
+						<!--<th>首重（kg）</th>-->
+						<!--<th>运费（元）</th>-->
+						<!--<th>续重（kg）</th>-->
+						<!--<th>续费（元）</th>-->
+						<!--<th>创建时间</th>-->
+
+						<!--<th>操作</th>-->
+					<!--</tr>-->
+				<!--</table>-->
+				<!--<table border="0" cellspacing="0" cellpadding="0" class="yftab">-->
+					<!--{foreach name="data" item="vo" }-->
+					<!--{if condition="($vo.unit == 0) AND ($vo.type == 0)"}-->
+					<!--<tr>-->
+						<!--<td style="display: none" class="goodsid" id="goodsid"></td>-->
+						<!--<td>重量模板</td>-->
+						<!--<td>{$vo.first}</td>-->
+						<!--<td>{$vo.freight}</td>-->
+						<!--<td>{$vo.next}</td>-->
+						<!--<td>{$vo.freight1}</td>-->
+						<!--<td>{$vo.handletime}</td>-->
+						<!--<td style=""><button class="modifybtn ml" onclick="compile('edit?id={$vo.freid}')">编辑</button></td>-->
+					<!--</tr>-->
+					<!--{/if}-->
+					<!--{/foreach}-->
+				<!--</table>-->
+				<!--<table border="0" cellspacing="0" cellpadding="0" class="yftab yftab_two">-->
+
+					<!--<tr>-->
+						<!--<th>模板名称</th>-->
+						<!--<th>首件（件）</th>-->
+						<!--<th>运费（元）</th>-->
+						<!--<th>续件（件）</th>-->
+						<!--<th>续费（元）</th>-->
+						<!--<th>创建时间</th>-->
+
+						<!--<th>操作</th>-->
+					<!--</tr>-->
+				<!--</table>-->
+				<!--<table border="0" cellspacing="0" cellpadding="0" class="yftab">-->
+					<!--{foreach name="data" item="vo" }-->
+					<!--{if condition="($vo.unit == 1) AND ($vo.type == 0)"}-->
+					<!--<tr>-->
+						<!--<td style="display: none" class="goodsid" id="goodsid"></td>-->
+						<!--<td>件数模板</td>-->
+						<!--<td>{$vo.first}</td>-->
+						<!--<td>{$vo.freight}</td>-->
+						<!--<td>{$vo.next}</td>-->
+						<!--<td>{$vo.freight1}</td>-->
+						<!--<td>{$vo.handletime}</td>-->
+
+						<!--<td style=""><button class="modifybtn ml" onclick="compile('edit?id={$vo.freid}')">编辑</button></td>-->
+					<!--</tr>-->
+					<!--{/if}-->
+					<!--{/foreach}-->
+				<!--</table>-->
+			<!--</div>-->
+			<!--<div class="hr">-->
+
+			<!--</div>-->
+			<!--<div class="Tab Tabs">-->
+				<!--<div class="tabtit">-->
+					<!--<p>件数模板</p>-->
+				<!--</div>-->
+				<!--<table border="0" cellspacing="0" cellpadding="0" class="yftab">-->
+					<!--<tr>-->
+						<!--<th>模板名称</th>-->
+						<!--<th>首件（件）</th>-->
+						<!--<th>运费（元）</th>-->
+						<!--<th>续件（件）</th>-->
+						<!--<th>续费（元）</th>-->
+						<!--<th>创建时间</th>-->
+						<!--<th>状态</th>-->
+						<!--<th>操作</th>-->
+					<!--</tr>-->
+				<!--</table>-->
+				<!--<table border="0" cellspacing="0" cellpadding="0" class="yftab">-->
+					<!--{foreach name="data" item="vo" }-->
+					<!--{if condition="($vo.unit == 1) AND ($vo.type != 0)"}-->
+					<!--<tr>-->
+						<!--<td style="display: none" class="goodsid" id="goodsid">{$vo.freid}</td>-->
+						<!--<td>{$vo.title}</td>-->
+
+						<!--<td>{$vo.first}</td>-->
+						<!--<td>{$vo.freight}</td>-->
+						<!--<td>{$vo.next}</td>-->
+						<!--<td>{$vo.freight1}</td>-->
+						<!--<td>{$vo.createtime}</td>-->
+						<!--<td>{$vo.status}</td>-->
+
+						<!--{if condition="$vo['status'] == '正常'"}-->
+						<!--<td style="width: 180px;"><button class="openbtn ml bottom shelves" onclick="shelves($(this),0)">关闭</button><button class="modifybtn ml open-win" data-type="show?id={$vo.freid}">查看</button></td>-->
+
+						<!--{elseif condition="$vo['status'] == '关闭'"/}-->
+						<!--<td style="width: 180px;"><button class="modifybtn ml top" onclick="shelves($(this),1)">打开</button><button class="modifybtn ml open-win" data-type="show?id={$vo.freid}">查看</button></td>-->
+
+						<!--{/if}-->
+
+					<!--</tr>-->
+					<!--{/if}-->
+					<!--{/foreach}-->
+				<!--</table>-->
+			<!--</div>-->
+
+			<!--<div class="hr">-->
+
+			<!--</div>-->
+			<div class="Tab Tabs">
+				<div class="tabtit">
+					<p>重量模板</p>
+				</div>
+				<table border="0" cellspacing="0" cellpadding="0" class="yftab">
+					<thead>
+						<tr>
+							<th>模板名称</th>
+							<th>首重（kg）</th>
+							<th>运费（元）</th>
+							<th>续重（kg）</th>
+							<th>续费（元）</th>
+							<th>创建时间</th>
+							<!--<th>状态</th>-->
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach name="data" item="vo" }
+						{if condition="($vo.unit == 0) AND ($vo.type != 0)"}
+						<tr>
+							<td style="display: none" class="goodsid" id="goodsid">{$vo.freid}</td>
+							<td>{$vo.title}</td>
+							<td>{$vo.first}</td>
+							<td>{$vo.freight}</td>
+							<td>{$vo.next}</td>
+							<td>{$vo.freight1}</td>
+							<td>{$vo.createtime}</td>
+							<!--<td>{$vo.status}</td>-->
+							{if condition="$vo['status'] == '正常'"}
+							<td style="width: 180px;"><button class="openbtn ml bottom shelves" onclick="shelves($(this),0,'delFreight')">删除</button><button class="modifybtn ml open-win" data-type="show?id={$vo.freid}">查看</button></td>
+	
+							{elseif condition="$vo['status'] == '关闭'"/}
+							<td style="width: 180px;"><button class="modifybtn ml top" onclick="shelves($(this),1,'delFreight')">删除</button><button class="modifybtn ml open-win" data-type="show?id={$vo.freid}">查看</button></td>
+	
+							{/if}
+						</tr>
+						{/if}
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<iframe src="" style="height: 100%; width: 100%;"></iframe>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function () {
+		var leng = $('.Tab tr')
+		for (var i = 0; i < leng.length; i++){
+			var txt = leng.eq(i).find('.green b').text()
+			//alert(txt)
+			if(txt == '已上架'){
+				leng.eq(i).find('.green b').addClass('putaway')
+			}
+			if(txt == '已下架'){
+				leng.eq(i).find('.green b').addClass('sold ')
+			}
+		}
+
+	})
+	function shelves(j,v){
+		var pid = j.parent().parent().find('.goodsid').text()
+		var data = {
+			goodsid:pid,status:v,
+		};
+		$.ajax({
+			type:'post',
+			url:"{:url('freight/soldOut')}",			//请求地址加参数
+			data: data,
+			success: function(data){
+				window.location.reload();
+				//Parent.find('.green').addClass('red')
+
+			},
+			error:function(){
+				alert('更新失败')
+			}
+		});
+	}
+	$(".open-win").click(function(){
+		var dataurl = $(this).attr('data-type');
+		$("iframe").attr('src',dataurl)
+	})
+</script>
+
+{/block}
+

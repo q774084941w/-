@@ -1,0 +1,190 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="9,0,false,新增优惠券"/>
+<div class="c-r right" id="app">
+	<div class="label1">
+		<div class="title">
+			优惠券
+		</div>
+		<div class="breadcrumb">
+			<span>
+				<a href="#">插件管理 </a>
+				<span class="separator">/</span>
+			</span>
+			<span>
+				<a href="add_coupon.html">优惠券 </a>
+				<span class="separator">/</span>
+			</span>
+			<span>
+				<span>新增优惠券</span>
+			</span>
+		</div>
+		<div class="label-4">
+			<div class="form" id="form" style="padding-left: 30px;overflow: visible;">
+
+				<form action="insert" method="post" class="form-2" >
+					<div><label class="ltxt">优惠券名称:</label><input type="text" name="name" id="name" value="" style="width: 245px;"/><span></span></div>
+					<div><label class="ltxt">最低消费金额（元）:</label><input type="text" name="full_money" id="" value=""  style="width: 245px;"/>
+						<span>购物金额（不含运费）达到最低消费金额才可使用优惠券，无门槛优惠券请填0</span>
+					</div>
+					<div><label class="ltxt">优惠金额（元）:</label><input type="text" name="money" id="" value=""  style="width: 245px;"/>
+						<span style="color: #f30;">注：优惠券只能抵消商品金额，不能抵消运费，商品金额最多优惠到0.01元</span>
+					</div>
+					<div><label class="ltxt">发送数量:</label><input type="text" name="number" id="" value=""  style="width: 245px;"/>张<span></span></div>
+					<!--<div><label class="ltxt">面值:</label><input type="text" name="" id="" value=""  style="width: 245px;"/>元<span></span></div>-->
+					<!--<div><label class="ltxt">使用限制:</label>订单满<input type="text" name="full_money" id="" value=""  style="width: 80px;margin: 0 8px;"/>可用<span></span></div>-->
+
+					<div><label class="ltxt">优惠券类型:</label>
+						<div class="bor bor2 bor4">
+							<span data-type = "4">首单注册红包</span><i></i>
+							<ul style="display: none;">
+								<li data-type = "4">首单注册红包</li>
+								<li data-type = "5">转发红包</li>
+								<li data-type = "6">活动优惠券</li>
+							</ul>
+						</div>
+						<span></span>
+					</div>
+					<div style="display: none;"><label class=""></label>
+						<div class="bor bor2 bor11" style="display: none;">
+
+							<span>请选择分类</span><i></i>
+							<ul style="display: none;">
+								{foreach name="menus" item="vo"}
+								<li data-type = "{$vo.tid}">{$vo.name}</li>
+								{/foreach}
+
+							</ul>
+						</div>
+						<div class="bor bor2 bor12" style="display: none;">
+							<span>请选择商品</span><i></i>
+							<ul style="display: none;">
+								{foreach name="goods" item="vo"}
+								<li data-type = "{$vo.goodsid}">{$vo.name}</li>
+								{/foreach}
+							</ul>
+						</div>
+						<span></span>
+					</div>
+					<div><label class="ltxt">优惠券有效期:</label>
+						<div class="radio radioa">
+							<label><input type="radio" name="coupontype"  id="" value="0" @click='coupontype=0' checked="checked">时间段</label>
+							<label><input type="radio" name="coupontype"  id="" value="1" @click='coupontype=1'>领取后N天内有效</label>
+						</div>
+						<span></span>
+					</div>
+					<div v-if='coupontype==1'><label class="ltxt">有效天数:</label>
+						<input type="text" name="timelong" id="" value=""  style="width: 245px;"/>
+						<span></span>
+					</div>
+					<div v-if='coupontype==0'><label class="ltxt">优惠券有效日期:</label>
+						<input type="text"  value="" id="demo-3" name="starttime" style="width: 245px;"><b class="b">至</b><input type="text"  value="" id="demo-4" name="endtime" style="width: 245px;">
+						<span></span>
+					</div>
+					<div><label class="ltxt">排序:</label>
+						<input type="text" name="sort" id="" value=""  style="width: 245px;"/>
+						<span></span>
+					</div>
+					<input type="hidden" name="type" id="number" value="" />
+					<input type="hidden" name="typeq" id="typeq" value="" />
+					<div class="mtop"><label></label><button class="blue btn-right sub">完成</button><a  href="javaScript:history.back()" class="blue btn-right">返回</a></div>
+					<div class="clear"></div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/foundation-datepicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/foundation-datepicker.zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/csc/js/vue.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+	    el: '#app',
+	    data: {
+	    	coupontype:0,
+	     },
+    });
+</script>
+<script type="text/javascript">
+	$('#demo-3').fdatepicker({
+		format: 'yyyy-mm-dd',
+	});
+	$('#demo-4').fdatepicker({
+		format: 'yyyy-mm-dd',
+	});
+	function check(){
+		var number = document.getElementById("number");
+		var money = document.getElementById("money");
+        var name = document.getElementById("name");
+
+		if(number == ""){
+			alert("发送数量不能为空！");
+			return false;
+		}
+		if(number == "0"){
+			alert("发送数量不能为0！");
+			return false;
+		}
+		if(money == ""){
+			alert("金额不能为空！");
+			return false;
+		}
+		if(money == "0"){
+			alert("金额不能为0！");
+			return false;
+		}
+        if(name == ""){
+            alert("优惠券名不能为空！");
+            return false;
+        }
+
+	}
+
+	//提交表单
+	$(".blue").click(function(){
+		var data_type = $("#form form .bor4 span").attr('data-type')
+		$("#number").val(data_type)
+		if (select_tw == '2') {
+			var data_type1 = $("#form form .bor11 span").attr('data-type')
+			$("#typeq").val(data_type1)
+		}
+		if(select_tw == '3'){
+			var data_type2 = $("#form form .bor12 span").attr('data-type')
+			$("#typeq").val(data_type2)
+		}
+
+	})
+	function regular(j,txt) {
+		//var mail = regular;
+		var j = $("input[name="+j+"]").val()
+		if(j == '' || j == null){
+			prompt(txt+'不可为空',0)
+			return false;
+			//console.log('正确')
+		}
+		if (j == '0'){
+			prompt(txt+'不能为0',0)
+			return false;
+		}
+		return true
+	}
+	$('.sub').click(function () {
+		if (!regular('name','优惠券名') || !regular('money','面值') || !regular('number','数量')) {
+			return false
+		}
+
+	})
+
+</script>
+{/block}
+

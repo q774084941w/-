@@ -1,0 +1,146 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="6,5,false,对接订单申请"/>
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">
+            对接订单申请列表
+        </div>
+
+
+        <div class="label-3 label">
+            <!--<div class="Statistics">
+                <span class="right">共有数据：<b>11</b>条</span>-->
+            <!--<span class="right">共收钱：<b>0.55</b>元</span>
+            <div class="clear"></div>
+        </div>-->
+
+            <div class="query">
+                <!--<div class="left">-->
+                <!--<label>显示-->
+                <!--<select name="">-->
+                <!--<option value="">10</option>-->
+                <!--<option value="">25</option>-->
+                <!--<option value="">50</option>-->
+                <!--<option value="">100</option>-->
+                <!--</select>条-->
+                <!--</label>-->
+                <!--</div>-->
+                <!--<div class="right">-->
+                <!--<label>从当前数据中检索:-->
+                <!--<input type="text" name="" id="" value="" />-->
+                <!--</label>-->
+                <!--</div>-->
+                <div class="clear"></div>
+            </div>
+            <div class="Tab Tabs">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th style="width: 60px;">ID</th>
+                        <th style="width: 50px;">对接小程序id</th>
+                        <th style="width: 100px;">小程序名称</th>
+                        <th style="width: 50px;">对接模块</th>
+                        <th style="width: 100px;">APPID</th>
+                        <th style="width: 40px;">用户名</th>
+                        <th style="width: 40px;">店铺名</th>
+                        <th style="width: 80px;">状态</th>
+                        <th style="width: 80px;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="data" item="vo"}
+                    <tr>
+                        <td style="width: 60px;">{$vo.jid}</td>
+                        <td style="width: 50px;">{$vo.hjmall_id}</td>
+                        <td style="width: 100px;">{$vo.whechat}({:$vo.is_zguanli?'总平台管理员':'平台下店铺管理员'})</td>
+                        <td style="width: 50px;">{$vo.type1}</td>
+                        <td style="width: 100px;">{$vo.appid}</td>
+                        <td style="width: 40px;">{$vo.nickname}</td>
+                        <td style="width: 40px;">{$vo.shop_name}</td>
+                        <td style="width: 80px;">
+                            {if condition="$vo.status==-1" }
+                            <b class="putaway">等待审核</b>
+                            {elseif condition="$vo.status==0" }
+                            <b class="sold">拒绝</b>
+                            {else}
+                            <b class="putaway">同意</b>
+                            {/if}
+                        </td>
+                        <td style="width: 80px;">
+                            {if condition="$vo.status==-1" }
+                            <a class="modifybtn ml" onclick="jiancha({$vo.hjmall_id},{$vo.jid})" id="jiancha" >检验申请是否合格</a>
+                            <button class="modifybtn ml" onclick="upprompts('{$vo.jid}','1','ShenQinStatus','处理')">同意</button>
+                            <button class="openbtn"  onclick="upprompts('{$vo.jid}','0','ShenQinStatus','处理')">拒绝并删除</button>
+                            {elseif condition="$vo.status==0" }
+                            <b class="sold">已处理</b>
+                            {else}
+                            <b class="putaway">已处理</b>
+                            {/if}
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align: center" class="pages">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function jiancha(id,ids) {
+        $.ajax({
+            url:"{:url('order/Hejiang')}",
+            dataType:'json',
+            type:'get',
+            data:{
+                jid:ids,
+                hjmall_id:id
+            },
+            success:function (res) {
+                if(res.code==1){
+                    alert(res.mess);
+                }else {
+                    alert(res.mess);
+                }
+            }
+        })
+    }
+    function upprompts(id,status,url,txt,v){
+        $("#tan").remove();
+        var htmls = "<div id='tan'><span class='spanbj'></span><div class='tan'><div class='tit_p'>提示</div><div class='p_body'>您确定要"+txt+"</div><div class='btn-b'><span class='cancel span-hide'>取消</span><span class='modifybtn span-que'>确定</span><div class='clear'></div></div></div></div>"
+        $("body").append(htmls);
+        $(document).on("click", ".span-que", function(){
+            $.ajax({
+                url:url,					//请求地址加参数
+                data:{
+                    jid:id,
+                    status:status
+                },
+                success: function(data){
+                    if(data == 1) {
+                        prompt(txt+'成功', data)
+                        window.location.reload();
+                    } else{
+                        prompt(txt+'失败',data)
+                    }
+                },
+                error:function(){
+                    prompt('操作失败',0)
+                }
+            });
+        })
+        $(document).on("click", ".span-hide", function(){
+            $("#tan").remove();
+        })
+    }
+</script>
+
+{/block}

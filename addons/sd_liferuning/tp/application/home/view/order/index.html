@@ -1,0 +1,108 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="6,0,false,订单管理"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			待付款列表
+		</div>
+
+
+
+
+		<div class="label-3 label">
+			<!--<div class="Statistics">
+				<span class="right">共有数据：<b>11</b>条</span>-->
+				<!--<span class="right">共收钱：<b>0.55</b>元</span>
+				<div class="clear"></div>
+			</div>-->
+
+			<div class="query">
+				<div class="left">
+					<label>显示
+						<select name="">
+							<option value="">10</option>
+							<option value="">25</option>
+							<option value="">50</option>
+							<option value="">100</option>
+						</select>条
+					</label>
+				</div>
+				<div class="right">
+					<label>从当前数据中检索:
+						<input type="text" name="" id="" value="" />
+					</label>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="Tab Tabs">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+					<thead>
+						<tr>
+							<th style="width: 40px;"><input type="checkbox" name="" id="" value="" /></th>
+							<th style="width: 40px;">ID</th>
+							<th style="width: 200px;">订单号<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+							<th style="width: 180px;">姓名<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+	
+							<th style="width: 120px;">手机号<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+	
+							<th style="width: 100px;">支付金额<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+							<th style="width: 80px;">状态<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+							<th style="">下单时间<span><i class="triangle-up"></i><i class="triangle-down"></i></span></th>
+	
+							<th style="width: 80px;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach name="data" item="vo"}
+						<tr>
+							<td style="width: 40px;"><input type="checkbox" name="" id="" value="" /></td>
+							<td style="width: 40px; " class="goodsid" id="goodsid">{$vo.id}</td>
+							<td style="width: 200px;">{$vo.order_no}</td>
+							<td style="width: 180px;">{$vo.nickname}</td>
+							<td style="width: 120px;">{$vo.phone}</td>
+	
+							<td style="width: 100px;">{$vo.price}</td>
+							<td style="width: 80px;">{$vo.status}</td>
+							<td style="">{$vo.time}</td>
+	
+							<td style="width: 80px;"><button class="modifybtn ml open-win" data-type="show?id={$vo.id}">详情</button></td>
+						</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+			<div style="text-align: center" class="pages">
+				{$data->render()}
+			</div>
+		</div>
+	</div>
+</div>
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<iframe src="show" style="height: 100%; width: 100%;"></iframe>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".open-win").click(function(){
+		var dataurl = $(this).attr('data-type');
+		$("iframe").attr('src',dataurl)
+	})
+
+</script>
+
+{/block}
+

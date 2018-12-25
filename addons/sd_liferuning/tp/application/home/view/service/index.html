@@ -1,0 +1,305 @@
+
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="4,0"/>
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">
+            服务管理
+        </div>
+
+
+
+
+        <div class="label-3 label">
+            <div class="Statistics">
+                <button class="blue"><a href="add">添加服务</a></button>
+                <span class="right">共有数据：<b>11</b>条</span>
+                <div class="clear"></div>
+            </div>
+
+            <div class="Tab Tabs">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%">
+                	<thead>
+                		<tr>
+	                        <th><input type="checkbox" name="" id="" value="" /></th>
+	                        <th>排序</th>
+	                        <th>服务名称</th>
+	                        <th>图片</th>
+	                        <th>操作</th>
+	                    </tr>
+                	</thead>
+                	<tbody>
+                		{foreach name="data" item="vo"}
+	                    <tr>
+	                        <td><input type="checkbox" name="" id="" value="" /></td>
+	                        <td class="goodsid" id="goodsid">{$vo.id}</td>
+	                        <td class="align-r">{$vo.name}</td>
+	                        <td class="align-r"><img src="{$vo.pic}"></td>
+	                        {if condition="$vo['status'] == 1"}
+	                        <td>
+	                            <button class="openbtn ml bottom shelves" onclick="shelves($(this),0)">下架</button>
+	                            <button class="modifybtn ml open-win" data-type="show?id={$vo.id}">查看</button>
+	                            <button onclick="compile('edit?id={$vo.id}')" class="modifybtn ml">编辑</button>
+	                            <button class="openbtn" onclick="del('{$vo.id}','delete')">删除</button>
+	                        </td>
+	                        {elseif condition="$vo['status'] == 0"/}
+	                        <td>
+	                            <button class="modifybtn ml top" onclick="shelves($(this),1)">上架</button>
+	                            <button class="modifybtn ml open-win" data-type="show?id={$vo.id}">查看</button>
+	                            <button class="modifybtn ml" onclick="compile('edit?id={$vo.id}')">编辑</button>
+	                            <button class="openbtn" onclick="del('{$vo.id}','delete')">删除</button></td>
+	                        {/if}
+	                    </tr>
+	                    {/foreach}
+                	</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="wrap" class="wrap">
+    <div class="wrap-body express">
+        <div class="title">
+            详情查看
+        </div>
+        <iframe src="show" style="height: 100%; width: 100%;"></iframe>
+        <span class="close-wrap close-win">×</span>
+        <div class="wrap-btn">
+            <span class="close-btn close-win">取消</span>
+            <span class="next-btn close-win">确认</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function del(id,url){
+        if(window.confirm('你确定要删除吗吗？')){
+            var data = {
+                id:id
+            };
+            $.ajax({
+                type:"get",
+                data: data,
+                url:url,
+                dataType: "json",
+                success: function(data){
+                    if (data == 1) {
+                        prompt('删除成功',data)
+                        window.location.reload();
+                    } else{
+                        prompt('删除失败',data)
+                    }
+                },
+                error:function(){
+                    prompt('操作失败',0)
+                }
+            });
+        }else{
+            //alert("取消");
+            return false;
+        }
+
+
+    }
+    //	green
+    $(function () {
+        var leng = $('.Tab tr')
+        for (var i = 0; i < leng.length; i++){
+            var txt = leng.eq(i).find('.green b').text()
+            //alert(txt)
+            if(txt == '已上架'){
+                leng.eq(i).find('.green b').addClass('putaway')
+            }
+            if(txt == '已下架'){
+                leng.eq(i).find('.green b').addClass('sold ')
+            }
+        }
+
+    })
+
+    $(".open-win").click(function(){
+        var dataurl = $(this).attr('data-type');
+        $("iframe").attr('src',dataurl)
+    })
+
+
+
+
+
+
+    function shelves(j,v){
+        var pid = j.parent().parent().find('.goodsid').text()
+//        alert(pid);
+//        return false;
+        var data = {
+            goodsid:pid,
+            status:v,
+        };
+        $.ajax({
+            type:'post',
+            url:"soldOut",			//请求地址加参数
+            data: data,
+            success: function(data){
+                //alert(11);
+                window.location.reload();
+                //Parent.find('.green').addClass('red')
+            },
+            error:function(){
+                alert('更新失败')
+            }
+        });
+    }
+
+    var Ptid_one = $("#class_one");   //获取每级id
+    var Ptid_tow = $("#class_two");
+    var Ptid_three = $("#class_three");
+    var Level = "0";   //获取级别
+
+    $(".bor6").unbind('click').bind('click',function(){
+        $(".bor7 ul li").remove()
+        //alert('-')
+        var	are = '';
+        $.ajax({
+            type:"get",
+            url:"__publicPath__/home/commtype/ajaxindex",
+            data: '',
+            dataType: "json",
+            success: function(data){
+                //alert(data[1].title)
+                for (var i = 0; i < data.length; i++){      //一级分类
+                    //alert(data[i].title)
+                    are += "<li data-type="+data[i].tid+">"+data[i].name+"</li>";
+                    Level = data[i].level
+                    //console.log(Level)
+                    //$(".bor6 ul").html('')
+                    //alert('1')
+                    //alert($(".bor6 ul").html('666'))
+//						for (var j = 0; j < data[i].sub.length; j++) {   //二级菜单
+//							//alert(data[i].sub[j].title)
+//						}
+                }
+                $(".bor6 ul").html('')
+                $(".bor6 ul").append(are)
+            },
+            error:function(){
+                alert('失败')
+            }
+        });
+    })
+
+    var Li;  				//一级索引
+    var towLi;				//二级索引
+    //二级分类
+    $(document).on("click", ".bor6 ul li", function(){
+        $(".bor7 ul li").remove()
+        $(".bor7 span").text('请选择')
+        $(".bor8 ul li").remove()
+        $(".bor8 span").text('请选择')
+        Li = $(this).index()
+        var	are = '';
+        $.ajax({
+            type:"get",
+            url:"__publicPath__/home/commtype/ajaxindex",
+            data: '',
+            dataType: "json",
+            success: function(data){
+                for (towLi = 0; towLi < data[Li].sub.length; towLi++) {   //二级菜单
+                    are += "<li data-type="+data[Li].sub[towLi].ptid+">"+data[Li].sub[towLi].name+"</li>"
+                    Level = data[Li].sub[towLi].level
+                }
+                $(".bor7 ul").html('')
+                $(".bor7 ul").append(are)
+                //console.log(Level)
+            },
+            error:function(){
+                alert('失败')
+            }
+        });
+    })
+
+    //三级分类
+    $(document).on("click", ".bor7 ul li", function(){
+        $(".bor8 span").text('请选择')
+        var stowLi = $(this).index()
+        var	are = '';
+        $.ajax({
+            type:"get",
+            url:"__publicPath__/home/commtype/ajaxindex",
+            data: '',
+            dataType: "json",
+            success: function(data){
+                for (var i = 0; i < data[Li].sub[stowLi].sub.length; i++) {   //三级菜单
+                    //alert(data[Li].sub[stowLi].sub[i].title)
+                    are += "<li data-type="+data[Li].sub[stowLi].sub[i].ptid+">"+data[Li].sub[stowLi].sub[i].name+"</li>"
+                    Level = data[Li].sub[stowLi].sub[i].level
+                }
+                $(".bor8 ul").html('')
+                $(".bor8 ul").append(are)
+                //console.log(Level)
+            },
+            error:function(){
+                alert('失败')
+            }
+        });
+    })
+
+
+    $("#search").click(function(){
+        var pid_one = $(".bor6 span").attr('data-type');
+        var pid_two = $(".bor7 span").attr('data-type');
+        var pid_three = $(".bor8 span").attr('data-type');
+
+//		var data = {
+//			pid_one:pid_one,
+//			pid_two:pid_two,
+//			pid_three:pid_three
+//		}
+        window.location.href='goodssearch?pid_one='+pid_one+'&pid_two='+pid_two+'&pid_three='+pid_three;
+//		$.ajax({
+//			type:"get",
+//			url:"data/select.json",
+//			data: data,
+//			dataType: "json",
+//			success: function(data){
+//
+//			},
+//			error:function(){
+//				alert('失败')
+//			}
+//		});
+    })
+
+    $("#search_name").click(function(){
+        var searchname = $(this).parent().find('input').val()
+        if (searchname == '' || searchname == undefined) {
+        } else{
+            window.location.href='goodssearch?name='+searchname;
+//			var data = {name:searchname}
+//			$.ajax({
+//				type:"get",
+//				url:"data/select.json",
+//				data: data,
+//				dataType: "json",
+//				success: function(data){
+//
+//				},
+//				error:function(){
+//					alert('失败')
+//				}
+//			});
+        }
+
+    })
+</script>
+
+{/block}
+
+
+{/block}
+

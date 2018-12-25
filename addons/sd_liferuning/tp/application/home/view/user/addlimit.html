@@ -1,0 +1,152 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<style type="text/css">
+	.citylist{display: inline-block;width: 516px;}
+	.citylist li{padding: 8px;font-size: 14px;position: relative;border: 1px solid #d7dde4;margin-bottom: 15px;}
+	.citylist li b{position: absolute;right: 5px;padding: 0 5px;}
+</style>
+<input type="hidden" name="mun_url" id="mun_url" value="9,8"/>
+<div class="c-r right" id="app">
+    <div class="label1">
+        <div class="title">会员等级设置</div>
+        <div class="form" id="form">
+            <form action="editer" class="eform">
+                <div>
+					<label class="ltxt">状态:</label>
+					<div class="radio radioa">
+						<label><input type="radio" name="copyright_status"  id="" value="1" checked="checked">开启</label>
+						<label><input type="radio" name="copyright_status"  id="" value="0" >关闭</label>
+					</div>
+					<span>是否开启</span>
+				</div>
+				<div>
+					<label class="ltxt">添加限制区域:</label>
+					<div id="distpicker">
+						<select class="form-control" id="province"></select>
+						<select class="form-control" id="city"></select>
+						<select class="form-control" id="district"></select>
+						<a class="modifybtn_max addcity">添加</a>
+					</div>
+					<span></span>
+				</div>
+				<div>
+					<label class="ltxt">限制区域:</label>
+					<div class="citylist">
+						<ul>
+							<li v-for="(item,i) in city" v-on:click="">{{item.city}}<b class="openbtn" :data-type="i" @click="delcity(i)">删除</b></li>
+						</ul>
+					</div>
+					<span></span>
+				</div>
+				<input type="hidden" name="city" id="se" v-model="city"/>
+                <div><button class="btns">保存</button>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/home/js/distpicker.data.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/distpicker.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	//添加城市 
+	
+	
+
+</script>
+<script src="__STATIC__/home/csc/js/vue.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+	    el: '#app',
+	    data: {
+			city:[
+				{city:'北京市,北京市市辖区,东城区1'},
+				{city:'北京市,北京市市辖区,东城区2'},
+				{city:'北京市,北京市市辖区,东城区3'}
+			]
+	    },
+	    methods:{
+	    	delcity:function(e){
+	    		var city = app.city
+	    		city.splice(e,1)
+	    	}
+	    }
+   });
+    var $distpicker = $('#distpicker');
+    $distpicker.distpicker('reset', true)
+	$distpicker.distpicker({
+	//  province: '福建省',
+	//  city: '厦门市',
+	//  district: '思明区'
+	  });
+	
+	  $('#reset').click(function () {
+	    $distpicker.distpicker('reset');
+	  });
+	
+	  $('#reset-deep').click(function () {
+	    $distpicker.distpicker('reset', true);
+	  });
+	
+	  $('#destroy').click(function () {
+	    $distpicker.distpicker('destroy');
+	  });
+	
+	  $('#distpicker1').distpicker();
+	
+	  $('#distpicker2').distpicker({
+	    province: '---- 所在省 ----',
+	    city: '---- 所在市 ----',
+	    district: '---- 所在区 ----'
+	  });
+	  
+	 //添加 
+    $('.addcity').click(function(){
+		var province = $('#province').val()
+		if (province == '' || province==null) {
+			prompt('请选择省份',0)
+			return false
+		}
+		var city = $('#city').val()
+		var district = $('#district').val()
+		var txt = province+','+city+','+district
+		app.city.push({city:txt})
+		$distpicker.distpicker('reset', true);
+	})
+    
+    $('.btns').click(function(){
+    	var radio = $('input:radio:checked').val()
+    	$.ajax({
+    		type:"post",
+    		data: app.city,
+    		url:"",
+    		async:true,
+    		success:function(){
+    			
+    		}
+    	});
+    	return false
+    	
+    	//return false;
+    })
+</script>	
+
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+</head>
+<style type="text/css">
+    body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0; }
+    body, button, input, select, textarea { font:12px/1.5tahoma, arial, \5b8b\4f53;font-family: "微软雅黑"; }
+    button:disabled,button:disabled:hover{color: #c3cbd6;background-color: #f7f7f7;border-color: #d7dde4;cursor: not-allowed;}
+    button:disabled:hover{background: #5cadff;border-color: #5cadff;}
+    button, input, select, textarea {font-size:100%;background: transparent;font-size: inherit;line-height: inherit;font-family: sans-serif;    font-family: inherit;border: 0;outline: none;}
+    a{width: 55%;border: 1px solid #3fbb30;position: absolute;text-decoration: none;color: #fff;background: #3fbb30;border-radius: 5px;
+        top: 50%; left: 50%;text-align: center;padding: 15px 0;
+        -webkit-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);   }
+</style>
+<body>
+<a href="" onclick="nav_ti()">已授权，关闭当前页</a>
+</body>
+</html>
+
+<script>
+    nav_ti=function(){
+
+        wx.miniProgram.redirectTo({
+
+                url:'/sd_liferuning/pages/service/index/index'
+
+            }
+
+    )}
+</script>

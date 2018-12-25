@@ -1,0 +1,302 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<script src="__STATIC__/uedi/ueditor.config.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/uedi/ueditor.all.js" type="text/javascript" charset="utf-8"></script>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			新闻添加
+		</div>
+
+
+
+		<div class="label-4">
+			<div class="form" id="forms">
+
+				<form action="insert" method="post" enctype="multipart/form-data" class="form-2">
+					<div><label class="ltxt">商品名称:</label><input type="text" name="name" id="" value="" /><span></span></div>
+					<div><label class="ltxt">菜单:</label>
+						<div class="bor bor2 bor4">
+							<span>请选择</span><i></i>
+
+							<ul style="display: none;">
+
+
+
+
+							</ul>
+						</div>
+						<span></span>
+					</div>
+					<div><label class="ltxt">详细内容:</label>
+						<script id="container" name="content" type="text/plain"></script>
+						<span></span>
+					</div>
+					<div><label></label><button class="btns btn-right subbtn">发布</button><a href="javaScript:history.back()" class="btns btn-right">返回</a></div>
+					<div class="clear"></div>
+					<input type="hidden" name="datatype_one" id="datatype_one" value="" />
+					<input type="hidden" name="datatype_two" id="datatype_two" value="" />
+					<input type="hidden" name="menu" id="menu" value="" />
+					<input type="hidden" name="caidan" id="caidan" value="" />
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<div id="toup">
+	<img src="__STATIC__/home/img/toup.png"/>
+</div>
+
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/dateRange.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/monthPicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/imgUp.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script type="text/javascript">
+
+	var ajaxurl = "__publicPath__/commtype/addajax.shtml";
+
+	$(document).ready(function(e) {
+		var ue = UE.getEditor('container');
+		$('input').lc_switch();
+	});
+	// IOS开关取值
+	$('body').delegate('.lcs_check', 'lcs-statuschange', function() {
+		var status = ($(this).is(':checked')) ? 'checked' : 'unchecked';
+		if (status == 'checked'){
+			$(".lcs_check").val(1)
+		} else{
+			$(".lcs_check").val(0)
+		}
+		console.log('field changed status: '+ status );
+	});
+
+	$(".radios input[type='radio']").click(function(){
+		var Text = ".radios input[type='text']"
+		var Select = "#forms form .bor10"
+		var Radio = $(this).val()
+		if (Radio == 0) {
+			$(Text).attr("disabled",false);
+			$(Text).removeClass('act')
+			$(Select).addClass('acts')
+			$(Select).find('.hide').show()
+
+		} else{
+			$(Text).attr("disabled",true);
+			$(Text).attr('class','act')
+			$(Select).removeClass('acts')
+			$(Select).find('.hide').hide()
+		}
+
+	})
+
+	var i=0;
+	$(".Addinput").click(function(){
+		i++
+		var html = "<p><input type='text' name='' id='' value='' class='inpa'/><input type='text' name='' id='' value='' class='inpb'/><input type='text' name='' id='' value='' class='inpc'/><input type='text' name='' id='' value='' class='inpd'/><input type='text' name='' id='' value='' class='inpe'/><i></i></p>"
+		$(".addinput").append(html);
+	})
+
+	$(document).on("click", ".addinput p i", function(){
+		$(this).parent().remove()
+	});
+
+
+	var datas = new Array();      //创建数组
+	datas[0] =""; 				  //赋值
+	$(".subbtn").click(function(){
+		$("#caidan").prop('value','')
+		var q1 = '.inpa';
+		var q2 = '.inpb';
+		var q3 = '.inpc';
+		var q4 = '.inpd';
+		var q5 = '.inpe';
+		for (var i = 0; i < $(".addinput p").length; i++) {
+			if ($(".addinput p").eq(i).find('input').val() !== ''){
+				datas[i] = $(".addinput p").eq(i).find(q1).val()+"/*max*/"
+				datas[i] += $(".addinput p").eq(i).find(q2).val()+"/*max*/"
+				datas[i] += $(".addinput p").eq(i).find(q3).val()+"/*max*/"
+				datas[i] += $(".addinput p").eq(i).find(q4).val()+"/*max*/"
+				datas[i] += $(".addinput p").eq(i).find(q5).val()
+				console.log(datas)
+			} else{
+				alert('空')
+			}
+
+		}
+		$("#caidan").prop('value',datas)
+		// 使用完数组再次清空数组
+		for (var i = 0; i < datas.length; i++) {
+			datas.splice(0,9999)
+		}
+	})
+
+
+
+	var Ptid = "0";   //获取每级id
+	var Level = "0";   //获取级别
+	$(".bor6").unbind('click').bind('click',function(){
+		$(".bor7 ul li").remove()
+		//alert('-')
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:ajaxurl,
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (var i = 0; i < data.length; i++){      //一级分类
+					are += "<li data-type="+data[i].ptid+">"+data[i].name+"</li>";
+					Level = data[i].level
+				}
+				$(".bor6 ul").html('')
+				$(".bor6 ul").append(are)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+	var Li;  				//一级索引
+	var towLi;				//二级索引
+	//二级分类
+	$(document).on("click", ".bor6 ul li", function(){
+		$(".bor7 ul li").remove()
+		$(".bor7 span").text('请选择')
+		$(".bor8 ul li").remove()
+		$(".bor8 span").text('请选择')
+		Li = $(this).index()
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:ajaxurl,
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (towLi = 0; towLi < data[Li].sub.length; towLi++) {   //二级菜单
+					are += "<li data-type="+data[Li].sub[towLi].ptid+">"+data[Li].sub[towLi].name+"</li>"
+					Level = data[Li].sub[towLi].level
+				}
+				$(".bor7 ul").html('')
+				$(".bor7 ul").append(are)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+	//三级分类
+	$(document).on("click", ".bor7 ul li", function(){
+		$(".bor8 ul li").remove()
+		$(".bor8 span").text('请选择')
+		var stowLi = $(this).index()
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:ajaxurl,
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (var i = 0; i < data[Li].sub[stowLi].sub.length; i++) {   //三级菜单
+					are += "<li data-type="+data[Li].sub[stowLi].sub[i].ptid+">"+data[Li].sub[stowLi].sub[i].name+"</li>"
+					Level = data[Li].sub[stowLi].sub[i].level
+				}
+				$(".bor8 ul").html('')
+				$(".bor8 ul").append(are)
+				//console.log(Level)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+
+
+	$(".subbtn").click(function(){
+		$("#menu").val()
+		if ($(".bor6 span").text() != "请选择"){
+			Ptid = $(".bor6 span").attr('data-type')
+			if ($(".bor7 span").text() != "请选择"){
+				Ptid = $(".bor7 span").attr('data-type')
+				if ($(".bor8 span").text() != "请选择"){
+					Ptid = $(".bor8 span").attr('data-type')
+				}
+			}
+		} else{
+			return false
+		}
+		console.log("级别："+Ptid+" 级数："+Level)
+		$("#menu").val(Ptid)
+	})
+
+	var onehtml = '';
+	$.ajax({
+		type:"get",
+		url:'__publicPath__/commtype/templateajax.shtml',
+		data: '',
+		dataType: "json",
+		success: function(data){
+			for (var i = 0; i < data.length; i++){
+				if (data[i].unit == 0) {
+					onehtml += "<li data-type="+data[i].freid+">"+data[i].title+"</li>"
+					$(".bor10 ul").html('')
+					$(".bor10 ul").append(onehtml)
+				}
+			}
+
+		},
+		error:function(){
+			alert('失败')
+		}
+	});
+
+
+	$("#forms form > div .radioa label").click(function(){
+		var Index = $(this).index();
+		console.log(Index)
+		var ones = '';
+		var twos = '';
+		$.ajax({
+			type:"get",
+			url:'__publicPath__/commtype/templateajax.shtml',
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (var i = 0; i < data.length; i++){
+					if (Index == 0) {
+						if (data[i].unit == 0) {
+							ones += "<li data-type="+data[i].freid+">"+data[i].title+"</li>"
+							$(".bor10 ul").html('')
+							$(".bor10 ul").append(ones)
+						}
+					} if (Index == 1){
+						if (data[i].unit == 1) {
+							ones += "<li data-type="+data[i].freid+">"+data[i].title+"</li>"
+							$(".bor10 ul").html('')
+							$(".bor10 ul").append(ones)
+						}
+					}
+				}
+
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+</script>
+{/block}
+

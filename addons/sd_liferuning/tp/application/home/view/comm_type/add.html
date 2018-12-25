@@ -1,0 +1,237 @@
+
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="2,0"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			添加产品
+		</div>
+		<div class="form" id="form">
+			<form action="insert" method="post" enctype="multipart/form-data">
+				<div>
+					<label class="ltxt">分类名称:</label>
+					<div class="bor bor6 bor0" >
+						<span>请选择</span><i></i>
+						<ul style="display: none;">
+						</ul>
+					</div>
+					<div class="bor bor7 bor0">
+						<span>请选择</span><i></i>
+						<ul style="display: none;">
+						</ul>
+					</div>
+					<div class="bor bor8 bor0">
+						<span>请选择</span><i></i>
+						<ul style="display: none;">
+						</ul>
+					</div>
+					<span></span>
+				</div>
+				<div><label class="">图片:</label><input type="file" name="image" /> <br> <span></span></div>
+				<div class="txtname"><label class="">分类名:</label><input type="text" name="txt" id="txt" value="" style="width: 194px;"/><span></span></div>
+				<div class="txtname"><label class="">排序:</label><input type="text" name="solt" id="solt" value="" style="width: 194px;"/><span></span></div>
+				<input type="hidden" name="class_one" id="class_one" value="" />
+				<input type="hidden" name="class_two" id="class_two" value="" />
+				<input type="hidden" name="class_three" id="class_three" value="" />
+
+				<div><button class="btns">保存</button></div>
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+	var Ptid_one = $("#class_one");   //获取每级id
+	var Ptid_tow = $("#class_two");
+	var Ptid_three = $("#class_three");
+	var Level = "0";   //获取级别
+
+
+	$(".bor6").unbind('click').bind('click',function(){
+		$(".bor7 ul li").remove()
+		//alert('-')
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:"__publicPath__/home/commtype/addaxax",
+			data: '',
+			dataType: "json",
+			success: function(data){
+
+				for (var i = 0; i < data.length; i++){      //一级分类
+					//alert(data[i].title)
+					are += "<li data-type="+data[i].tid+">"+data[i].name+"</li>";
+					Level = data[i].level
+					//console.log(Level)
+					//$(".bor6 ul").html('')
+					//alert('1')
+					//alert($(".bor6 ul").html('666'))
+//						for (var j = 0; j < data[i].sub.length; j++) {   //二级菜单
+//							//alert(data[i].sub[j].title)
+//						}
+				}
+				$(".bor6 ul").html('')
+				$(".bor6 ul").append(are)
+			},
+			error:function(){
+				//alert('失败')
+			}
+		});
+	})
+
+	var Li;  				//一级索引
+	var towLi;				//二级索引
+	//二级分类
+	$(document).on("click", ".bor6 ul li", function(){
+		$(".txtname").show();
+		$('#form form > div .btns').show();
+		$(".txtname input").val('');
+		$(".bor7 ul li").remove()
+		$(".bor7 span").text('请选择')
+		$(".bor8 ul li").remove()
+		$(".bor8 span").text('请选择')
+		Li = $(this).index()
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:"__publicPath__/home/commtype/addaxax",
+			data: '',
+			dataType: "json",
+			success: function(data){
+
+				for (towLi = 0; towLi < data[Li].comm.length; towLi++) {   //二级菜单
+					are += "<li data-type="+data[Li].comm[towLi].ptid+">"+data[Li].comm[towLi].name+"</li>"
+					Level = data[Li].comm[towLi].level
+				}
+				$(".bor7 ul").html('')
+				$(".bor7 ul").append(are)
+				//console.log(Level)
+			},
+			error:function(){
+				//alert('失败')
+			}
+		});
+	})
+
+	//三级分类
+	$(document).on("click", ".bor7 ul li", function(){
+		$(".txtname").show()
+		$('#form form > div .btns').show()
+		$(".txtname input").val('');
+		$(".bor8 ul li").remove()
+		$(".bor8 span").text('请选择')
+		var stowLi = $(this).index()
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:"__publicPath__/home/commtype/addaxax",
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (var i = 0; i < data[Li].comm[stowLi].comm.length; i++) {   //三级菜单
+					//alert(data[Li].sub[stowLi].sub[i].title)
+					are += "<li data-type="+data[Li].comm[stowLi].comm[i].ptid+">"+data[Li].comm[stowLi].comm[i].name+"</li>"
+					Level = data[Li].comm[stowLi].comm[i].level
+				}
+				$(".bor8 ul").html('')
+				$(".bor8 ul").append(are)
+				//console.log(Level)
+			},
+			error:function(){
+				//alert('失败')
+			}
+		});
+	})
+
+	$(document).on("click", ".bor8 ul li", function(){
+		$(".txtname").hide()
+		$(".txtname input").val('');
+		$('#form form > div .btns').hide()
+	})
+
+	function Oneajax(obj){
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:"__publicPath__/home/commtype/addaxax",
+			data: obj,
+			dataType: "json",
+			success: function(data){
+				//alert(data[1].title)
+				for (var i = 0; i < data.length; i++){      //一级菜单
+					//alert(data[i].title)
+					are += "<li>"+data[i].name+"</li>"
+					//$(".bor6 ul").html('')
+					//alert('1')
+					//alert($(".bor6 ul").html('666'))
+//						for (var j = 0; j < data[i].sub.length; j++) {   //二级菜单
+//							//alert(data[i].sub[j].title)
+//						}
+				}
+				$(".bor6 ul").html('')
+				$(".bor6 ul").append(are)
+				console.log(Li+"----------"+stowLi)
+
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+		//}
+		//return false;
+	}
+
+
+	$(".btns").click(function(){
+		if ($(".bor6 span").text() != "请选择") {
+
+			Ptid_one.val($(".bor6 span").attr('data-type'))
+			if ($(".bor7 span").text() != "请选择"){
+				Ptid_tow.val($(".bor7 span").attr('data-type'))
+				if($(".bor8 span").text() != "请选择"){
+					return false;
+				}
+			}
+		} else{
+//			prompt('请选择分类',0)
+//			return false
+		}
+		if (!regulars('','txt','分类名','')) {
+			return false
+		}
+		if ($('#form input[type="file"]').val() == '') {
+			prompt('请添加图片',0)
+			return false
+		}
+	})
+
+</script>
+
+
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

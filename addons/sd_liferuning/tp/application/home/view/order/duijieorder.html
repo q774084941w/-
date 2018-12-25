@@ -1,0 +1,466 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="6,5,false,对接订单配置"/>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style type="text/css">
+    body{
+        background: #FFF !important;
+    }
+    a{
+        /*color: #FFF;*/
+        text-decoration: none;
+    }
+    .container {
+        overflow: hidden;
+        width: 100%;
+        background: #FFF;
+    }
+    
+    .list a,.assistant a{
+        color: #FFF !important;
+    }
+    .act a{
+        color: #333 !important;
+    }
+    
+    .l_tow_sub a,l_tow_sub a:active{
+        color: #444;
+        text-decoration: none;
+    }
+
+    .web-title {
+        font-size: 30px;
+        font-weight: normal;
+        border-bottom: 1px solid #ddd;
+        line-height: 80px;
+        margin-bottom: 50px;
+        text-indent: 1em;
+    }
+
+    .form-group {
+        width: 600px;
+        margin-left: 30px;
+        margin-bottom: 20px;
+    }
+
+    .radio-item {
+        display: inline-block;
+        margin: 0 20px;
+    }
+
+    .none {
+        display: none;
+    }
+
+</style>
+
+<div class="container">
+
+    <h1 class="web-title">模块订单配置</h1>
+
+
+    <form action="">
+
+        <div class="form-group">
+            <div class="radio-item">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                       value="1"
+                       checked>
+                <label class="form-check-label" for="exampleRadios1">
+                    无需配置数据库
+                </label>
+            </div>
+            <div class="radio-item">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="2">
+                <label class="form-check-label" for="exampleRadios2">
+                    需要配置数据库
+                </label>
+            </div>
+        </div>
+
+        <div class="databaseDateGroup">
+
+        </div>
+
+        <div class="form-group">
+            <label for="uuid">唯一标识符</label>
+            <input type="text" class="form-control" name="uuid" id="uuid" placeholder="请输入唯一标识符" validata-type="isEmpty"
+                   _isEmpty="false" _help-type="唯一标识符">
+            <small class="form-text text-muted">配置用户的唯一标识符</small>
+        </div>
+
+        <div class="form-group">
+            <label for="tableName">数据库表单名</label>
+            <input type="text" class="form-control" name="tableName" id="tableName" placeholder="请输入数据库表单名"
+                   validata-type="isEmpty"
+                   _isEmpty="false" _help-type="数据库表单名">
+            <small class="form-text text-muted">数据库中需要进行配置的表单名</small>
+        </div>
+
+        <div class="form-group">
+            <label for="commodityName">商品名称</label>
+            <input type="text" class="form-control" name="commodityName" id="commodityName" placeholder="请输入商品名称"
+                   validata-type="isEmpty"
+                   _isEmpty="false" _help-type="商品名称">
+            <small class="form-text text-muted">数据库表中商品对应的字段名称</small>
+        </div>
+
+        <div class="form-group">
+            <label for="price">价格</label>
+            <input type="text" class="form-control" name="price" id="price" placeholder="请输入价格" validata-type="isEmpty"
+                   _isEmpty="false" _help-type="价格">
+            <small class="form-text text-muted">数据库表中价格对应的字段名称</small>
+        </div>
+
+        <div class="form-group">
+            <label for="address">配送地址</label>
+            <input type="text" class="form-control" name="address" id="address" placeholder="请输入配送地址"
+                   validata-type="isEmpty"
+                   _isEmpty="false" _help-type="配送地址">
+            <small class="form-text text-muted">数据库表中配送地址对应的字段名称</small>
+        </div>
+
+        <div class="form-group">
+            <label for="takeDelivery">收货人</label>
+            <input type="text" class="form-control" name="takeDelivery" id="takeDelivery" placeholder="请输入收货人"
+                   validata-type="isEmpty"
+                   _isEmpty="false" _help-type="收货人">
+            <small class="form-text text-muted">数据库表中收货人对应的字段名称</small>
+        </div>
+
+        <div class="form-group">
+            <label for="phoneNumber">联系电话</label>
+            <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="请输入联系电话"
+                   validata-type="isEmpty"
+                   _isEmpty="false" _help-type="联系电话">
+            <small class="form-text text-muted">数据库表中联系电话对应的字段名称</small>
+        </div>
+
+        <div class="form-group">
+            <label for="orderNumber">订单编号</label>
+            <input type="text" class="form-control" name="orderNumber" id="orderNumber" placeholder="请输入订单编号"
+                   validata-type="isEmpty"
+                   _isEmpty="false" _help-type="订单编号">
+            <small class="form-text text-muted">数据库表中订单编号对应的字段名称</small>
+        </div>
+
+        <div class="form-group">
+            <label for="orderStatus">订单状态</label>
+            <input type="text" class="form-control" name="orderStatus" id="orderStatus" placeholder="请输入状态"
+                   validata-type="isEmpty"
+                   _isEmpty="false" _help-type="订单状态">
+            <small class="form-text text-muted">数据库表中状态对应的字段名称</small>
+        </div>
+
+        <div class="form-group">
+            <label for="orderId">ID</label>
+            <input type="text" class="form-control" name="orderId" id="orderId" placeholder="请输入ID"
+                   validata-type="isEmpty"
+                   _isEmpty="false" _help-type="ID">
+            <small class="form-text text-muted">数据库表中ID对应的字段名称</small>
+        </div>
+
+        <div class="form-group">
+            <button type="button" class="btn btn-success" onclick="formValidate.checkInputFactory()">确认添加</button>
+        </div>
+
+    </form>
+
+</div>
+
+
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+    /**
+     * 基于Jquery的插件库封装
+     * @author nankeyang
+     */
+    (function ($) {
+
+        /**
+         * 表单验证
+         * @constructor
+         */
+        this.FormValidate = function () {
+            // 常量
+            var _validateType = 'validata-type';    // 验证类型的规则
+
+            // 验证规则
+            var _maxLen = 'maxLen';    //  最大长度
+            var _minLen = 'minLen';    // 最小长度
+            var _isEmpty = 'isEmpty';    //  是否为空
+            var _rePass = 'rePass';     // 确认密码
+            var _isUnchecked = 'isUnchecked';     // 确认密码
+            var _regularExpression = 'regularExpression';   // 正则验证
+
+
+            // 验证参数
+            var _maxLenVal = '_maxLen';    // 最大长度
+            var _minLenVal = '_minLen';    // 最小长度
+            var _isEmptVal = '_isEmpty';    // 是否为空
+            var _rePassVal = '_re_pass_id'; // 确认密码ID
+            var _isUncheckedVal = '_is-unchecked'; // 确认密码ID
+            var _regularPattern = '_regularPattern';    // 验证规则
+            var _helpType = '_help-type';   // 提示
+
+            // 记录参数
+            var _validateTypeList;  // 需要验证的规则名称
+            var _validateStatus = true;    // 验证是否成功
+            var _isSend = false;
+
+
+            /**
+             * 验证规则工厂
+             */
+            this.checkInputFactory = function () {
+                $('*[' + _validateType + ']').each(function () {
+                    var arr = $(this).attr(_validateType).split('|');
+                    _isSend = false;
+                    _validateTypeList = [];
+
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i].trim() == _maxLen) {
+                            if (!isEmptyToArray(_validateTypeList, _maxLen)) {
+                                _validateTypeList.push(_maxLen)
+                            }
+                        } else if (arr[i].trim() == _minLen) {
+                            if (!isEmptyToArray(_validateTypeList, _minLen)) {
+                                _validateTypeList.push(_minLen)
+                            }
+                        } else if (arr[i].trim() == _isEmpty) {
+                            if (!isEmptyToArray(_validateTypeList, _isEmpty)) {
+                                _validateTypeList.push(_isEmpty)
+                            }
+                        } else if (arr[i].trim() == _rePass) {
+                            if (!isEmptyToArray(_validateTypeList, _rePass)) {
+                                _validateTypeList.push(_rePass)
+                            }
+                        } else if (arr[i].trim() == _isUnchecked) {
+                            if (!isEmptyToArray(_validateTypeList, _isUncheckedVal)) {
+                                _validateTypeList.push(_isUnchecked)
+                            }
+                        } else if (arr[i].trim() == _regularExpression) {
+                            if (!isEmptyToArray(_validateTypeList, _regularExpression)) {
+                                _validateTypeList.push(_regularExpression)
+                            }
+                        }
+                    }
+                    if (_validateStatus) {
+                        if ($(this).attr('type') == 'text' || $(this).attr('type') == 'password' || !$(this).attr('type')) {
+                            new CheckInputText(this);
+                        } else if ($(this).attr('type') == 'radio') {
+                            new CheckInputRadio(this);
+                        }
+                    } else {
+                        _validateStatus = true;
+                        return false;
+                    }
+                });
+
+                if (_isSend) {
+                    sendRequest($('form').serialize());
+                }
+            }
+
+            /**
+             * 发送请求
+             * @param dataJason 序列号表单数据
+             * */
+            var sendRequest = function (dataJason) {
+                var sendRquetUrl = "";
+                $.post(sendRquetUrl, dataJason,
+                    function (data) {
+                        alert(data);
+                    });
+            }
+
+            /**
+             * 文本类型验证规则
+             * @param dom
+             * @returns {boolean}
+             * @constructor
+             */
+            var CheckInputText = function (dom) {
+                var $dom = $(dom);
+                if (isEmptyToArray(_validateTypeList, _isEmpty)) {
+                    if ($dom.attr(_isEmptVal) == 'false') {
+                        if ($dom.val().length <= 0) {
+                            _validateStatus = false;
+                            showHelpInfo(dom, $dom.attr(_helpType) + "不得为空");
+                            return false
+                        }
+                    }
+                }
+
+                if (isEmptyToArray(_validateTypeList, _maxLen)) {
+                    if ($dom.attr(_maxLenVal)) {
+                        if ($dom.val().length > $dom.attr(_maxLenVal)) {
+                            _validateStatus = false;
+                            showHelpInfo(dom, $dom.attr(_helpType) + "不得大于" + $dom.attr(_maxLenVal) + "位");
+                            return false
+                        }
+                    }
+                }
+                if (isEmptyToArray(_validateTypeList, _minLen)) {
+                    if ($dom.attr(_minLenVal)) {
+                        if ($dom.val().length < $dom.attr(_minLenVal)) {
+                            _validateStatus = false;
+                            showHelpInfo(dom, $dom.attr(_helpType) + "不得小于" + $dom.attr(_minLenVal) + "位");
+                            return false
+                        }
+                    }
+                }
+                if (isEmptyToArray(_validateTypeList, _rePass)) {
+                    if ($dom.attr(_rePassVal)) {
+                        if ($($dom.attr(_rePassVal)).val() != $dom.val()) {
+                            _validateStatus = false;
+                            showHelpInfo(dom, $dom.attr(_helpType));
+                            return false
+                        }
+                    }
+                }
+                if (isEmptyToArray(_validateTypeList, _regularExpression)) {
+                    if ($dom.attr(_regularPattern)) {
+                        var r = new RegExp($dom.attr(_regularPattern));
+                        var mobile = $dom.val();
+                        if (!r.test(mobile)) {
+                            _validateStatus = false;
+                            showHelpInfo(dom, $dom.attr(_helpType) + "格式不正确");
+                            return false
+                        }
+                    }
+                }
+                _isSend = true;
+            }
+
+            /**
+             * 单选框类型验证规则
+             * @param dom
+             * @returns {boolean}
+             * @constructor
+             */
+            var CheckInputRadio = function (dom) {
+                var $dom = $(dom);
+                if (isEmptyToArray(_validateTypeList, _isUnchecked)) {
+                    if ($dom.attr(_isUncheckedVal) == 'false') {
+                        if (dom.checked == false) {
+                            _validateStatus = false;
+                            showHelpInfo(dom, $dom.attr(_helpType) + "必须选中");
+                            return false
+                        }
+                    }
+                }
+                _isSend = true;
+            }
+
+            /**
+             * 基于Bootstrap的用户提示弹框
+             * @param dom
+             * @param str
+             */
+            var showHelpInfo = function (dom, str) {
+                var $nDom = $(dom).next("div[role=tooltip]");
+                $(dom).attr('title', str);
+                $(dom).attr('data-original-title', str);
+                $(dom).attr('data-toggle', 'tooltip');
+                $(dom).attr('data-placemen', 'top');
+                $(dom).tooltip('show');
+                $(dom).focus();
+                if ($nDom) {
+                    $nDom.find('.tooltip-inner').html(str);
+                }
+            }
+
+            /**
+             * 判断集合中是否存在指定字符串
+             * @param arr 数组
+             * @param str  字符串
+             */
+            var isEmptyToArray = function (arr, str) {
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].trim() == str.trim()) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            this.init = function (config) {
+            }
+
+        };
+
+
+    })(jQuery);
+
+    var formValidate = new FormValidate();
+
+    $(function () {
+        $('input[type=radio]').focus(function () {
+            var _val = $(this).val();
+            $('.databaseDateGroup').html("");
+            if(_val == 2){
+                $('.databaseDateGroup').append('<div class="form-group">\n' +
+                    '        <label for="databaseIp">数据库地址</label>\n' +
+                    '        <input type="text" class="form-control" name="ipAddress" id="databaseIp" placeholder="请输入数据库地址"\n' +
+                    '    validata-type="isEmpty"\n' +
+                    '    _isEmpty="false" _help-type="数据库地址">\n' +
+                    '        <small class="form-text text-muted">数据库对应IP地址</small>\n' +
+                    '        </div>\n' +
+                    '\n' +
+                    '        <div class="form-group">\n' +
+                    '        <label for="databaseIpPort">数据库地址端口号</label>\n' +
+                    '        <input type="text" class="form-control" name="ipAddress" id="databaseIpPort" placeholder="请输入数据库地址端口号"\n' +
+                    '    validata-type="isEmpty"\n' +
+                    '    _isEmpty="false" _help-type="数据库地址端口号">\n' +
+                    '        <small class="form-text text-muted">数据库地址端口号</small>\n' +
+                    '        </div>\n' +
+                    '\n' +
+                    '        <div class="form-group">\n' +
+                    '        <label for="databaseName">数据库名称</label>\n' +
+                    '        <input type="text" class="form-control" name="ipAddress" id="databaseName" placeholder="请输入数据库名称"\n' +
+                    '    validata-type="isEmpty"\n' +
+                    '    _isEmpty="false" _help-type="数据库名称">\n' +
+                    '        <small class="form-text text-muted">数据库名称</small>\n' +
+                    '        </div>\n' +
+                    '\n' +
+                    '        <div class="form-group">\n' +
+                    '        <label for="databaseUser">数据库用户名</label>\n' +
+                    '        <input type="text" class="form-control" name="ipAddress" id="databaseUser" placeholder="请输入数据库用户名"\n' +
+                    '    validata-type="isEmpty"\n' +
+                    '    _isEmpty="false" _help-type="数据库用户名">\n' +
+                    '        <small class="form-text text-muted">数据库用户名</small>\n' +
+                    '        </div>\n' +
+                    '\n' +
+                    '        <div class="form-group">\n' +
+                    '        <label for="databasePassword">数据库密码</label>\n' +
+                    '        <input type="text" class="form-control" name="ipAddress" id="databasePassword" placeholder="请输入数据库密码"\n' +
+                    '    validata-type="isEmpty"\n' +
+                    '    _isEmpty="false" _help-type="数据库密码">\n' +
+                    '        <small class="form-text text-muted">数据库用户名</small>\n' +
+                    '        </div>\n' +
+                    '\n' +
+                    '        <div class="form-group">\n' +
+                    '        <label for="databaseEncoding">数据库编码</label>\n' +
+                    '        <input type="text" class="form-control" name="ipAddress" id="databaseEncoding" placeholder="请输入数据库密码"\n' +
+                    '    validata-type="isEmpty"\n' +
+                    '    _isEmpty="false" _help-type="数据库编码">\n' +
+                    '        <small class="form-text text-muted">数据库编码</small>\n' +
+                    '        </div>');
+            }
+        })
+    })
+
+</script>
+
+{/block}

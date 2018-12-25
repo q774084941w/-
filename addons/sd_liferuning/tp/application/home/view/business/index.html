@@ -1,0 +1,108 @@
+
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="11,2"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			商户信息
+		</div>
+		<div class="label-3 label">
+			<!--<div class="search">-->
+				<!--<div class="">-->
+					<!--<input type="text" name="" id="" value="" placeholder="产品名称"/><button><i></i><span>搜产品</span></button>-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--<<div class="Statistics">
+				<button class="delete">批量删除</button>
+				<button class="blue"><a href="slide-add.html">添加照片</a></button>
+				<span class="right">共有数据：<b>11</b>条</span>
+				<div class="clear"></div>
+			/div>-->
+			<!--<div class="Statistics">
+				<div class="left d">
+					<form action="" method="post">
+
+						<label>金额</label><input type="text" name="" id="" value="" />
+						<label>金额</label><input type="text" name="" id="" value="" />
+
+						<label>金额</label>
+						<div class="radio">
+							<label><input type="radio" name="a" id="" value="" /><span>金额</span></label>
+							<label><input type="radio" name="a" id="" value="" /><span>金额</span></label>
+						</div>
+
+						<input type="submit" value="提交" class="modifybtn"/>
+					</form>
+				</div>
+				<span class="right">共有数据：<b>11</b>条</span>
+				<div class="clear"></div>
+			</div>-->
+
+
+			<!--<div class="query">-->
+				<!--<div class="left">-->
+					<!--<label>显示-->
+						<!--<select name="">-->
+							<!--<option value="">10</option>-->
+							<!--<option value="">25</option>-->
+							<!--<option value="">50</option>-->
+							<!--<option value="">100</option>-->
+						<!--</select>条-->
+					<!--</label>-->
+				<!--</div>-->
+				<!--<div class="right">-->
+					<!--<label>从当前数据中检索:-->
+						<!--<input type="text" name="" id="" value="" />-->
+					<!--</label>-->
+				<!--</div>-->
+				<!--<div class="clear"></div>-->
+			<!--</div>-->
+			<div class="Tab Tabs">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+					<thead>
+						<tr>
+							<th style="width: 40px;"><input type="checkbox" name="" id="" value="" /></th>
+							<th style="width: 60px;">ID</th>
+							<th style="width: 110px;">名称</th>
+							<th style="width: 130px;">logo</th>
+							<th style="width: 100px;">地址</th>
+							<th style="width: 100px;">客服电话</th>
+							<th style="width: 160px;">经度</th>
+							<th style="width: 160px;">纬度</th>
+							<th style="width: 120px;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="data" id="vo"}
+						<tr>
+							<td style="width: 40px;"><input type="checkbox" name="" id="" value="" /></td>
+							<td style="width: 60px;">{$vo.bid}</td>
+							<td style="width: 130px;" class="align-r">{$vo.name}</td>
+							<td style="width: 110px;"><img src="{$vo.logo}" style="width: 100px;"/></td>
+							<td style="width: 130px;" class="align-r">{$vo.address}</td>
+							<td style="width: 100px;" class="align-r">{$vo.phone}</td>
+							<td style="width: 100px;">{$vo.longitude}</td>
+							<td>{$vo.latitude}</td>
+							<!--<td style="width:160px;"></td>-->
+							<td style="width: 120px;"><button class="modifybtn open-win ml"   onclick="compile('edit?id={$vo.bid}')">编辑</button></td>
+						</tr>
+						{/volist}
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+
+{/block}
+

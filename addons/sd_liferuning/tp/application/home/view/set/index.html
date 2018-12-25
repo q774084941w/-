@@ -1,0 +1,162 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="11,5,0,小程序设置"/>
+	<div class="c-r right">
+		<div class="label1">
+			<div class="title">
+				小程序基本参数设置
+			</div>
+			<div id="form" class="form">
+				<form action="{:url('set/add')}"  method="post" enctype="multipart/form-data">
+					<div><label class="ltxt">小程序名称:</label><input type="text" name="appname" id="" value="{$data.appname}" />
+						<span >设置小程序名称。</span>
+					</div>
+					<div><label class="ltxt">首页服务类目每行个数:</label>
+						<select name="sernum" style="width:661px;height:32px">
+							<option value="4">4</option>
+							<option value="3" selected="">3</option>
+						</select>
+						<span >修改小程序首页改服务下，每一行的显示个数。</span>
+					</div>
+					<div><label class="ltxt">首页转发图片:</label>
+	                	<div class="upimg indeximg">
+	                		<input type="file" name="homepage" id="" value="" onchange="Upimg(this,'.indeximg')"/>
+							{if condition="$data['homepage']"}
+							<img src="<?php echo 'https://'.$_SERVER['SERVER_NAME']; ?>/addons/sd_liferuning/tp/public/uploads/homepage/{$data.homepage}"/>
+							{else /}
+							<img src="<?php echo 'https://'.$_SERVER['SERVER_NAME']; ?>addons/sd_liferuning/tp/public/static/home/img/addimg.png"/>
+							{/if}
+	                		<!--<input type="hidden" name="homepage" id="" value="{$data.homepage}" />-->
+	                	</div>
+	                	<span>请选择首页转发图片</span>
+	                </div>
+	                <div><label class="ltxt">海报图片:</label>
+	                	<div class="upimg haibao">
+	                		<input type="file" name="poster" id="" value="" onchange="Upimg(this,'.haibao')"/>
+							{if condition="!$data['poster']"}
+							<img src="<?php echo 'https://'.$_SERVER['SERVER_NAME']; ?>/addons/sd_liferuning/tp/public/uploads/qrbg.jpg"/>
+							{else /}
+							<img src="<?php echo 'https://'.$_SERVER['SERVER_NAME']; ?>/addons/sd_liferuning/tp/public/uploads/poster/{$data.poster}"/>
+							{/if}
+	                		<!--<input type="hidden" name="poster" id="" value="{$data.poster}" />-->
+	                	</div>
+	                	<span>请选择海报图片</span>
+					</div>
+					<div><label class="ltxt">积分抵现:</label><input type="text" name="jifen" id="" value="{$data['jifen']}" style="width: 100px;"/>=1元
+						<span style="color: #f30;">积分抵扣1元</span>
+					</div>
+					<div><label class="ltxt">积分使用规则:</label><textarea name="jifenguize" rows="" cols="">{$data['jifenguize']}</textarea>
+						<span >积分使用规则用于用户结算页说明显示，为了更好体验字数最好不要超过80字。</span>
+					</div>
+					<!--议价功能-->
+					
+					<div>
+						<label class="ltxt"  >开启议价:</label>
+						<div class="radio radioa">
+							{if condition="$data['distype'] == 1"}
+							<label><input type="radio" name="distype" id="" value="1" checked>开启</label>
+							<label><input type="radio" name="distype" id="" value="0" >关闭</label>
+							{else /}
+							<label><input type="radio" name="distype" id="" value="1" >开启</label>
+							<label><input type="radio" name="distype" id="" value="0" checked>关闭</label>
+							{/if}
+						</div>
+						<span style="clear:left;">开启跑腿用户端议价功能。</span>
+					</div>
+					<!--保单金额-->
+					<div>
+						<label class="ltxt">开启保单金额:</label>
+						<div class="radio radioa">
+							{if condition="$data['instype'] == 1"}
+							<label><input type="radio" name="instype" id="" value="1" checked>开启</label>
+							<label><input type="radio" name="instype" id="" value="0" >关闭</label>
+							{else /}
+							<label><input type="radio" name="instype" id="" value="1" >开启</label>
+							<label><input type="radio" name="instype" id="" value="0" checked>关闭</label>
+							{/if}
+						</div>
+						<span style="clear:left;">开启跑腿用户端保单金额功能。</span>
+						<div class="set_money">
+							<label class=""  style="width:120px;padding: 7px 12px 7px 0;display: inline-block;font-size: 12px;color: #657180;float: left;">保单金额设置:</label>
+							<input type="text" name="insprice" id="" value="{$data['insprice']}" />
+							<span style="margin-left: 0px;clear: left">填写保单金额。</span>
+						</div>
+						
+					</div>
+					<div><label class="ltxt">悬赏金额:</label><input type="text" name="reward" id="" value="{$data['reward']}" />
+						<span>设置悬赏金额。</span>
+					</div>
+					<div>
+						<label class="ltxt">底部版权文字:</label>
+						<div class="radio radioa">
+
+							<label><input type="radio" name="copyright_status" {if condition="$data.copyright_status == 1"}checked{/if} id="" value="1" >开启</label>
+							<label><input type="radio" name="copyright_status" {if condition="$data.copyright_status == 0"}checked{/if} id="" value="0" >关闭</label>
+						</div>
+						<span>设置底部版权文字。</span>
+					</div>
+					<div><label class="ltxt">底部版权文字:</label><input type="text" name="copyright_wzs" id="" value="{$data.copyright_wzs}" />
+						<span>设置底部版权文字。</span>
+					</div>
+					<div>
+						<button class="btns" type="submit">保存</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!--<div id="main" style="width: 600px;height:400px;"></div>-->
+
+
+
+<script>
+    $(document).on("change", "input[name='instype']", function () {
+        set_money();
+    });
+    if ($("input[name='instype']:checked").val() == 1) {
+        $(".set_money").show();
+    } else {
+        $(".set_money").hide();
+    }
+    function set_money() {
+        if ($("input[name='instype']:checked").val() == 1) {
+            $(".set_money").show();
+        } else {
+            $(".set_money").hide();
+        }
+    }
+
+    // $(function(){
+	// 	$("#file").takungaeImgup({
+	// 		formData: { "path": "Content/Images/", "name": "uploadpic" }, //path参数会发送给服务器，name参数代表上传图片成功后，自动生成input元素的name属性值
+	// 		url: "data/page.json",    //发送请求的地址，服务器地址
+	// 		success: function (data) {
+    //
+	// 		},
+	// 		error: function (err) {
+	// 			alert(err);
+	// 		}
+	// 	});
+	// })
+
+</script>
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

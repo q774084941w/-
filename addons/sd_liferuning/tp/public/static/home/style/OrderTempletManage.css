@@ -1,0 +1,1606 @@
+.container {
+    width: 100%;
+}
+
+.none {
+    display: none;
+}
+
+a,input{
+    outline: none;
+}
+input{
+    border-style: none;
+}
+
+img{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+::-webkit-scrollbar
+{
+    width: 0px;  /*滚动条宽度*/
+    height: 0px;  /*滚动条高度*/
+}
+
+/* 系统弹窗 */
+.windowAlert{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 99999;
+    transition: all .5s ease 0s;
+}
+
+/* 图片库 */
+.photo-library{
+    max-width: 1000px !important;
+    max-height: 700px !important;
+}
+.photo-library .modal-body{
+    max-height: 550px;
+    height: 550px;
+    overflow-y: auto;
+}
+.photo-library .image-groups{
+    width: 100%;
+}
+.photo-library .image-item{
+    display: block;
+    width: 160px;
+    height: 110px;
+    background: #FFFFFF;
+    border: 3px solid #f2f2f2;
+    border-radius: 5px;
+    float: left;
+    margin: 10px;
+}
+.photo-library .image-item img{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.image-upload-btn{
+    margin: 2px 30px 0 0;
+}
+
+/* 图片上传 */
+.file-upload-module{
+    max-height: 550px;
+    height: 550px;
+    overflow: auto;
+}
+.file-upload-module ul{
+    list-style-type: none;
+}
+.file-upload-module img{
+    width: 150px;
+    height: 150px;
+    display: block;
+    margin: 15px auto;
+}
+
+/* 图片删除 */
+.image-item{
+    position: relative;
+}
+.photoItem{
+    position: absolute;
+    z-index: 99;
+}
+.image-item-icon{
+    position: absolute;
+    z-index: 999;
+    left: 115px;
+    top: 5px;
+    display: block;
+    background: red;
+    border-radius: 999px;
+    color: #ffffff;
+}
+
+/* 手机模型 */
+.app-preview {
+    background: #FFF;
+    width: 375px;
+    height: 667px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 20px 0;
+    padding: 15px;
+    float: left;
+    position: fixed;
+    top: 60px;
+}
+
+/* 顶部 */
+.app-head {
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    position: relative;
+}
+
+.app-head:before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    left: 140px;
+    height: 8px;
+    width: 8px;
+    background: #ddd;
+    border-radius: 8px;
+}
+
+.app-head:after {
+    content: "";
+    position: absolute;
+    top: 18px;
+    left: 160px;
+    height: 8px;
+    width: 50px;
+    background: #ddd;
+    border-radius: 8px;
+}
+
+/* 内容 */
+.app-content {
+    width: 100%;
+    height: 550px;
+    background: #FFF;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.app-content > .active{
+    border:2px dashed green;
+}
+
+/*  内容顶部 */
+.app-content .app-content-title {
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* 内容主要区域 */
+.app-content-main {
+    height: 498px;
+    overflow-y: auto;
+}
+
+/*----------------- 导航 ------------------ */
+.app-content-nav {
+    height: 48px;
+    line-height: 48px;
+    display: flex;
+    border-top: 1px solid #eee;
+}
+.app-content-nav-item{
+    flex: 1;
+}
+.app-content-nav-item-icon{
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin: 2px auto;
+}
+.app-content-nav-item-text{
+    font-size: 10px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+}
+/*----------------- 导航 ------------------ */
+
+/* 底部 */
+.app-footer {
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    position: relative;
+}
+
+.app-footer:before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 150px;
+    height: 30px;
+    width: 60px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* -------------------- 编辑工具 --------------------------- */
+.app-editor {
+    border: 1px solid #ddd;
+    width: 650px;
+    min-height: 100px;
+    float: left;
+    margin:50px 0 50px 400px;
+    position: relative;
+    border-radius: 10px;
+    padding: 15px 15px 30px;
+    transition: all .5s ease 0s;
+}
+
+.app-editor:before {
+    position: absolute;
+    content: "◆";
+    top: 30px;
+    left: -11px;
+    display: block;
+    width: 9px;
+    height: 18px;
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+    z-index: 111;
+}
+
+.app-editor:after {
+    position: absolute;
+    content: "◆";
+    top: 30px;
+    left: -12px;
+    color: rgb(221, 221, 221);
+    z-index: 11;
+    display: block;
+    width: 9px;
+    height: 18px;
+    font-size: 24px;
+}
+
+
+/* 页面 */
+.app-editor .input-group {
+    height: 30px;
+    line-height: 30px;
+    margin: 15px 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.app-editor .input-group .input-addo {
+    min-width: 100px;
+    text-align: right;
+    margin-right: 15px;
+}
+
+.app-editor .input-group .input-control {
+    background: #ffffff;
+}
+
+.app-editor .input-group .text-input {
+    height: 100%;
+    width: 500px;
+    padding: 0 5px;
+    border: 1px solid #ddd;
+    color: #666;
+    margin: 0;
+}
+
+.app-editor .input-group .color-input {
+    min-width: 405px;
+    height: 100%;
+    float: left;
+    background: #FFFFFF;
+    border: 1px solid #ddd;
+    padding: 3px;
+}
+
+.app-editor .input-group .color-reset-btn {
+    height: 100%;
+    line-height: 100%;
+    padding: 0 35px;
+    margin: 0;
+    float: left;
+    background: #FFFFFF;
+    border: 1px solid #ddd;
+}
+
+.app-editor .input-group .radio-input {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    top: 3px;
+}
+
+.app-editor .input-group .radio-input-label {
+    margin: 0 15px 0 3px;
+}
+
+.app-editor .dashed-break-up{
+    width: 100%;
+    border-bottom: 1px dashed #dddddd;
+    margin: 0 0 15px;
+}
+
+/* 系统通知 */
+.app-editor .notify-editor-group{
+    width: 615px;
+    overflow: hidden;
+    font-size: 12px;
+    margin: 0 0 15px;
+    border-radius: 5px;
+    position: relative;
+}
+.app-editor .notify-editor-group .input-addo{
+    float: left;
+    min-width: 100px;
+    text-align: right;
+    margin-right: 15px;
+    height: 60px;
+    line-height: 60px;
+    color: #666;
+}
+.app-editor .notify-editor-group .banner-img{
+    height: 50px;
+    width: 50px;
+    float: left;
+    margin: 3px 0;
+}
+
+.app-editor .notify-editor-group .input-control{
+    float: left;
+    margin-left: 15px;
+}
+
+.app-editor .notify-editor-group .input-item{
+    height: 30px;
+    line-height: 30px;
+    margin: 15px 0;
+}
+
+.app-editor .notify-editor-group .text-input{
+    width: 335px;
+    float: left;
+    height: 100%;
+    line-height: 100%;
+    border: 1px solid #ddd;
+    padding: 0 5px;
+    color: #666;
+}
+
+.app-editor .notify-editor-group .input-choose-btn{
+    height: 100%;
+    line-height: 100%;
+    width: 100px;
+    margin: 0;
+    float: left;
+    background: #FFFFFF;
+    border: 1px solid #ddd;
+}
+
+
+/* banner添加 */
+.app-editor .banner-editor-group{
+    width: 615px;
+    overflow: hidden;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    margin: 0 0 15px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.app-editor .banner-editor-group .banner-img{
+    height: 100px;
+    width: 100px;
+    float: left;
+    margin: 1px;
+}
+
+.app-editor .banner-editor-group .banner-input-group{
+    float: left;
+    margin-left: 15px;
+}
+
+.app-editor .banner-editor-group .banner-input-item{
+    height: 30px;
+    line-height: 30px;
+    margin: 15px 0;
+}
+
+.app-editor .banner-editor-group .text-input{
+    width: 390px;
+    float: left;
+    height: 100%;
+    line-height: 100%;
+    border: 1px solid #ddd;
+    padding: 0 5px;
+    color: #666;
+}
+
+.app-editor .banner-editor-group .input-choose-btn{
+    height: 100%;
+    line-height: 100%;
+    width: 100px;
+    margin: 0;
+    float: left;
+    background: #FFFFFF;
+    border: 1px solid #ddd;
+}
+
+.app-editor .banner-editor-group .select{
+    width: 490px;
+    float: left;
+    height: 100%;
+    line-height: 100%;
+    border: 1px solid #ddd;
+    padding: 0 5px;
+    color: #666;
+}
+
+.app-editor .banner-editor-group .remove-icon{
+    position: absolute;
+    top: 3px;
+    left: 588px;
+    font-size: 12px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 10px;
+    background: rgba(0,0,0,.6);
+    color: #FFFFFF;
+}
+
+.app-editor .append-btn{
+    width: 615px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 12px;
+    padding: 0;
+    margin: 0 0 15px;
+    border-color: #dddddd;
+}
+
+/* 入口添加 */
+.list-group{
+    margin: 0 0 15px;
+    position: relative;
+}
+.list-group .ingress-input-group {
+    width: 600px;
+    margin: 15px 0;
+    font-size: 12px;
+    overflow: hidden;
+}
+.list-group .active{
+    background: #F9FCEF;
+    border: 1px solid rgba(0,0,0,.125);
+}
+.list-group .list-group-item{
+    position: relative;
+    color: #666;
+}
+.list-group .ingress-input-group .input-addo {
+    min-width: 50px;
+    text-align: right;
+    margin-right: 15px;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+}
+
+.list-group .ingress-input-group .input-control {
+    overflow: hidden;
+    float: left;
+    background: none;
+}
+
+.list-group .ingress-input-group .text-input {
+    height: 30px;
+    line-height: 30px;
+    width: 510px;
+    padding: 0 5px;
+    color: #666;
+    border: 1px solid #dddddd;
+}
+
+.list-group .ingress-icon{
+    width: 615px;
+    overflow: hidden;
+    font-size: 12px;
+    border-radius: 5px;
+}
+.list-group .ingress-icon .input-addo{
+    float: left;
+    min-width: 50px;
+    text-align: right;
+    margin-right: 15px;
+    height: 60px;
+    line-height: 60px;
+    color: #FFFFFF;
+}
+.list-group .ingress-icon .icon-img{
+    height: 50px;
+    width: 50px;
+    float: left;
+    margin: 3px 0;
+}
+
+.list-group .ingress-icon .input-control{
+    float: left;
+    margin-left: 15px;
+}
+
+.list-group .ingress-icon .input-item{
+    height: 30px;
+    line-height: 30px;
+    margin: 15px 0;
+}
+
+.list-group .ingress-icon .text-input{
+    width: 321px;
+    float: left;
+    height: 100%;
+    line-height: 100%;
+    border: 1px solid #ddd;
+    padding: 0 5px;
+    color: #666;
+}
+
+.list-group .ingress-icon .input-choose-btn{
+    height: 100%;
+    line-height: 100%;
+    width: 100px;
+    margin: 0;
+    float: left;
+    background: #FFFFFF;
+    border: 1px solid #ddd;
+}
+
+.list-group .ingress-input-group-children{
+    width: 590px;
+    overflow: hidden;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+.list-group .ingress-input-group-children .ingress-img{
+    height: 100px;
+    width: 100px;
+    float: left;
+    margin: 1px;
+}
+
+.list-group .ingress-input-group-children .input-group{
+    float: left;
+    margin-left: 15px;
+    width: 455px;
+}
+
+.list-group .ingress-input-group-children .input-item{
+    height: 30px;
+    line-height: 30px;
+    margin: 4px 0;
+}
+
+.list-group .ingress-input-group-children .text-input{
+    width: 355px;
+    float: left;
+    height: 100%;
+    line-height: 100%;
+    border: 1px solid #ddd;
+    padding: 0 5px;
+    color: #666;
+    background: #FFFFFF;
+}
+
+.list-group .ingress-input-group-children .input-item:first-child .text-input{
+    width: 455px;
+}
+.list-group .ingress-input-group .radio-input,.list-group .ingress-input-group .radio-input-label{
+    position: relative;
+    top: 5px;
+}
+.list-group .ingress-input-group .radio-input-label{
+    margin-right: 10px;
+}
+
+.list-group .ingress-input-group-children .input-choose-btn{
+    height: 100%;
+    line-height: 100%;
+    width: 100px;
+    margin: 0;
+    float: left;
+    background: #FFFFFF;
+    border: 1px solid #ddd;
+}
+
+.list-group .remove-icon{
+    position: absolute;
+    top: 4px;
+    left: 592px;
+    font-size: 12px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 10px;
+    background: rgba(0,0,0,.6);
+    color: #FFFFFF;
+    z-index: 10;
+}
+.list-group select {
+    background: #FFFFFF !important;
+}
+
+/* 标签添加 */
+.tag-group{
+    overflow: hidden;
+}
+.tag-group .input-addo{
+    min-width: 50px !important;
+    width: auto;
+    margin: 0;
+}
+.add-tags .tags{
+    height: 20px;
+    line-height: 20px;
+    margin: 7px 0;
+    overflow: hidden;
+}
+.add-tags .tags-item{
+    background: green;
+    color: #FFFFFF;
+    border-radius: 2px;
+    padding:0 10px ;
+    margin: 0 5px;
+    float: left;
+}
+.add-tags .tags-item .fa{
+    margin: 0 2px;
+}
+
+
+/* -------------------- 编辑工具 --------------------------- */
+
+/*----------------- 样式一 (帮我买) ------------------ */
+.templet1{
+    font-size: 12px;
+    background: #F2F2F2;
+    height: 100%;
+    overflow: auto;
+}
+.templet1 .column{
+    width: 100%;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+/* 商品输入 */
+.templet1 .ware-input{
+    padding: 0;
+    display: flex;
+}
+.templet1 .ware-input .textarea{
+    flex: 1;
+    border: none;
+    padding: 5px;
+}
+.templet1 .ware-input .util-icon{
+    border-left: 1px solid #dddddd;
+    background: #ffffff;
+    padding: 5px 0;
+}
+.templet1 .ware-input .icon-item{
+    width: 30px;
+    height: 30px;
+    margin: 10px 20px;
+}
+/* 地址 */
+.templet1 .address-group{
+    background: #ffffff;
+    display: flex;
+    overflow: hidden;
+    padding: 10px 5px;
+    justify-content: space-between;
+}
+.templet1 .address-group:first-child{
+    border-bottom: 1px solid #dddddd;
+}
+.templet1 .addres-icon{
+    height: 100%;
+}
+.templet1 .addres-icon .icon{
+    width: 30px;
+    height: 30px;
+    margin: 13px 10px;
+}
+.templet1 .address-input-group{
+    width: 230px;
+}
+.templet1 .address-input-item{
+    border: none;
+}
+.templet1 .addres-side{
+    height: 100%;
+}
+.templet1 .addres-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 23px 15px;
+}
+.templet1 .addres-side .addres-side-btn{
+    margin: 12px 10px;
+    font-size: 12px;
+}
+/* 单行默认 */
+.templet1 .col{
+    background: #ffffff;
+    display: flex;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet1 .column .col:last-child{
+    border-bottom: none;
+}
+.templet1 .col-icon{
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+}
+.templet1 .col-text{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    flex: 1;
+}
+.templet1 .col-side{
+    min-width: 30px;
+    height: 30px;
+    float: right;
+}
+.templet1 .col-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 10px 5px 0;
+    float: right;
+}
+.templet1 .col-side .switch-icon{
+    width: 30px;
+    height: 15px;
+    margin: 7px 0 0;
+}
+.templet1 .scaler-icon{
+    width: 80px;
+    height: 25px;
+    margin: 5px 0 0;
+}
+.templet1 .hint-text{
+    line-height: 29px;
+    height: 29px;
+    display: inline-block;
+}
+.templet1 .col-input{
+    height: 20px;
+    line-height: 20px;
+    border: none;
+    outline: none;
+}
+.templet1 .protocol-linked{
+    height: 20px;
+    line-height: 20px;
+    margin-bottom: 15px;
+    padding: 0 10px;
+}
+.templet1 .protocol-linked .icon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: -2px;
+}
+.templet1 .protocol-linked .protocol-text{
+    color: #008000;
+}
+
+/*----------------- 样式一 ------------------ */
+
+/*----------------- 样式二 (帮我送) ------------------ */
+.templet2{
+    font-size: 12px;
+    background: #F2F2F2;
+    height: 100%;
+    overflow: auto;
+}
+.templet2 .column{
+    width: 100%;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+/* 商品输入 */
+.templet2 .ware-input{
+    padding: 0;
+    display: flex;
+}
+.templet2 .ware-input .textarea{
+    flex: 1;
+    border: none;
+    padding: 5px;
+}
+.templet2 .ware-input .util-icon{
+    border-left: 1px solid #dddddd;
+    background: #ffffff;
+    padding: 5px 0;
+}
+.templet2 .ware-input .icon-item{
+    width: 30px;
+    height: 30px;
+    margin: 10px 20px;
+}
+/* 地址 */
+.templet2 .address-group{
+    background: #ffffff;
+    display: flex;
+    overflow: hidden;
+    padding: 10px 5px;
+    justify-content: space-between;
+}
+.templet2 .address-group:first-child{
+    border-bottom: 1px solid #dddddd;
+}
+.templet2 .addres-icon{
+    height: 100%;
+}
+.templet2 .addres-icon .icon{
+    width: 30px;
+    height: 30px;
+    margin: 13px 10px;
+}
+.templet2 .address-input-group{
+    width: 230px;
+}
+.templet2 .address-input-item{
+    border: none;
+}
+.templet2 .addres-side{
+    height: 100%;
+}
+.templet2 .addres-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 23px 15px;
+}
+.templet2 .addres-side .addres-side-btn{
+    margin: 12px 10px;
+    font-size: 12px;
+}
+/* 单行默认 */
+.templet2 .col{
+    background: #ffffff;
+    display: flex;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet2 .column .col:last-child{
+    border-bottom: none;
+}
+.templet2 .col-icon{
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+}
+.templet2 .col-text{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    flex: 1;
+}
+.templet2 .col-side{
+    min-width: 30px;
+    height: 30px;
+    float: right;
+}
+.templet2 .col-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 10px 5px 0;
+    float: right;
+}
+.templet2 .col-side .switch-icon{
+    width: 30px;
+    height: 15px;
+    margin: 7px 0 0;
+}
+.templet2 .scaler-icon{
+    width: 80px;
+    height: 25px;
+    margin: 5px 0 0;
+}
+.templet2 .hint-text{
+    line-height: 29px;
+    height: 29px;
+    display: inline-block;
+}
+.templet2 .col-input{
+    height: 20px;
+    line-height: 20px;
+    border: none;
+    outline: none;
+}
+.templet2 .protocol-linked{
+    height: 20px;
+    line-height: 20px;
+    margin-bottom: 15px;
+    padding: 0 10px;
+}
+.templet2 .protocol-linked .icon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: -2px;
+}
+.templet2 .protocol-linked .protocol-text{
+    color: #008000;
+}
+
+.templet2 .col-weight{
+    background: #ffffff;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet2 .col-weight p{
+    color: #666;
+    margin: 10px;
+}
+.col-weight-color{
+    color: #008000;
+}
+/* 滑块 */
+.templet2 .col-slider{
+    background: #ffffff;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet2 .col-slider .slider-text{
+    position: relative;
+    top: 10px;
+}
+.templet2 .col-slider .weight-color{
+    color: #008000;
+}
+
+/*----------------- 样式二 ------------------ */
+
+/*----------------- 样式三 (帮排队) ------------------ */
+.templet3{
+    font-size: 12px;
+    background: #F2F2F2;
+    height: 100%;
+    overflow: auto;
+}
+.templet3 .column{
+    width: 100%;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+/* 服务类目 */
+.templet3 .service-col{
+    background: #ffffff;
+    padding: 10px 15px;
+    width: 100%;
+    overflow: hidden;
+}
+.templet3 .service-col-title{
+    padding-bottom: 0px !important;
+}
+.templet3 .service-group button{
+    font-size: 12px;
+    padding: 2px 5px;
+    margin: 5px;
+}
+/* 地址 */
+.templet3 .address-group{
+    background: #ffffff;
+    display: flex;
+    overflow: hidden;
+    padding: 10px 5px;
+    justify-content: space-between;
+}
+.templet3 .address-group:first-child{
+    border-bottom: 1px solid #dddddd;
+}
+.templet3 .addres-icon{
+    height: 100%;
+}
+.templet3 .addres-icon .icon{
+    width: 30px;
+    height: 30px;
+    margin: 13px 10px;
+}
+.templet3 .address-input-group{
+    width: 230px;
+}
+.templet3 .address-input-item{
+    border: none;
+}
+.templet3 .addres-side{
+    height: 100%;
+}
+.templet3 .addres-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 23px 15px;
+}
+.templet3 .addres-side .addres-side-btn{
+    margin: 12px 10px;
+    font-size: 12px;
+}
+/* 单行默认 */
+.templet3 .col{
+    background: #ffffff;
+    display: flex;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet3 .column .col:last-child{
+    border-bottom: none;
+}
+.templet3 .col-icon{
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+}
+.templet3 .col-text{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    flex: 1;
+}
+.templet3 .col-side{
+    min-width: 30px;
+    height: 30px;
+    float: right;
+}
+.templet3 .col-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 10px 5px 0;
+    float: right;
+}
+.templet3 .col-side .switch-icon{
+    width: 30px;
+    height: 15px;
+    margin: 7px 0 0;
+}
+.templet3 .scaler-icon{
+    width: 80px;
+    height: 25px;
+    margin: 5px 0 0;
+}
+.templet3 .hint-text{
+    line-height: 29px;
+    height: 29px;
+    display: inline-block;
+}
+.templet3 .col-input{
+    height: 20px;
+    line-height: 20px;
+    border: none;
+    outline: none;
+}
+.templet3 .protocol-linked{
+    height: 20px;
+    line-height: 20px;
+    margin-bottom: 15px;
+    padding: 0 10px;
+}
+.templet3 .protocol-linked .icon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: -2px;
+}
+.templet3 .protocol-linked .protocol-text{
+    color: #008000;
+}
+
+/*----------------- 样式三 ------------------ */
+
+/*----------------- 样式四 (帮我办) ------------------ */
+.templet4{
+    font-size: 12px;
+    background: #F2F2F2;
+    height: 100%;
+    overflow: auto;
+}
+.templet4 .column{
+    width: 100%;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+/* 商品输入 */
+.templet4 .ware-input{
+    padding: 0;
+    display: flex;
+}
+.templet4 .ware-input .textarea{
+    flex: 1;
+    border: none;
+    padding: 5px;
+}
+.templet4 .ware-input .util-icon{
+    border-left: 1px solid #dddddd;
+    background: #ffffff;
+    padding: 5px 0;
+}
+.templet4 .ware-input .icon-item{
+    width: 30px;
+    height: 30px;
+    margin: 10px 20px;
+}
+/* 地址 */
+.templet4 .address-group{
+    background: #ffffff;
+    display: flex;
+    overflow: hidden;
+    padding: 10px 5px;
+    justify-content: space-between;
+}
+.templet4 .address-group:first-child{
+    border-bottom: 1px solid #dddddd;
+}
+.templet4 .addres-icon{
+    height: 100%;
+}
+.templet4 .addres-icon .icon{
+    width: 30px;
+    height: 30px;
+    margin: 13px 10px;
+}
+.templet4 .address-input-group{
+    width: 230px;
+}
+.templet4 .address-input-item{
+    border: none;
+}
+.templet4 .addres-side{
+    height: 100%;
+}
+.templet4 .addres-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 23px 15px;
+}
+.templet4 .addres-side .addres-side-btn{
+    margin: 12px 10px;
+    font-size: 12px;
+}
+/* 单行默认 */
+.templet4 .col{
+    background: #ffffff;
+    display: flex;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet4 .column .col:last-child{
+    border-bottom: none;
+}
+.templet4 .col-icon{
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+}
+.templet4 .col-text{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    flex: 1;
+}
+.templet4 .col-side{
+    min-width: 30px;
+    height: 30px;
+    float: right;
+}
+.templet4 .col-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 10px 5px 0;
+    float: right;
+}
+.templet4 .col-side .switch-icon{
+    width: 30px;
+    height: 15px;
+    margin: 7px 0 0;
+}
+.templet4 .scaler-icon{
+    width: 80px;
+    height: 25px;
+    margin: 5px 0 0;
+}
+.templet4 .hint-text{
+    line-height: 29px;
+    height: 29px;
+    display: inline-block;
+}
+.templet4 .col-input{
+    height: 20px;
+    line-height: 20px;
+    border: none;
+    outline: none;
+}
+.templet4 .protocol-linked{
+    height: 20px;
+    line-height: 20px;
+    margin-bottom: 15px;
+    padding: 0 10px;
+}
+.templet4 .protocol-linked .icon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: -2px;
+}
+.templet4 .protocol-linked .protocol-text{
+    color: #008000;
+}
+
+.templet4 .col-weight{
+    background: #ffffff;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet4 .col-weight p{
+    color: #666;
+    margin: 10px;
+}
+.col-weight-color{
+    color: #008000;
+}
+/* 滑块 */
+.templet4 .col-slider{
+    background: #ffffff;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet4 .col-slider .slider-text{
+    position: relative;
+    top: 10px;
+}
+.templet4 .col-slider .weight-color{
+    color: #008000;
+}
+
+/*----------------- 样式四 ------------------ */
+
+
+/*----------------- 样式五 (帮我买) ------------------ */
+.templet5{
+    font-size: 12px;
+    background: #F2F2F2;
+    height: 100%;
+    overflow: auto;
+}
+.templet5 .column{
+    width: 100%;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+/* 商品输入 */
+.templet5 .ware-input{
+    padding: 0;
+    display: flex;
+}
+.templet5 .ware-input .textarea{
+    flex: 1;
+    border: none;
+    padding: 5px;
+}
+.templet5 .ware-input .util-icon{
+    border-left: 1px solid #dddddd;
+    background: #ffffff;
+    padding: 5px 0;
+}
+.templet5 .ware-input .icon-item{
+    width: 30px;
+    height: 30px;
+    margin: 10px 20px;
+}
+/* 地址 */
+.templet5 .address-group{
+    background: #ffffff;
+    display: flex;
+    overflow: hidden;
+    padding: 10px 5px;
+    justify-content: space-between;
+}
+.templet5 .address-group:first-child{
+    border-bottom: 1px solid #dddddd;
+}
+.templet5 .addres-icon{
+    height: 100%;
+}
+.templet5 .addres-icon .icon{
+    width: 30px;
+    height: 30px;
+    margin: 13px 10px;
+}
+.templet5 .address-input-group{
+    width: 230px;
+}
+.templet5 .address-input-item{
+    border: none;
+}
+.templet5 .addres-side{
+    height: 100%;
+}
+.templet5 .addres-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 23px 15px;
+}
+.templet5 .addres-side .addres-side-btn{
+    margin: 12px 10px;
+    font-size: 12px;
+}
+/* 单行默认 */
+.templet5 .col{
+    background: #ffffff;
+    display: flex;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet5 .column .col:last-child{
+    border-bottom: none;
+}
+.templet5 .col-icon{
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+}
+.templet5 .col-text{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    flex: 1;
+}
+.templet5 .col-side{
+    min-width: 30px;
+    height: 30px;
+    float: right;
+}
+.templet5 .col-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 10px 5px 0;
+    float: right;
+}
+.templet5 .col-side .switch-icon{
+    width: 30px;
+    height: 15px;
+    margin: 7px 0 0;
+}
+.templet5 .scaler-icon{
+    width: 80px;
+    height: 25px;
+    margin: 5px 0 0;
+}
+.templet5 .hint-text{
+    line-height: 29px;
+    height: 29px;
+    display: inline-block;
+}
+.templet5 .col-input{
+    height: 20px;
+    line-height: 20px;
+    border: none;
+    outline: none;
+}
+.templet5 .protocol-linked{
+    height: 20px;
+    line-height: 20px;
+    margin-bottom: 15px;
+    padding: 0 10px;
+}
+.templet5 .protocol-linked .icon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: -2px;
+}
+.templet5 .protocol-linked .protocol-text{
+    color: #008000;
+}
+
+.templet5 .col-weight{
+    background: #ffffff;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet5 .col-weight p{
+    color: #666;
+    margin: 10px;
+}
+.col-weight-color{
+    color: #008000;
+}
+/* 滑块 */
+.templet5 .col-slider{
+    background: #ffffff;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet5 .col-slider .slider-text{
+    position: relative;
+    top: 10px;
+}
+.templet5 .col-slider .weight-color{
+    color: #008000;
+}
+
+/*----------------- 样式五 ------------------ */
+
+/*----------------- 样式六 (帮我买) ------------------ */
+.templet6{
+    font-size: 12px;
+    background: #F2F2F2;
+    height: 100%;
+    overflow: auto;
+}
+.templet6 .column{
+    width: 100%;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+/* 商品输入 */
+.templet6 .ware-input{
+    padding: 0;
+    display: flex;
+}
+.templet6 .ware-input .textarea{
+    flex: 1;
+    border: none;
+    padding: 5px;
+}
+.templet6 .ware-input .util-icon{
+    border-left: 1px solid #dddddd;
+    background: #ffffff;
+    padding: 5px 0;
+}
+.templet6 .ware-input .icon-item{
+    width: 30px;
+    height: 30px;
+    margin: 10px 20px;
+}
+/* 地址 */
+.templet6 .address-group{
+    background: #ffffff;
+    display: flex;
+    overflow: hidden;
+    padding: 10px 5px;
+    justify-content: space-between;
+}
+.templet6 .address-group:first-child{
+    border-bottom: 1px solid #dddddd;
+}
+.templet6 .addres-icon{
+    height: 100%;
+}
+.templet6 .addres-icon .icon{
+    width: 30px;
+    height: 30px;
+    margin: 13px 10px;
+}
+.templet6 .address-input-group{
+    width: 230px;
+}
+.templet6 .address-input-item{
+    border: none;
+}
+.templet6 .addres-side{
+    height: 100%;
+}
+.templet6 .addres-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 23px 15px;
+}
+.templet6 .addres-side .addres-side-btn{
+    margin: 12px 10px;
+    font-size: 12px;
+}
+/* 单行默认 */
+.templet6 .col{
+    background: #ffffff;
+    display: flex;
+    padding: 15px;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd;
+}
+.templet6 .column .col:last-child{
+    border-bottom: none;
+}
+.templet6 .col-icon{
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+}
+.templet6 .col-text{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    flex: 1;
+}
+.templet6 .col-side{
+    min-width: 30px;
+    height: 30px;
+    float: right;
+}
+.templet6 .col-side .icon{
+    width: 10px;
+    height: 10px;
+    margin: 10px 5px 0;
+    float: right;
+}
+.templet6 .col-side .switch-icon{
+    width: 30px;
+    height: 15px;
+    margin: 7px 0 0;
+}
+.templet6 .scaler-icon{
+    width: 80px;
+    height: 25px;
+    margin: 5px 0 0;
+}
+.templet6 .hint-text{
+    line-height: 29px;
+    height: 29px;
+    display: inline-block;
+}
+.templet6 .col-input{
+    height: 20px;
+    line-height: 20px;
+    border: none;
+    outline: none;
+}
+.templet6 .protocol-linked{
+    height: 20px;
+    line-height: 20px;
+    margin-bottom: 15px;
+    padding: 0 10px;
+}
+.templet6 .protocol-linked .icon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: -2px;
+}
+.templet6 .protocol-linked .protocol-text{
+    color: #008000;
+}
+
+/*----------------- 样式六 ------------------ */

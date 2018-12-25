@@ -1,0 +1,44 @@
+
+{extend name="public/base" /}
+<!--尾部-->
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			添加产品
+		</div>
+		<div class="form" id="form">
+			<form action="insert.shtml" enctype="multipart/form-data" method="post">
+				<div><label class="ltxt">星期:</label><input type="text" placeholder="请输入星期"  name="week" id="" value="" /><span></span></div>
+				<div><label class="ltxt">价格:</label><input type="text" placeholder="服务金额默认为0" name="wprice" id="" value="" /><span></span></div>
+				<!--<div><label class="ltxt">LOGO:</label>-->
+					<!--<div class="file">-->
+						<!--<input type="file" name="image[]"  />-->
+					<!--</div>-->
+					<!--<span></span>-->
+				<!--</div>-->
+				<div><button type="submit" class="btns">保存并提交</button><button class="cancel">取消</button></div>
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

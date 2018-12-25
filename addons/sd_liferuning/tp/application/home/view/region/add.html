@@ -1,0 +1,639 @@
+{extend name="public/base" /}
+<!--尾部-->
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.6&key=750af02deaaa73c1a72121b4957be1e4"></script>
+<script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+<link rel="stylesheet" href="__STATIC__/home/lib/h-ui/css/H-ui.min.css">
+<link rel="stylesheet" href="__STATIC__/home/lib/h-ui/css/H-ui.reset.css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="__STATIC__/home/style/addressManager.css" rel="stylesheet">
+<input type="hidden" name="mun_url" id="mun_url" value="11,14,false,区域代理"/>
+<style type="text/css">
+    body {
+        background: #FFF !important;
+    }
+
+    textarea {
+        background: #FFF;
+    }
+
+    a {
+        /*color: #FFF;*/
+        text-decoration: none;
+    }
+
+    input {
+        background: #FFFFFF;
+    }
+
+    .list a, .assistant a {
+        color: #FFF !important;
+    }
+
+    .act a {
+        color: #333 !important;
+    }
+
+    .l_tow_sub a, l_tow_sub a:active {
+        color: #444;
+        text-decoration: none;
+    }
+
+    span.unit {
+        font-size: 12px !important;
+    }
+
+    .mapconfig-info {
+        font-size: 12px !important;
+    }
+
+    .mapconfig-info p {
+        padding: 0;
+        margin: 5px 0 !important;
+    }
+
+    .container {
+        width: 100%;
+        padding: 0;
+    }
+
+    #exampleModalCenter{
+        z-index: 999999;
+        top: 100px;
+    }
+</style>
+<div class="container" style="margin: 60px 0 0 250px;">
+    <div class="container" id="app">
+        <form>
+            <div class="input-group">
+                <label for="proxyName" class="input-side">
+                    代理名称
+                </label>
+                <div class="input-control">
+                    <input type="text" v-model="formData.proxyName" id="proxyName" placeholder="请输入"
+                           class="input-text radius size-M" name="proxy_name">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="name" class="input-side">
+                    真实姓名
+                </label>
+                <div class="input-control">
+                    <input type="text" v-model="formData.name" id="name" placeholder="请输入"
+                           class="input-text radius size-M" name="proxy_uname">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="phoneNumber" class="input-side">
+                    手机号
+                </label>
+                <div class="input-control">
+                    <input type="text" v-model="formData.phoneNumber" id="phoneNumber" placeholder="请输入"
+                           class="input-text radius size-M" name="proxy_tel">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="password" class="input-side">
+                    密码
+                </label>
+                <div class="input-control">
+                    <input type="password" v-model="formData.password" id="password" placeholder="请输入"
+                           class="input-text radius size-M" name="proxy_pass">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="proxyRegion" class="input-side">
+                    代理区域
+                </label>
+                <div class="input-control">
+                    <input type="text" v-model="formData.proxyRegion" id="proxyRegion" placeholder="请输入"
+                           class="input-text radius size-M" name="proxy_region">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-side">
+                    是否启用
+                </label>
+                <div class="input-control">
+                    <div class="radio-box">
+                        <input type="radio" id="radio-1" name="enable" value="0" v-model="formData.enable">
+                        <label for="radio-1">不启用</label>
+                    </div>
+                    <div class="radio-box">
+                        <input type="radio" id="radio-2" name="enable" value="1" v-model="formData.enable">
+                        <label for="radio-2">启用</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="" class="input-side">
+                    代理服务中心点
+                </label>
+                <div class="input-control">
+                    <input type="text" v-model="formData.serviceCenter.location.O" placeholder="经度"
+                           class="input-text radius size-M" style="width: 300px;margin-right: 15px;">
+                    <input type="text" v-model="formData.serviceCenter.location.P" placeholder="纬度"
+                           class="input-text radius size-M" style="width: 300px;margin-right: 15px;">
+                    <button class="btn btn-primary radius" type="button" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                        选择坐标
+                    </button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="" class="input-side">
+                    服务区域
+                </label>
+                <div class="input-control">
+                    <div class="map-label">
+                        <h3>区域及配送范围</h3>
+
+                        <div class="mapconfig-info" v-for="(serviceRegionItem,index) in formData.serviceRegionGroup">
+                            <p>配送范围</p>
+                            <p>
+                                首重 {{serviceRegionItem.weight}} , 价格 {{serviceRegionItem.weightprice}} 元;
+                                续重 {{serviceRegionItem.distance}} ,价格{{serviceRegionItem.distanceprice}} 元;
+                                起步距离 {{serviceRegionItem.sdistance}} , 价格{{serviceRegionItem.sdistanceprice}} 元;
+                                增加距离 {{serviceRegionItem.addstart}} , 价格{{serviceRegionItem.addstartprice}} 元;
+                            </p>
+                            <div>
+                                <button class="btn btn-secondary radius size-MINI edit-btn" type="button"
+                                        @click="editorMapConfig({index:index})">开启编辑
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="add-mapconfig" v-if="mapConfigForm.editorStatus == 1">
+                            <div class="mapconfig-title">
+                                <div>
+                                    配送范围
+                                </div>
+                                <div>
+                            <span class="btn btn-primary-outline size-MINI radius"
+                                  @click="closeAddMapConfig()">取消</span>
+                                    <span class="btn btn-primary-outline size-MINI radius"
+                                          @click="saveMapConfig()">保存</span>
+                                </div>
+                            </div>
+                            <!-- 1.mapConfigForm.beginPrice
+                                 2.mapConfigForm.deliverPrice
+
+                            -->
+
+                            <div class="mapconfig-input-group">
+                                <span class="label">首重</span>
+                                <input type="text" placeholder="请输入kg"
+                                       class="input-text radius size-MINI" name="int_kg" v-model="mapConfigForm.weight">
+                                <input type="text" placeholder="请输入价格"
+                                       class="input-text radius size-MINI" name="int_kg_price"
+                                       v-model="mapConfigForm.weightprice">
+
+                            </div>
+                            <div class="mapconfig-input-group">
+                                <span class="label">续重</span>
+                                <input type="text" placeholder="请输入kg"
+                                       class="input-text radius size-MINI" name="on_kg"
+                                       v-model="mapConfigForm.distance">
+                                <input type="text" placeholder="请输入价格"
+                                       class="input-text radius size-MINI" name="on_kg_price"
+                                       v-model="mapConfigForm.distanceprice">
+                            </div>
+                            <div class="mapconfig-input-group">
+                                <span class="label">起步距离</span>
+                                <input type="text" placeholder="请输入km"
+                                       class="input-text radius size-MINI" name="int_km"
+                                       v-model="mapConfigForm.sdistance">
+                                <input type="text" placeholder="请输入价格"
+                                       class="input-text radius size-MINI" name="int_km_price"
+                                       v-model="mapConfigForm.sdistanceprice">
+                            </div>
+                            <div class="mapconfig-input-group">
+                                <span class="label">增加距离</span>
+                                <input type="text" placeholder="请输入km"
+                                       class="input-text radius size-MINI" name="on_km"
+                                       v-model="mapConfigForm.addstart">
+                                <input type="text" placeholder="请输入价格"
+                                       class="input-text radius size-MINI" name="on_km_price"
+                                       v-model="mapConfigForm.addstartprice">
+                            </div>
+                        </div>
+
+                        <button @click="openAddMapConfig()" class="btn btn-primary radius" type="button"><i
+                                class="fa fa-plus-square"></i> 新增配送区域
+                        </button>
+                    </div>
+                    <div id="map-container" class="map-container"></div>
+                </div>
+            </div>
+            <input type="hidden" v-model="path">
+            <div class="input-group" style="text-align: center;margin-top: 100px;">
+                <button class="btn btn-block btn-success radius send" type="button"
+                        style="width: 300px;display: inline-block;margin: 0 auto" @click="sendRequest">提交
+                </button>
+            </div>
+
+            <!-- 系统弹窗 -->
+            <div class="windowAlert" v-bind:class="{'windowAlertShow':windowAlert.isShow}">
+                <strong>{{windowAlert.hintText}}</strong>
+            </div>
+
+
+            <!-- 地图选择 -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered address-map-container" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title" id="exampleModalLongTitle">选择我的位置
+
+                                <div class="input-group">
+                                    <input type="text" id="tipinput" v-model="addressSearchForm.keywords" class="input-text size-M
+" placeholder="请输入需要搜索的位置">
+                                    <button class="btn btn-success" type="button" @click="searchKeywords()"><i
+                                            class="fa fa-search"></i> 搜索
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div id="mapContainer" class="address-map"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    @click="saveServiceCenterPoint()">确认
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="__STATIC__/home/lib/h-ui/js/H-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            path: [],
+            formData: {
+                proxyName: '',  // 代理名称
+                name: '',   // 姓名
+                phoneNumber: '',   // 电话
+                password: '',   // 密码
+                proxyRegion: '',    // 服务地区
+                enable: '1',    // 是否启用
+                serviceCenter: {    // 服务中心
+                    location: {
+                        O: 0,
+                        P: 0,
+                        lat: 0,
+                        lng: 0
+                    },
+                    isSelect: false
+                },
+                serviceRegionGroup: [
+                    // {
+                    //	   weight:'',			//首重
+                    //     weightprice:'',		//首重价格
+                    //     distance:'',		//续重
+                    //     distanceprice:'',
+                    //     sdistance:'',		//起步距离
+                    //     sdistanceprice:'',
+                    //     addstart:'',		//增加距离
+                    //     addstartprice:'',
+                    //     location: {},   // 地图对象
+                    // }
+                ]
+            },
+            mapConfigForm: {
+                editorStatus: 0,
+                weight: '',			//首重
+                weightprice: '',		//首重价格
+                distance: '',		//续重
+                distanceprice: '',
+                sdistance: '',		//起步距离
+                sdistanceprice: '',
+                addstart: '',		//增加距离
+                addstartprice: '',
+                currentEditorIndex: -1
+            },
+            addressSearchForm: {
+                keywords: '',
+                location: null,
+            },
+            windowAlert: {
+                hintText: '',
+                isShow: false,
+                defaultTimeOut: 2000
+            },
+        },
+        methods: {
+            alertHintText: function ({text: text}) {   // 弹框
+                let _this = this;
+                _this.windowAlert.hintText = text;
+                _this.windowAlert.isShow = true;
+                setTimeout(function () {
+                    _this.windowAlert.isShow = false;
+                }, _this.windowAlert.defaultTimeOut);
+            },
+            openAddMapConfig: function () { // 打开添加地图配置项
+                if (!vm.formData.serviceCenter.isSelect) {
+                    this.alertHintText({text: '请配置代理服务中心点'});
+                    return false
+                }
+                if (this.mapConfigForm.editorStatus == 1) {
+                    this.alertHintText({text: '请先保存目前正在编辑的配置项'});
+                    return false;
+                }
+                this.mapConfigForm = {
+                    editorStatus: 1,
+                    beginPrice: '',
+                    deliverPrice: '',
+                    fullSubtractionPrice: '',
+                    currentEditorIndex: -1
+                };
+                polygonDrawUtil.beginDraw();
+            },
+            closeAddMapConfig: function () {    // 关闭添加地图配置项
+                this.mapConfigForm.editorStatus = 0;
+                polygonDrawUtil.closeDrawSlsoClear();
+            },
+            saveMapConfig: function () {    // 保存区域划分配置
+                let currentEditorIndex = this.mapConfigForm.currentEditorIndex;
+                if (currentEditorIndex > -1) {
+                    polygonDrawUtil.polyEditorSave({
+                        map: map,
+                        PolygonObject: this.formData.serviceRegionGroup[currentEditorIndex].location
+                    });
+                    this.formData.serviceRegionGroup[currentEditorIndex].beginPrice = this.mapConfigForm.beginPrice;
+                    this.formData.serviceRegionGroup[currentEditorIndex].deliverPrice = this.mapConfigForm.deliverPrice;
+                    this.formData.serviceRegionGroup[currentEditorIndex].fullSubtractionPrice = this.mapConfigForm.fullSubtractionPrice;
+                    //增加
+                    this.formData.serviceRegionGroup[currentEditorIndex].weight = this.mapConfigForm.weight;
+                    this.formData.serviceRegionGroup[currentEditorIndex].distance = this.mapConfigForm.distance;
+                    this.formData.serviceRegionGroup[currentEditorIndex].sdistance = this.mapConfigForm.sdistance;
+                    this.formData.serviceRegionGroup[currentEditorIndex].addstart = this.mapConfigForm.addstart;
+                    this.formData.serviceRegionGroup[currentEditorIndex].weightprice = this.mapConfigForm.weightprice;
+                    this.formData.serviceRegionGroup[currentEditorIndex].distanceprice = this.mapConfigForm.distanceprice;
+                    this.formData.serviceRegionGroup[currentEditorIndex].sdistanceprice = this.mapConfigForm.sdistanceprice;
+                    this.formData.serviceRegionGroup[currentEditorIndex].addstartprice = this.mapConfigForm.addstartprice;
+                    this.mapConfigForm.currentEditorIndex = -1;
+                    this.mapConfigForm.editorStatus = 0;
+                } else {
+                    let tempPoly = polygonDrawUtil.tempPolygon;
+                    if (!tempPoly) {  // 判断是否已经进行区域划分
+                        this.alertHintText({text: '请配置坐标点'});
+                        polygonDrawUtil.beginDraw();
+                        return false
+                    }
+                    let serviceRegion = {};
+                    vm.$set(serviceRegion, 'beginPrice', this.mapConfigForm.beginPrice ? this.mapConfigForm.beginPrice : 0);
+                    vm.$set(serviceRegion, 'deliverPrice', this.mapConfigForm.deliverPrice ? this.mapConfigForm.deliverPrice : 0);
+                    vm.$set(serviceRegion, 'fullSubtractionPrice', this.mapConfigForm.fullSubtractionPrice ? this.mapConfigForm.fullSubtractionPrice : 0);
+                    vm.$set(serviceRegion, 'location', tempPoly);
+                    //增加
+                    vm.$set(serviceRegion, 'weight', this.mapConfigForm.weight ? this.mapConfigForm.weight : 0);
+                    vm.$set(serviceRegion, 'distance', this.mapConfigForm.distance ? this.mapConfigForm.distance : 0);
+                    vm.$set(serviceRegion, 'sdistance', this.mapConfigForm.sdistance ? this.mapConfigForm.sdistance : 0);
+                    vm.$set(serviceRegion, 'addstart', this.mapConfigForm.addstart ? this.mapConfigForm.addstart : 0);
+                    vm.$set(serviceRegion, 'weightprice', this.mapConfigForm.weightprice ? this.mapConfigForm.weightprice : 0);
+                    vm.$set(serviceRegion, 'distanceprice', this.mapConfigForm.distanceprice ? this.mapConfigForm.distanceprice : 0);
+                    vm.$set(serviceRegion, 'sdistanceprice', this.mapConfigForm.sdistanceprice ? this.mapConfigForm.sdistanceprice : 0);
+                    vm.$set(serviceRegion, 'addstartprice', this.mapConfigForm.addstartprice ? this.mapConfigForm.addstartprice : 0);
+                    this.formData.serviceRegionGroup.push(serviceRegion);
+                    this.mapConfigForm.editorStatus = 0;
+                }
+            },
+            editorMapConfig: function ({index: index}) {    // 编辑地图配置
+                this.mapConfigForm = {
+                    editorStatus: 1,
+                    beginPrice: this.formData.serviceRegionGroup[index].beginPrice,
+                    deliverPrice: this.formData.serviceRegionGroup[index].deliverPrice,
+                    fullSubtractionPrice: this.formData.serviceRegionGroup[index].fullSubtractionPrice,
+                    //增加
+                    weight: this.formData.serviceRegionGroup[index].weight,
+                    distance: this.formData.serviceRegionGroup[index].distance,
+                    sdistance: this.formData.serviceRegionGroup[index].sdistance,
+                    addstart: this.formData.serviceRegionGroup[index].addstart,
+                    weightprice: this.formData.serviceRegionGroup[index].weightprice,
+                    distanceprice: this.formData.serviceRegionGroup[index].distanceprice,
+                    sdistanceprice: this.formData.serviceRegionGroup[index].sdistanceprice,
+                    addstartprice: this.formData.serviceRegionGroup[index].addstartprice,
+                    currentEditorIndex: index
+                };
+                polygonDrawUtil.polyEditor({map: map, PolygonObject: this.formData.serviceRegionGroup[index].location});
+            },
+            searchKeywords: function () {   // 关键字搜索
+                // 关键字搜索
+                AMap.service('AMap.PlaceSearch', function () {
+                    msearch = new AMap.PlaceSearch({});
+                    msearch.search(vm.addressSearchForm.keywords, function (status, result) {
+                        let poiList = result.poiList;
+                        if (poiList.count > 0) {
+                            let poi = poiList.pois[0].location;
+                            mapContainer.setCenter(poi);
+                            mapContainer.setZoom(16);
+                            vm.addressSearchForm.location = poi;
+                        }
+                    })
+                });
+            },
+            saveServiceCenterPoint: function () {   // 保存中心坐标点
+                vm.formData.serviceCenter.location = vm.addressSearchForm.location;
+                vm.formData.serviceCenter.isSelect = true;
+                let icon = 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/static/home/img/shop_marker.png';
+                polygonDrawUtil.addMarker({map: map, icon: icon, location: vm.addressSearchForm.location})
+            },
+            sendRequest: function () {  // 发送提交请求
+                let fromData = Object.assign(vm.formData, {});
+                let serviceRegionGroup = fromData.serviceRegionGroup;
+                if (serviceRegionGroup.length > 0) {
+                    serviceRegionGroup.forEach(function (item, index) {
+                        item.location = polygonDrawUtil.polyGetPath({PolygonObject: item.location});
+                    });
+                }
+                $.post('', {data: JSON.stringify(fromData)}, function (response) {
+                    if(response.code==1){
+                       alert('添加成功');
+                       location.href='index';
+                    }else{
+                        alert('添加失败');
+                    }
+                },'json')
+            }
+        }
+    });
+
+
+    var map = new AMap.Map("map-container", {
+        resizeEnable: true,
+        // center: [116.403322, 39.900255],//地图中心点
+        // zoom: 15 //地图显示的缩放级别
+    });
+
+    var mapContainer = new AMap.Map('mapContainer', {
+        resizeEnable: true
+    });
+    // //地图中添加地图操作ToolBar插件
+    mapContainer.plugin(['AMap.ToolBar'], function () {
+        //设置地位标记为自定义标记
+        var toolBar = new AMap.ToolBar();
+        mapContainer.addControl(toolBar);
+    });
+
+    mapContainer.on('click', function (e) {
+        vm.addressSearchForm.location = e.lnglat;
+        let icon = 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/static/home/img/shop_marker.png';
+        polygonDrawUtil.addMarker({map: mapContainer, icon: icon, location: vm.addressSearchForm.location})
+    });
+
+
+    let mouseTool;  // 工具句柄
+
+    //在地图中添加MouseTool插件
+    AMap.service('AMap.MouseTool', function () {
+        mouseTool = new AMap.MouseTool(map);
+    });
+
+    /**
+     * 双击结束绘制
+     * */
+    map.on('dblclick', function () {
+        if (polygonDrawUtil.drawStatus) {
+            polygonDrawUtil.getCurrentPolygonDraw();
+            polygonDrawUtil.drawStatus = false;
+        }
+    })
+
+
+    // 配置参数
+    let polygonConfig = {
+        map: map
+    }
+
+    /*
+     * 多边形绘制工具
+     * @auth MrNan
+     */
+    class PolygonDrawUtil {
+        /**
+         * @param mouseTool 工具句柄
+         * @param polygonConfig 绘制配置文件
+         */
+        constructor({mouseTool: mouseTool, polygonConfig: polygonConfig}) {
+            this.mouseTool = mouseTool;
+            this.polygonConfig = polygonConfig;
+            this.tempPolygon = null;
+            this.beforeSize = 0;
+            this.currentSize = 0;
+            this.drawStatus = false;
+        }
+
+        /**
+         * 绘制
+         */
+        beginDraw() {
+            this.mouseTool.polygon(this.polygonConfig);
+            this.tempPolygon = null;
+            this.drawStatus = true;
+        }
+
+        /**
+         * 结束编辑并返回当前的绘制的多边形
+         * @param map
+         */
+        getCurrentPolygonDraw() {
+            this.mouseTool.close(false);
+            let arr = this.polygonConfig.map.getAllOverlays();
+            this.currentSize = arr.length;
+            if (this.currentSize > this.beforeSize) {
+                this.beforeSize = this.currentSize;
+                this.tempPolygon = arr[this.currentSize - 1];
+            }
+        }
+
+        /**
+         * 结束编辑,并清除绘制
+         * */
+        closeDrawSlsoClear() {
+            this.getCurrentPolygonDraw();
+            if (this.tempPolygon) {
+                this.polyDelete({PolygonObject: this.tempPolygon});
+            }
+        }
+
+        /**
+         * 开启折线的编辑状态
+         * @param PolygonObject
+         */
+        polyEditor({map: map, PolygonObject: PolygonObject}) {
+            let _this = this;
+            map.plugin(["AMap.PolyEditor"], function () {
+                _this.polylineEditor = new AMap.PolyEditor(map, PolygonObject);
+                _this.polylineEditor.open();
+            });
+        }
+
+        /**
+         * 关闭折线的编辑状态
+         * @param PolygonObject
+         */
+        polyEditorSave({map: map, PolygonObject: PolygonObject}) {
+            map.plugin(["AMap.PolyEditor"], function () {
+                let polylineEditor = new AMap.PolyEditor(map, PolygonObject);
+                polylineEditor.close();
+            });
+            this.polylineEditor.close();
+        }
+
+        /**
+         * 删除折线覆盖物
+         */
+        polyDelete({PolygonObject: PolygonObject}) {
+            this.polygonConfig.map.remove(PolygonObject);
+        }
+
+        /**
+         * 获取折线对象路径信息
+         */
+        polyGetPath({PolygonObject: PolygonObject}) {
+            return PolygonObject.getPath();
+        }
+
+        /**
+         * 添加标记,并锁定中心区域为位置对象的坐标点区域
+         */
+        addMarker({map: map, icon: icon, location: location}) {
+            let marker = new AMap.Marker({
+                position: new AMap.LngLat(location.O, location.P),
+                icon: icon
+            });
+            map.clearMap();
+            map.add(marker);
+            map.setCenter(location);
+            map.setZoom(18);
+        }
+    }
+
+
+    let polygonDrawUtil = new PolygonDrawUtil({mouseTool: mouseTool, polygonConfig: polygonConfig});
+
+</script>
+
+{/block}

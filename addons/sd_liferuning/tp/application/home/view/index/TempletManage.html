@@ -1,0 +1,1272 @@
+
+{extend name="public/base" /}
+<!--尾部-->
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__STATIC__/home/style/TempletManage.css">
+<input type="hidden" name="mun_url" id="mun_url" value="11,5,false,首页设置"/>
+<style>
+    body{
+        background: #FFF !important;
+        overflow: hidden;
+        height: 100%;
+    }
+    a{
+        /*color: #FFF;*/
+        text-decoration: none;
+    }
+    input{
+        background: #FFFFFF;
+    }
+    .container {
+        width: 100%;
+        height: 100vh !important;
+        overflow: auto;
+        margin:60px 0 0 250px;
+    }
+
+    .list a,.assistant a{
+        color: #FFF !important;
+    }
+    .act a{
+        color: #333 !important;
+    }
+    .l_tow_sub a,l_tow_sub a:active{
+        color: #444;
+        text-decoration: none;
+    }
+</style>
+<div class="container" style="height: 100vh;">
+    <div id="app">
+        <!-- 手机模拟器 -->
+        <div class="app-preview">
+            <div class="app-head"></div>
+            <div class="app-content">
+                <div class="app-content-title"
+                     v-bind:style="{background:pageConfig.titleConfig.navigationBgColor,color:pageConfig.titleConfig.fontColor}"
+                     v-bind:class="{ 'active': appEditorConfig.currentEditor == 'head'}"
+                     v-on:click="chooseAppView({viewName: 'head'})">
+                    {{pageConfig.titleConfig.pageTitle}}
+                </div>
+
+                <div class="app-content-main" v-bind:class="{ 'active': appEditorConfig.currentEditor == 'main'}"
+                     v-on:click="chooseAppView({viewName: 'main'})">
+                    <!--templet1-->
+                    <div class="templet1"  v-if="pageConfig.mainConfig.templetType == 1">
+                        <div class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item" v-bind:class="{'active': index == '0'}"
+                                     v-for="(bannerItem,index) in pageConfig.mainConfig.bannerGroups">
+                                    <img class="carousel-item-img" v-bind:src="bannerItem.imageUrl">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="seach-input">
+
+                            <img class="seach-icon" src="<?php echo config('path_run') ?>/addons/sd_liferuning/tp/public/uploads/background/resource/common/image/customer/index/search.png">
+                            <input type="text" class="text-input"
+                                   v-bind:placeholder="pageConfig.mainConfig.searchConfig.searchHintText">
+                            <button class="seach-btn"
+                                    v-bind:style="{background:pageConfig.mainConfig.searchConfig.searchBtnBgColor,color:pageConfig.mainConfig.searchConfig.searchBtnFontColor}">
+                                搜索
+                            </button>
+                        </div>
+
+                        <div class="sys-notify">
+                            <img class="notify-icon" v-bind:src="pageConfig.mainConfig.systemNotifyIconUrl">
+                            <div class="notify-text">系统通知消息</div>
+                        </div>
+
+                        <div class="switch-panel">
+                            <div class="switch-panel-title" v-bind:style="{color:pageConfig.mainConfig.ingressGroups.fontColor}">
+                                <div class="panel-title-item" v-bind:class="{'active': index == 0}" v-for="(ingressItem,index) in pageConfig.mainConfig.ingressGroups.ingress">
+                                    {{ingressItem.name}}
+                                </div>
+                            </div>
+                            <div class="switch-panel-content">
+                                <div class="panel-content-item">
+                                    <div v-bind:class="{'ingress-item-col-3' :pageConfig.mainConfig.ingressGroups.columnSize == 0 , 'ingress-item-col-4': pageConfig.mainConfig.ingressGroups.columnSize == 1}" v-for="(ingressChildrenItem,index) in pageConfig.mainConfig.ingressGroups.ingress[0].children" v-bind:style="{borderColor:pageConfig.mainConfig.ingressGroups.borderColor}">
+                                        <img class="ingress-icon" v-bind:src="ingressChildrenItem.iconUrl">
+                                        <div class="ingress-text">{{ingressChildrenItem.name}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--templet2-->
+                    <div class="templet2"  v-if="pageConfig.mainConfig.templetType == 2" >
+                        <div class="head" v-bind:style="{backgroundImage:'url('+pageConfig.mainConfig.headBgImage+')'}" style="background-repeat:no-repeat;background-size: 100% 100%;">
+                            <div class="location-hint">
+                                ∨ 西安市
+                            </div>
+
+                            <div class="nearby-hint-text" v-bind:style="{background:pageConfig.mainConfig.nearbyConfig.bgColor,color:pageConfig.mainConfig.nearbyConfig.fontColor}">
+                                <img class="carousel-item-img" v-bind:src="pageConfig.mainConfig.nearbyConfig.iconUrl"> {{pageConfig.mainConfig.nearbyConfig.hintText}}
+                            </div>
+
+                            <div class="ingress-groups-wrap" v-bind:style="{backgroundImage:'url('+pageConfig.mainConfig.ingressGroups.bgImage+')',color:pageConfig.mainConfig.ingressGroups.fontColor}" style="background-repeat:no-repeat;background-size: 100% 100%;">
+                                <div class="ingress-groups" >
+                                    <div class="ingress-item" v-for="(ingressItem,index) in pageConfig.mainConfig.ingressGroups.ingress">
+                                        <img class="ingress-icon" v-bind:src="ingressItem.iconUrl">
+                                        <p class="ingress-name">
+                                            {{ingressItem.name}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="map" style="background-image: url('https://{$_SERVER['HTTP_HOST']}/addons/sd_liferuning/tp/public/uploads/diy/map.png');background-repeat:no-repeat;background-size: cover">
+                        </div>
+                    </div>
+
+                    <!--templet3-->
+                    <div class="templet3"  v-if="pageConfig.mainConfig.templetType == 3" >
+                        <div class="map" style="background-image: url('https://{$_SERVER['HTTP_HOST']}/addons/sd_liferuning/tp/public/uploads/diy/map.png');background-repeat:no-repeat;background-size: cover">
+                            <div class="sys-notify">
+                                <img class="notify-icon" v-bind:src="pageConfig.mainConfig.systemNotifyIconUrl">
+                                <div class="notify-text">系统通知消息</div>
+                            </div>
+                        </div>
+                        <div class="ingress-groups-wrap" v-bind:style="{backgroundImage:'url('+pageConfig.mainConfig.ingressGroups.bgImage+')',color:pageConfig.mainConfig.ingressGroups.fontColor}" style="background-repeat:no-repeat;background-size: 100% 100%;">
+                            <div class="ingress-groups" >
+                                <div class="ingress-item" v-for="(ingressItem,index) in pageConfig.mainConfig.ingressGroups.ingress" v-bind:style="{backgroundImage:'url('+ingressItem.iconUrl+')'}" style="background-repeat:no-repeat;background-size: 100% 100%;">
+                                    <p class="ingress-name">
+                                        {{ingressItem.name}}
+                                    </p>
+                                    <p class="ingress-tip">
+                                        {{ingressItem.hint}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="app-content-nav" v-bind:class="{ 'active': appEditorConfig.currentEditor == 'nav'}"-->
+                <!--v-on:click="chooseAppView({viewName: 'nav'})">-->
+                <!--<div class="app-content-nav-item">-->
+                <!--<img class="app-content-nav-item-icon" src="images/notify.png">-->
+                <!--<div class="app-content-nav-item-text">来包烟</div>-->
+                <!--</div>-->
+                <!--<div class="app-content-nav-item">-->
+                <!--<img class="app-content-nav-item-icon" src="images/notify.png">-->
+                <!--<div class="app-content-nav-item-text">来包烟</div>-->
+                <!--</div>-->
+                <!--<div class="app-content-nav-item">-->
+                <!--<img class="app-content-nav-item-icon" src="images/notify.png">-->
+                <!--<div class="app-content-nav-item-text">来包烟</div>-->
+                <!--</div>-->
+                <!--<div class="app-content-nav-item">-->
+                <!--<img class="app-content-nav-item-icon" src="images/notify.png">-->
+                <!--<div class="app-content-nav-item-text">来包烟</div>-->
+                <!--</div>-->
+                <!--</div>-->
+
+            </div>
+            <div class="app-footer"></div>
+        </div>
+
+        <!-- 编辑器 -->
+        <div class="app-editor" v-bind:style="appEditorConfig.fixedPosition">
+            <!-- APP HEAD -->
+            <div v-if="appEditorConfig.currentEditor == 'head'">
+                <div class="input-group">
+                    <div class="input-addo">
+                        页面名称
+                    </div>
+                    <div class="input-control">
+                        <input type="text" class="text-input" placeholder="页面名称"
+                               v-model="pageConfig.titleConfig.pageTitle">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-addo">
+                        导航背景色
+                    </div>
+                    <div class="input-control">
+                        <input type="color" class="color-input" v-model="pageConfig.titleConfig.navigationBgColor">
+                        <button type="button" class="color-reset-btn" v-on:click="navigationBgColorReset()">重置</button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-addo">
+                        导航栏字体颜色
+                    </div>
+                    <div class="input-control">
+                        <input type="radio" value="#FFFFFF" v-model="pageConfig.titleConfig.fontColor"
+                               name="titleFontColor" id="titleFontColor1" class="radio-input" checked>
+                        <label for="titleFontColor1" class="radio-input-label">白</label>
+                        <input type="radio" value="#000000" v-model="pageConfig.titleConfig.fontColor"
+                               name="titleFontColor" id="titleFontColor2" class="radio-input">
+                        <label for="titleFontColor2" class="radio-input-label">黑</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- APP MAIN -->
+            <div v-if="appEditorConfig.currentEditor == 'main'">
+
+                <!-- 模板样式 -->
+                <div class="input-group">
+                    <div class="input-addo">
+                        模板样式
+                    </div>
+                    <div class="input-control">
+                        <input type="radio" name="templetType" id="templetType1" value="1" class="radio-input" v-model="pageConfig.mainConfig.templetType">
+                        <label for="templetType1" class="radio-input-label">模板一</label>
+
+                        <input type="radio" name="templetType" id="templetType2" value="2" class="radio-input" v-model="pageConfig.mainConfig.templetType">
+                        <label for="templetType2" class="radio-input-label">模板二</label>
+
+                        <input type="radio" name="templetType" id="templetType3" value="3" class="radio-input" v-model="pageConfig.mainConfig.templetType">
+                        <label for="templetType3" class="radio-input-label">模板三</label>
+
+                    </div>
+                </div>
+
+                <!-- 分割 -->
+                <div class="dashed-break-up"></div>
+
+                <!-- 头部背景图片 -->
+                <div class="notify-editor-group" v-if="pageConfig.mainConfig.templetType == 2">
+                    <div class="input-addo">
+                        头部背景图片
+                    </div>
+                    <div class="banner-img">
+                        <img class="banner-img" v-bind:src="pageConfig.mainConfig.headBgImage">
+                    </div>
+                    <div class="input-control">
+                        <div class="input-item">
+                            <input type="text" class="text-input" placeholder="输入或选择图片链接地址"
+                                   v-model="pageConfig.mainConfig.headBgImage">
+                            <button type="button" class="input-choose-btn" data-toggle="modal" data-target="#exampleModalCenter" v-on:click="openPhotoLibrary({dataLinked: 'pageConfig.mainConfig.headBgImage'})">请选择</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 分割 -->
+                <div class="dashed-break-up"></div>
+
+                <!-- 搜索框 -->
+                <div class="input-group" v-if="pageConfig.mainConfig.templetType == 1">
+                    <div class="input-addo">
+                        搜索按钮背景颜色
+                    </div>
+                    <div class="input-control">
+                        <input type="color" class="color-input" v-model="pageConfig.mainConfig.searchConfig.searchBtnBgColor">
+                        <button type="button" class="color-reset-btn" v-on:click="searchBtnBgColorReset()">重置</button>
+                    </div>
+                </div>
+                <div class="input-group" v-if="pageConfig.mainConfig.templetType == 1">
+                    <div class="input-addo">
+                        搜索按钮文字颜色
+                    </div>
+                    <div class="input-control">
+                        <input type="color" class="color-input" v-model="pageConfig.mainConfig.searchConfig.searchBtnFontColor">
+                        <button type="button" class="color-reset-btn" v-on:click="searchBtnFontColorReset()">重置</button>
+                    </div>
+                </div>
+                <div class="input-group" v-if="pageConfig.mainConfig.templetType == 1">
+                    <div class="input-addo">
+                        搜索框提示
+                    </div>
+                    <div class="input-control">
+                        <input type="text" class="text-input" placeholder="输入搜索框提示文字"
+                               v-model="pageConfig.mainConfig.searchConfig.searchHintText">
+                    </div>
+                </div>
+
+                <div class="input-group" v-if="pageConfig.mainConfig.templetType == 1">
+                    <div class="input-addo">
+                        下单按钮跳转链接
+                    </div>
+                    <div class="input-control">
+                        <select class="text-input" v-model="pageConfig.mainConfig.searchConfig.searchLinkedUrl">
+                            <option value="">请选择</option>
+                            <option v-bind:value="linkedItem.url" v-for="linkedItem in linkedArr">{{linkedItem.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 分割 -->
+                <div class="dashed-break-up" v-if="pageConfig.mainConfig.templetType == 1"></div>
+
+                <!-- 系统通知 -->
+                <div class="notify-editor-group">
+                    <div class="input-addo">
+                        系统通知图标
+                    </div>
+                    <div class="banner-img">
+                        <img class="banner-img" v-bind:src="pageConfig.mainConfig.systemNotifyIconUrl">
+                    </div>
+                    <div class="input-control">
+                        <div class="input-item">
+                            <input type="text" class="text-input" placeholder="输入或选择图片链接地址"
+                                   v-model="pageConfig.mainConfig.systemNotifyIconUrl">
+                            <button type="button" class="input-choose-btn" data-toggle="modal" data-target="#exampleModalCenter" v-on:click="openPhotoLibrary({dataLinked: 'pageConfig.mainConfig.systemNotifyIconUrl'})">请选择</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 分割 -->
+                <div class="dashed-break-up"></div>
+
+                <!-- 附近提示 -->
+                <div class="input-group" v-if="pageConfig.mainConfig.templetType == 2">
+                    <div class="input-addo">
+                        附近背景颜色
+                    </div>
+                    <div class="input-control">
+                        <input type="color" class="color-input" v-model="pageConfig.mainConfig.nearbyConfig.bgColor">
+                        <button type="button" class="color-reset-btn" v-on:click="nearbyBgColorReset()">重置</button>
+                    </div>
+                </div>
+
+                <div class="input-group" v-if="pageConfig.mainConfig.templetType == 2">
+                    <div class="input-addo">
+                        附近文字颜色
+                    </div>
+                    <div class="input-control">
+                        <input type="color" class="color-input" v-model="pageConfig.mainConfig.nearbyConfig.fontColor">
+                        <button type="button" class="color-reset-btn" v-on:click="nearbyFontColorReset()">重置</button>
+                    </div>
+                </div>
+
+                <div class="input-group" v-if="pageConfig.mainConfig.templetType == 2">
+                    <div class="input-addo">
+                        附近文字提示
+                    </div>
+                    <div class="input-control">
+                        <input type="text" class="text-input" placeholder="输入搜索框显示文字"
+                               v-model="pageConfig.mainConfig.nearbyConfig.hintText">
+                    </div>
+                </div>
+
+                <div class="notify-editor-group" v-if="pageConfig.mainConfig.templetType == 2">
+                    <div class="input-addo">
+                        附近图标
+                    </div>
+                    <div class="banner-img">
+                        <img class="banner-img" v-bind:src="pageConfig.mainConfig.nearbyConfig.iconUrl">
+                    </div>
+                    <div class="input-control">
+                        <div class="input-item">
+                            <input type="text" class="text-input" placeholder="输入或选择图片链接地址"
+                                   v-model="pageConfig.mainConfig.nearbyConfig.iconUrl">
+                            <button type="button" class="input-choose-btn" data-toggle="modal" data-target="#exampleModalCenter" v-on:click="openPhotoLibrary({dataLinked: 'pageConfig.mainConfig.nearbyConfig.iconUrl'})">请选择</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 分割 -->
+                <div class="dashed-break-up"></div>
+
+                <!-- 轮播图 -->
+                <div class="banner-editor-group" v-for="(bannerItem,index) in pageConfig.mainConfig.bannerGroups"  v-if="pageConfig.mainConfig.templetType == 1">
+                    <div class="banner-img">
+                        <img class="banner-img" v-bind:src="bannerItem.imageUrl">
+                    </div>
+                    <div class="banner-input-group">
+                        <div class="banner-input-item">
+                            <input type="text" class="text-input" placeholder="输入或选择图片链接地址"
+                                   v-model="bannerItem.imageUrl">
+                            <button type="button" class="input-choose-btn" data-toggle="modal" data-target="#exampleModalCenter" v-on:click="openPhotoLibrary({dataLinked: 'pageConfig.mainConfig.bannerGroups['+index+'].imageUrl'})">请选择</button>
+                        </div>
+                        <div class="banner-input-item">
+                            <select class="select" v-model="bannerItem.linkedUrl">
+                                <option value="">请选择</option>
+                                <option v-bind:value="linkedItem.url" v-for="linkedItem in linkedArr">{{linkedItem.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <span class="fa-li fa fa-remove remove-icon" title="删除" v-on:click="removeBannerItem({index:index})"></span>
+                </div>
+
+                <button class="btn btn-outline-secondary append-btn" v-on:click="appendBannerItem()"  v-if="pageConfig.mainConfig.templetType == 1">添加轮播图片</button>
+
+                <!-- 分割 -->
+                <div class="dashed-break-up"  v-if="pageConfig.mainConfig.templetType == 1"></div>
+
+                <!-- 入口 -->
+                <div class="input-group">
+                    <div class="input-addo">
+                        入口文字颜色
+                    </div>
+                    <div class="input-control">
+                        <input type="color" class="color-input" v-model="pageConfig.mainConfig.ingressGroups.fontColor">
+                        <button type="button" class="color-reset-btn" v-on:click="ingressGroupsFontColorReset()">重置</button>
+                    </div>
+                </div>
+                <!--<div class="input-group">-->
+                <!--<div class="input-addo">-->
+                <!--入口文字选中颜色-->
+                <!--</div>-->
+                <!--<div class="input-control">-->
+                <!--<input type="color" class="color-input"-->
+                <!--v-model="pageConfig.mainConfig.ingressGroups.fontActiveColor">-->
+                <!--<button class="color-reset-btn" v-on:click="ingressGroupsFontActiveColorReset()">重置</button>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="input-group"  v-if="pageConfig.mainConfig.templetType == 1">
+                    <div class="input-addo">
+                        边框颜色
+                    </div>
+                    <div class="input-control">
+                        <input type="color" class="color-input"
+                               v-model="pageConfig.mainConfig.ingressGroups.borderColor">
+                        <button type="button" class="color-reset-btn" v-on:click="ingressGroupsBorderColorReset()">重置</button>
+                    </div>
+                </div>
+
+                <div class="input-group"  v-if="pageConfig.mainConfig.templetType == 1">
+                    <div class="input-addo">
+                        分列数量
+                    </div>
+                    <div class="input-control">
+                        <input type="radio" name="columnSize" id="columnSize1" value="0" class="radio-input" v-model="pageConfig.mainConfig.ingressGroups.columnSize">
+                        <label for="columnSize1" class="radio-input-label">一行三列</label>
+
+                        <input type="radio" name="columnSize" id="columnSize2" value="1" class="radio-input" v-model="pageConfig.mainConfig.ingressGroups.columnSize">
+                        <label for="columnSize2" class="radio-input-label">一行四列</label>
+
+                    </div>
+                </div>
+
+                <div class="notify-editor-group" v-if="pageConfig.mainConfig.templetType == 2 || pageConfig.mainConfig.templetType == 3">
+                    <div class="input-addo">
+                        入口背景图片
+                    </div>
+                    <div class="banner-img">
+                        <img class="banner-img" v-bind:src="pageConfig.mainConfig.ingressGroups.bgImage">
+                    </div>
+                    <div class="input-control">
+                        <div class="input-item">
+                            <input type="text" class="text-input" placeholder="输入或选择图片链接地址"
+                                   v-model="pageConfig.mainConfig.ingressGroups.bgImage">
+                            <button type="button" class="input-choose-btn" data-toggle="modal" data-target="#exampleModalCenter" v-on:click="openPhotoLibrary({dataLinked: 'pageConfig.mainConfig.ingressGroups.bgImage'})">请选择</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="list-group" v-for="(ingressItem,index) in pageConfig.mainConfig.ingressGroups.ingress">
+                    <div class="list-group-item list-group-item-action active">
+                        <div class="ingress-input-group">
+                            <div class="input-addo">
+                                栏目名称
+                            </div>
+                            <div class="input-control">
+                                <input type="text" class="text-input" placeholder="输入一级栏目名称"
+                                       v-model="ingressItem.name">
+                            </div>
+                        </div>
+
+                        <div class="ingress-input-group" v-if="pageConfig.mainConfig.templetType == 3">
+                            <div class="input-addo">
+                                提示
+                            </div>
+                            <div class="input-control">
+                                <input type="text" class="text-input" placeholder="输入一级栏目提示"
+                                       v-model="ingressItem.hint">
+                            </div>
+                        </div>
+
+                        <div class="ingress-input-group" v-if="pageConfig.mainConfig.templetType == 2 || pageConfig.mainConfig.templetType == 3">
+                            <div class="input-addo">
+                                跳转链接
+                            </div>
+                            <div class="input-control">
+                                <select class="text-input" v-model="ingressItem.linkedUrl">
+                                    <option value="">请选择</option>
+                                    <option v-bind:value="linkedItem.url" v-for="linkedItem in linkedArr">{{linkedItem.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="ingress-icon" v-if="pageConfig.mainConfig.templetType == 2 || pageConfig.mainConfig.templetType == 3">
+                            <div class="input-addo">
+                                入口图标
+                            </div>
+                            <div class="icon-img">
+                                <img class="icon-img" v-bind:src="ingressItem.iconUrl">
+                            </div>
+                            <div class="input-control">
+                                <div class="input-item">
+                                    <input type="text" class="text-input" placeholder="输入或选择图片链接地址"
+                                           v-model="ingressItem.iconUrl">
+                                    <button type="button" class="input-choose-btn" data-toggle="modal" data-target="#exampleModalCenter" v-on:click="openPhotoLibrary({dataLinked: 'pageConfig.mainConfig.ingressGroups.ingress['+index+'].iconUrl'})">请选择</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 标签设置 -->
+                        <div class="tag-group" v-if="pageConfig.mainConfig.templetType != 1">
+                            <!-- 标签状态开关 -->
+                            <div class="input-group">
+                                <div class="input-addo">
+                                    开关标签
+                                </div>
+                                <div class="input-control">
+                                    <input type="radio" v-bind:name="'tagStatus' + index + '' + childrenIndex" value="0" class="radio-input" v-model="ingressItem.tagGroup.status">
+                                    <label class="radio-input-label">开启</label>
+
+                                    <input type="radio" v-bind:name="'tagStatus' + index + '' + childrenIndex" value="1" class="radio-input" v-model="ingressItem.tagGroup.status">
+                                    <label class="radio-input-label">不开启</label>
+                                </div>
+                            </div>
+                            <!-- 标签添加 -->
+                            <div class="ingress-input-group">
+                                <div class="input-addo">
+                                    标签添加
+                                </div>
+                                <div class="input-control">
+                                    <input type="text" class="text-input" placeholder="输入需要的标签，用 Enter 键确认" v-on:change="addTag({dataLinked: 'pageConfig.mainConfig.ingressGroups.ingress['+index+'].tagGroup.tags',event: $event})">
+                                </div>
+                            </div>
+                            <!-- 标签集合 -->
+                            <div class="ingress-input-group">
+                                <div class="input-addo">
+                                    标签
+                                </div>
+                                <div class="input-control add-tags">
+                                    <div class="tags">
+                                        <div class="tags-item" v-for="(tagItem,tagIndex) in ingressItem.tagGroup.tags">
+                                            {{tagItem}} <i class="fa fa-remove" v-on:click="removeTag({dataLinked: 'pageConfig.mainConfig.ingressGroups.ingress['+index+'].tagGroup.tags',index: tagIndex})"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="list-group-item list-group-item-action"
+                         v-for="(ingressChildrenItem,childrenIndex) in ingressItem.children"  v-if="pageConfig.mainConfig.templetType == 1">
+
+                        <div class="ingress-input-group-children">
+                            <div class="ingress-img">
+                                <img class="ingress-img" v-bind:src="ingressChildrenItem.iconUrl">
+                            </div>
+                            <div class="input-group">
+                                <div class="input-item">
+                                    <input type="text" class="text-input" placeholder="输入二级栏目名称"
+                                           v-model="ingressChildrenItem.name">
+                                </div>
+                                <div class="input-item">
+                                    <input type="text" class="text-input" placeholder="输入或选择图片链接地址"  v-model="ingressChildrenItem.iconUrl">
+                                    <button type="button" class="input-choose-btn" data-toggle="modal" data-target="#exampleModalCenter" v-on:click="openPhotoLibrary({dataLinked: 'pageConfig.mainConfig.ingressGroups.ingress['+index+'].children['+childrenIndex+'].iconUrl'})">请选择</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ingress-input-group">
+                            <div class="input-addo">
+                                跳转链接
+                            </div>
+                            <div class="input-control">
+                                <select class="text-input" v-model="ingressChildrenItem.linkedUrl">
+                                    <option value="">请选择</option>
+                                    <option v-bind:value="linkedItem.url" v-for="linkedItem in linkedArr">{{linkedItem.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 标签状态开关 -->
+                        <div class="ingress-input-group">
+                            <div class="input-addo">
+                                开关标签
+                            </div>
+                            <div class="input-control">
+                                <input type="radio" v-bind:name="'tagStatus' + index + '' + childrenIndex" value="0" class="radio-input" v-model="ingressChildrenItem.tagGroup.status">
+                                <label class="radio-input-label">开启</label>
+
+                                <input type="radio" v-bind:name="'tagStatus' + index + '' + childrenIndex" value="1" class="radio-input" v-model="ingressChildrenItem.tagGroup.status">
+                                <label class="radio-input-label">不开启</label>
+                            </div>
+                        </div>
+
+                        <!-- 标签添加 -->
+                        <div class="ingress-input-group">
+                            <div class="input-addo">
+                                标签添加
+                            </div>
+                            <div class="input-control">
+                                <input type="text" class="text-input" placeholder="输入需要的标签，用 Enter 键确认" v-on:change="addTag({dataLinked: 'pageConfig.mainConfig.ingressGroups.ingress['+index+'].children['+ childrenIndex +'].tagGroup.tags',event: $event})">
+                            </div>
+                        </div>
+                        <!-- 标签集合 -->
+                        <div class="ingress-input-group">
+                            <div class="input-addo">
+                                标签
+                            </div>
+                            <div class="input-control add-tags">
+                                <div class="tags">
+                                    <div class="tags-item" v-for="(tagItem,tagIndex) in ingressChildrenItem.tagGroup.tags">
+                                        {{tagItem}} <i class="fa fa-remove" v-on:click="removeTag({dataLinked: 'pageConfig.mainConfig.ingressGroups.ingress['+index+'].children['+ childrenIndex +'].tagGroup.tags',index: tagIndex})"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <span class="fa-li fa fa-remove remove-icon" title="删除二级入口"
+                              v-on:click="removeIngressChildrenItem({index: index,childrenIndex:childrenIndex})"></span>
+                    </div>
+
+                    <button class="btn btn-outline-info" v-on:click="appendIngressChildrenItem({index: index})"  v-if="pageConfig.mainConfig.templetType == 1">添加二级入口
+                    </button>
+                    <span class="fa-li fa fa-remove remove-icon" title="删除一级入口"
+                          v-on:click="removeIngressItem({index: index})"></span>
+                </div>
+                <button type="button" class="btn btn-outline-secondary append-btn" v-on:click="appendIngressItem()">添加入口</button>
+
+                <!-- 分割 -->
+                <div class="dashed-break-up"  v-if="pageConfig.mainConfig.templetType == 1"></div>
+                <button type="button" class="btn btn-success append-btn" v-on:click="submitData()">立即保存</button>
+
+            </div>
+        </div>
+        <!-- 系统弹窗 -->
+        <div class="alert alert-warning alert-dismissible fade windowAlert" v-bind:class="{'show':windowAlert.isShow}"
+             role="alert">
+            <strong>{{windowAlert.hintText}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+
+        <!-- 图片库 -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered photo-library" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">{{photoLibrary.title}}</h5>
+                        <input type="hidden" >
+                        <button type="button" class="btn btn-primary btn-sm image-upload-btn" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-cloud-upload"></i> 图片上传</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="image-groups">
+                            <div class="image-item"  v-for="photoItem in photoLibrary.photos">
+                                <i class="fa-li fa fa-remove remove-icon image-item-icon" @click="delPhoto({linked: photoItem})"></i>
+                                <img v-bind:src="photoItem" title="图片" data-dismiss="modal" ref="choosePhoto" v-on:click="choosePhoto({linked: photoItem})">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">{{photoLibrary.returnBtnText}}</button>
+                        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">图片上传</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body file-upload-module">
+
+                        <div style="margin-bottom: 20px">
+                            <h4>选择图片</h4>
+                            <a id='addPic' class="btn btn-info btn-sm" href="" v-on:click="addPic">添加图片 </a>
+                            <input type="file" id="uploadFile" @change="onFileChange" multiple style="display: none;">
+                        </div>
+                        <div v-if="images.length >0">
+                            <ul>
+                                <li v-for="(image,key) in images">
+                                    <img :src="image" @click='delImage(key)' />
+                                    <a href="#" style="position: absolute;" @click='delImage(key)'>
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-danger btn-sm"  @click="removeImage">移除全部图片</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" @click='uploadImage'>上传</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            pageConfig: {    // 页面配置数据格式
+                titleConfig: {
+                    pageTitle: "跑腿",    // 标题
+                    navigationBgColor: '#000000',   // 背景颜色
+                    fontColor: '#FFFFFF'    // 文字颜色
+                },
+                mainConfig: {
+                    templetType: '1',   // 模板类型 (1 => 模板一，2 => 模板二，3 => 模板三)
+                    headBgImage: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads/background/resource/common/image/customer/index/module-style2/bg.png',   // 头部背景图片
+                    searchConfig: {
+                        searchBtnBgColor: '#20AD20',    // 搜索背景色
+                        searchBtnFontColor: '#FFFFFF',  // 搜索文本色
+                        searchHintText: '输入想买的商品，如：麦当劳嘻哈小食盒',   // 搜索提示文字
+                        searchLinkedUrl: '',   // 链接地址
+                    },
+                    bannerGroups: [
+                        {
+                            imageUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//banner//201806/2018061938o90P15293937345821.jpg', // 图片地址
+                            linkedUrl: ''   // 链接地址
+                        }
+                    ],   // 轮播图
+                    systemNotifyIconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads/background/resource/common/image/icon/notify.png',    // 系统通知图标地址
+                    nearbyConfig: { // 附近人配置
+                        fontColor: '#333333',   // 文字颜色
+                        bgColor: '#FFFFFF', // 背景颜色
+                        hintText: '附近20位跑男',  // 提示文字
+                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads/background/resource/common/image/customer/index/module-style2/icon2.png' // 图标
+                    },
+                    ingressGroups: {
+                        fontColor: '#333333',    // 文字颜色
+                        // fontActiveColor: '#20AD20',    // 文字颜色
+                        borderColor: '#DDDDDD',    // 边框颜色
+                        columnSize: '0',  // 每列数量(0 => 一行三列，1 => 一行四列)
+                        bgImage: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads/background/resource/common/image/customer/index/module-style3/bg.png',    // 背景图片
+                        ingress: [   // 一级入口
+                            {
+                                name: '帮我买', // 名称
+                                hint: '随便买',   // 提示
+                                iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads/background/resource/common/image/customer/index/module-style3/ingress-bg1.png', // 图标地址
+                                linkedUrl: '',   // 链接地址
+                                tagGroup: { // 标签
+                                    status: 0,  // 状态0开启 1不开启
+                                    tags: [ // 标签
+                                        '买气球'
+                                    ]
+                                },
+                                children: [  // 二级入口
+                                    {
+                                        name: '来包烟', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611BWdkEg15287115449473.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    },
+                                    {
+                                        name: '大药房', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611rilv1o15287115551082.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    },
+                                    {
+                                        name: '便利店', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611HIngEQ15287115640493.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    },
+                                    {
+                                        name: '买小吃', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611feklaf15287115733304.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    }
+                                ]
+                            },
+                            {
+                                name: '帮我送', // 名称
+                                hint: '随便买',   // 提示
+                                iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads/background/resource/common/image/customer/index/module-style3/ingress-bg2.png', // 图标地址
+                                linkedUrl: '',   // 链接地址
+                                tagGroup: { // 标签
+                                    status: 0,  // 状态0开启 1不开启
+                                    tags: [ // 标签
+                                        '买气球'
+                                    ]
+                                },
+                                children: [  // 二级入口
+                                    {
+                                        name: '来包烟', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611BWdkEg15287115449473.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    },
+                                    {
+                                        name: '大药房', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611rilv1o15287115551082.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    },
+                                    {
+                                        name: '便利店', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611HIngEQ15287115640493.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    },
+                                    {
+                                        name: '买小吃', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611feklaf15287115733304.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    }
+                                ]
+                            },
+                            {
+                                name: '帮排队', // 名称
+                                hint: '随便买',   // 提示
+                                iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads/background/resource/common/image/customer/index/module-style3/ingress-bg1.png', // 图标地址
+                                linkedUrl: '',   // 链接地址
+                                tagGroup: { // 标签
+                                    status: 0,  // 状态0开启 1不开启
+                                    tags: [ // 标签
+                                        '买气球'
+                                    ]
+                                },
+                                children: [  // 二级入口
+                                    {
+                                        name: '来包烟', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611BWdkEg15287115449473.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    },
+                                    {
+                                        name: '大药房', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611rilv1o15287115551082.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    },
+                                    {
+                                        name: '便利店', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611HIngEQ15287115640493.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    },
+                                    {
+                                        name: '买小吃', // 名称
+                                        iconUrl: 'https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/public/uploads//service//201806/20180611feklaf15287115733304.png', // 图标地址
+                                        linkedUrl: '',   // 链接地址
+                                        tagGroup: { // 标签
+                                            status: 0,  // 状态0开启 1不开启
+                                            tags: [ // 标签
+                                                '买气球'
+                                            ]
+                                        },
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            appEditorConfig: {
+                currentEditor: 'main',
+                fixedPosition: {
+                    'top': '0px'
+                }
+            },
+            windowAlert: {
+                hintText: '',
+                isShow: false,
+                defaultTimeOut: 2000
+            },
+            photoLibrary: {
+                title: '图片库',
+                returnBtnText: '返回',
+                dataUrl: '',
+                photos: [
+                    // {
+                    //     title: '广播',
+                    //     photoUrl: 'images/notify.png'
+                    // },
+                    // {
+                    //     title: '轮播',
+                    //     photoUrl: 'images/banner.png'
+                    // }
+                ]
+            },
+            linkedArr: [],  // 链接数组
+            images: []  // 图片上传
+        },
+        beforeCreate:function(){
+            let _this = this;
+
+            // 默认数据加载
+            $.ajax({
+                url:"<?php echo config('path_run') ?>/addons/sd_liferuning/tp/index.php/index/diy",
+                type:'POST',
+                // async:true,
+                timeout:5000,
+                dataType:'json',
+                success:function(data){
+                    let dataJson = JSON.parse(data);
+                    let status = dataJson.status;
+                    if(status){
+                        let pageConfig = JSON.parse(dataJson.diy);
+                        _this.pageConfig = pageConfig;
+                    }
+                },
+            });
+
+            // 图片加载
+            $.ajax({
+                url:"<?php echo config('path_run') ?>/addons/sd_liferuning/tp/index.php/index/getImg",
+                type:'POST',
+                // async:true,
+                timeout:5000,
+                dataType:'json',
+                success:function(data){
+                    let dataJson = JSON.parse(data);
+                    let status = dataJson.status;
+                    let photos = dataJson.url;
+                    if(status){
+                        _this.photoLibrary.photos = photos;
+                    }
+                },
+            });
+
+            // 链接加载
+            $.ajax({
+                url:"<?php echo config('path_run') ?>/addons/sd_liferuning/tp/index.php/index/getUrl",
+                type:'POST',
+                // async:true,
+                timeout:5000,
+                dataType:'json',
+                success:function(data){
+                    let dataJson = JSON.parse(data);
+                    let status = dataJson.status;
+                    let linkedArr = dataJson.info;
+                    if(status){
+                        _this.linkedArr = linkedArr;
+                    }
+                },
+            });
+        },
+        methods: {
+            navigationBgColorReset: function () {   // 导航背景颜色重置
+                let defaultColor = '#000';
+                this.pageConfig.titleConfig.navigationBgColor = defaultColor;
+            },
+            chooseAppView: function ({viewName}) {  // 切换编辑器显示状态
+                const HEAD = 'head';
+                const MAIN = 'main';
+                const NAV = 'nav';
+                if (viewName == HEAD) {
+                    this.appEditorConfig.currentEditor = HEAD;
+                    this.appEditorConfig.fixedPosition = {
+                        'top': '0px'
+                    }
+                }
+
+                if (viewName == MAIN) {
+                    this.appEditorConfig.currentEditor = MAIN;
+                    this.appEditorConfig.fixedPosition = {
+                        'top': '100px'
+                    }
+                }
+
+                if (viewName == NAV) {
+                    this.appEditorConfig.currentEditor = NAV;
+                    this.appEditorConfig.fixedPosition = {
+                        'top': '500px'
+                    }
+                }
+
+            },
+            searchBtnBgColorReset: function () {    // 搜索背景颜色重置
+                let defaultColor = '#20AD20';
+                this.pageConfig.mainConfig.searchConfig.searchBtnBgColor = defaultColor;
+            },
+            searchBtnFontColorReset: function () {  // 搜索文字颜色重置
+                let defaultColor = '#FFFFFF';
+                this.pageConfig.mainConfig.searchConfig.searchBtnFontColor = defaultColor;
+            },
+            nearbyBgColorReset: function () {  // 附近背景重置
+                let defaultColor = '#FFFFFF';
+                this.pageConfig.mainConfig.nearbyConfig.bgColor = defaultColor;
+            },
+            nearbyFontColorReset: function () {  // 附近文字颜色重置
+                let defaultColor = '#333333';
+                this.pageConfig.mainConfig.nearbyConfig.fontColor = defaultColor;
+            },
+            appendBannerItem: function () { // 添加轮播
+                this.pageConfig.mainConfig.bannerGroups.push({
+                    imageUrl: '', // 图片地址
+                    linkedUrl: ''   // 链接地址
+                });
+            },
+            removeBannerItem: function ({index:index}) { // 删除轮播
+                if (this.pageConfig.mainConfig.bannerGroups.length <= 1) {
+                    this.alertHintText({text: '删除最少保留一个'});
+                    return false;
+                }
+                this.removeItemByIndex({index: index, data: this.pageConfig.mainConfig.bannerGroups});
+            },
+            ingressGroupsFontColorReset:function () {   // 入口文字颜色重置
+                let defaultColor = '#333333';
+                this.pageConfig.mainConfig.ingressGroups.fontColor = defaultColor;
+            },
+            ingressGroupsFontActiveColorReset: function () {    // 入口文字选中颜色重置
+                let defaultColor = '#20AD20';
+                this.pageConfig.mainConfig.ingressGroups.fontActiveColor = defaultColor;
+            },
+            ingressGroupsBorderColorReset: function () {    // 入口边框颜色重置
+                let defaultColor = '#DDDDDD';
+                this.pageConfig.mainConfig.ingressGroups.borderColor = defaultColor;
+            },
+            appendIngressItem: function () {  // 添加一级菜单
+                let ingress = {};
+                Vue.set( ingress, 'name', '');
+                Vue.set( ingress, 'hint', '');
+                Vue.set( ingress, 'iconUrl', '');
+                Vue.set( ingress, 'linkedUrl', '');
+                Vue.set( ingress, 'tagGroup',{
+                    status: 0,
+                    tags: []
+                });
+                Vue.set( ingress, 'children', []);
+
+                this.pageConfig.mainConfig.ingressGroups.ingress.push(ingress);
+            },
+            removeIngressItem: function ({index: index}) {  // 删除一级菜单
+                if (this.pageConfig.mainConfig.ingressGroups.ingress.length <= 1) {
+                    this.alertHintText({text: '删除最少保留一个'});
+                    return false;
+                }
+                this.removeItemByIndex({index: index, data: this.pageConfig.mainConfig.ingressGroups.ingress});
+            },
+            appendIngressChildrenItem: function ({index: index}) {  // 添加二级菜单
+                let ingress = {};
+                Vue.set( ingress, 'name', '');
+                Vue.set( ingress, 'iconUrl', '');
+                Vue.set( ingress, 'tagGroup',{
+                    status: 0,
+                    tags: []
+                });
+                this.pageConfig.mainConfig.ingressGroups.ingress[index].children.push(ingress);
+            },
+            removeIngressChildrenItem: function ({index: index, childrenIndex: childrenIndex}) {  // 删除二级菜单
+                if (this.pageConfig.mainConfig.ingressGroups.ingress[index].children.length <= 1) {
+                    this.alertHintText({text: '删除最少保留一个'});
+                    return false;
+                }
+                this.removeItemByIndex({index: childrenIndex, data: this.pageConfig.mainConfig.ingressGroups.ingress[index].children});
+            },
+            removeItemByIndex: function ({index: index, data: data}) {  // 根据下标删除
+                for (let i = index; i < data.length; i++) {
+                    if (i >= data.length - 1) {
+                        data.pop();
+                    } else {
+                        data[i] = data[i + 1];
+                    }
+                }
+            },
+            addTag: function({dataLinked: dataLinked,event: event}){    // 标签添加
+                if(eval('this.'+ dataLinked).length > 6){
+                    this.alertHintText({text: '最多可以添加7个标签'});
+                    return false;
+                }
+                eval('this.'+ dataLinked + '.push("'+ event.target.value + '")');
+                event.target.value = '';
+            },
+            removeTag: function({dataLinked: dataLinked,index: index}){    // 删除标签
+                let dataArr = eval('this.'+ dataLinked);
+                this.removeItemByIndex({index: index, data: dataArr})
+            },
+            alertHintText: function ({text: text}) {   // 弹框
+                let _this = this;
+                this.windowAlert.hintText = text;
+                this.windowAlert.isShow = true;
+                setTimeout(function () {
+                    _this.windowAlert.isShow = false;
+                }, this.windowAlert.defaultTimeOut);
+            },
+            choosePhoto: function ({linked: linked}) {  // 图片选择
+                eval(this.photoLibrary.dataUrl + "='" + linked + "'");
+            },
+            delPhoto: function ({linked:linked}) { // 图片删除
+                let _this = this;
+               $.post('delsrc',{src:linked},function(res){
+                   if(res.code==1){
+                       alert('删除成功');
+                       $.ajax({
+                           url:"<?php echo config('path_run') ?>/addons/sd_liferuning/tp/index.php/index/getImg",
+                           type:'POST',
+                           // async:true,
+                           timeout:5000,
+                           dataType:'json',
+                           success:function(data){
+                               let dataJson = JSON.parse(data);
+                               let status = dataJson.status;
+                               let photos = dataJson.url;
+                               if(status){
+                                   _this.photoLibrary.photos = photos;
+                               }
+                           },
+                       });
+                   }else{
+                       alert('删除失败');
+                   }
+               },'json')
+            },
+            openPhotoLibrary:function ({dataLinked:dataLinked}) {
+                this.photoLibrary.dataUrl = 'this.' + dataLinked;
+            },
+            addPic(e){
+                e.preventDefault();
+                $('#uploadFile').trigger('click');
+                return false;
+            },
+            onFileChange(e) {
+                let files = e.target.files ;
+                if (!files.length)return;
+                this.createImage(files);
+            },
+            createImage(file) {
+                if(typeof FileReader==='undefined'){
+                    alert('您的浏览器不支持图片上传，请升级您的浏览器');
+                    return false;
+                }
+                let image = new Image();
+                let vm = this;
+                let leng=file.length;
+                for(let i=0;i<leng;i++){
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file[i]);
+                    reader.onload =function(e){
+                        vm.images.push(e.target.result);
+                    };
+                }
+            },
+            delImage:function(index){
+                this.images.shift(index);
+            },
+            removeImage: function(e) {
+                this.images = [];
+            },
+            uploadImage: function() {
+                let _this = this;
+                let obj = {};
+                obj.images=this.images;
+                $.ajax({
+                    type: 'POST',
+                    url: "<?php echo config('path_run') ?>/addons/sd_liferuning/tp/index.php/index/img",    // 地址
+                    data: obj,
+                    dataType: "json",
+                    success: function(data) {
+                        _this.images = [];
+                        let dataJson = JSON.parse(data);
+                        let status = dataJson.status;
+                        let photoArr = dataJson.img;
+                        if(status == 1){
+                          console.log(obj)
+                            // _this.photoLibrary.photos = _this.photoLibrary.photos.concat(photoArr);
+                            // console.log(_this.photoLibrary.photos.concat(photoArr));
+                            for(let key in photoArr){
+                                _this.$set(_this.photoLibrary.photos,_this.photoLibrary.photos.length,photoArr[key]);
+                            }
+                        }
+                    }
+                });
+            },
+            submitData: function () {
+                let _this = this;
+                let obj = {};
+                obj = this.pageConfig;
+                $.ajax({
+                    url:"<?php echo config('path_run') ?>/addons/sd_liferuning/tp/index.php/index/createApi",
+                    type:'POST',
+                    // async:true,
+                    data:obj,
+                    timeout:5000,
+                    dataType:'json',
+                    success:function(data){
+                        if(data){
+                           	alert('保存成功');
+                          	loication.raload();
+                        }
+                    },
+                })
+            }
+        }
+    })
+
+
+</script>
+{/block}

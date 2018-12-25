@@ -1,0 +1,151 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+
+<script src="__STATIC__/layer/layer.js"></script>
+<input type="hidden" name="mun_url" id="mun_url" value="11,14,false,小程序上传"/>
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">
+            上传小程序
+        </div>
+     
+        <div class="form" id="form">
+            <form  enctype="multipart/form-data" style="display:none;" id="forms">
+              
+
+                <div><label class="ltxt">版本号:</label><input type="text" name="versions" id="" value="" /><span ></span></div>
+
+                <div><label class="ltxt">备注:</label><input type="text" name="info" id="" value="" /><span></span></div>
+                <div><label class="ltxt">二维码预览:</label>
+                    <img src="" id="qrcode" width="200" height="200">
+                    <span></span>
+                </div>
+
+                
+
+              
+
+                <!--<div>-->
+                <!--<label class="ltxt">图片上传:</label>-->
+                <!--<div class="img-box full">-->
+                <!--<section class=" img-section">-->
+                <!--<div class="z_photo upimg-div" >-->
+                <!--<section class="z_file fl">-->
+                <!--<img src="__STATIC__/home/img/a11.png" tppabs="http://www.jq22.com/demo/imgUp201703281022/img/a11.png" class="add-img">-->
+                <!--<input type="file" name="image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multip />-->
+                <!--</section>-->
+                <!--<div class="clear"></div>-->
+                <!--</div>-->
+                <!--</section>-->
+                <!--</div>-->
+                <!--<span></span>-->
+                <!--</div>-->
+                <!--<aside class="mask works-mask">-->
+                <!--<div class="mask-content">-->
+                <!--<p class="del-p">您确定要删除作品图片吗？</p>-->
+                <!--<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>-->
+                <!--</div>-->
+                <!--</aside>-->
+
+                <div><button class="btns" id="send">上传</button>
+                    <!--<button class="cancel" onclick="history.go(-1)">取消</button></div>-->
+                    <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--<div id="main" style="width: 600px;height:400px;"></div>-->
+
+
+
+<script>
+    $(function(){
+        var t;
+        layer.ready(function(){
+            var load=layer.msg('二维码加载中', {
+                icon: 16,
+                time:-1
+
+            });
+            $.post('ajax',{data:"qrcode-login"},function(res){
+                if(res.code==1){
+                   layer.closeAll();
+                    layer.open({
+                        type: 1,
+                        skin: 'layui-layer-demo', //样式类名
+                        closeBtn: 0, //不显示关闭按钮
+                        anim: 2,
+                        title:'二维码扫描',
+                        shadeClose: true, //开启遮罩关闭,
+                        content:'<img src="'+res.qrcode+'" width="250" height="250"/>'
+                    });
+                    t = setInterval(function () {
+                        $.post('ajax',{data:"check"},function (result) {
+                            if(result.code!=0){
+                                clearInterval(t);
+                                layer.msg('登陆成功',{time:1000});
+                                $('#qrcode').attr('src',result.qrcode);
+                                $('#forms').show();
+                                layer.closeAll();
+                                return false;
+                            }
+                        },'json')
+
+                    },10000)
+
+                }else{
+                    layer.msg(res.msg);
+                }
+            },'json')
+
+
+        });
+        $('#send').click(function(){
+            layer.msg('正在上传中', {
+                icon: 16,
+                time:-1
+            });
+            var versions=$("input[name='versions']").val();
+            var info=$("input[name='info']").val();
+
+            $.post('uploadwx',{versions:versions,info:info},function (rss) {
+
+                if(rss.code==1){
+                    layer.closeAll();
+                    layer.open({
+                        type: 1,
+
+                        title:'上传成功',
+                        area: ['420px', '240px'], //宽高
+                        content: '<h2 align="center">恭喜你上传成功</h2><h2 align="center">请访问微信公众号平台上传审核</h2><h2 align="center" ><a href="https://mp.weixin.qq.com/" style="color: red" target="_blank">https://mp.weixin.qq.com/</a></h2>'
+                    });
+                }else{
+                    layer.msg('上传失败');
+                }
+
+                return false;
+            },'json');
+            return false;
+        })
+    });
+</script>
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,220 @@
+{extend name="public/base" /}
+<!--尾部-->
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="3,2,false,运费模板管理"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/city-style.css"/>
+<style>
+    #forms{width: auto;padding: 0;}
+    .timeul{margin-left: 100px;width: 950px;}
+    .timeul .li{width: 420px;display: flex;float: left;margin-bottom: 10px;}
+    #forms form >div .li span{margin: 0;height: auto;line-height: 1;font-size: 14px;display: inline-block;padding: 8px 12px;border: 1px solid #ccc;border-right: 0;}
+    #forms form >div .li span:last-child{border-right: 1px solid #ccc ;}
+    #forms form >div .li input{width: 50px;height: auto;padding: 8px 12px;border: 1px solid #ccc;border-radius: 0;border-right: 0;font-size: 14px;}
+    #forms form >div .li a{font-size: 14px;color: #555;line-height: 1;padding: 8px 12px;border: 1px solid #ccc;cursor: pointer;}
+    #forms form >div .li .active{background: #21d376;color: #fff;border-color: #21d376;}
+    #forms form >div .frgight{display: flex;}
+    #forms form >div .frgight span{margin: 0;height: auto;line-height: 1;font-size: 14px;display: inline-block;padding: 8px 12px;border: 1px solid #ccc}
+    #forms form >div .frgight input{height: auto;padding: 8px 12px;border: 1px solid #ccc;border-radius: 0;font-size: 14px;}
+    #forms form >div .frgight button{border-radius: 0;}
+</style>
+<div class="c-r right" id="app">
+    <div class="label1">
+        <div class="title">
+            插件管理1
+        </div>
+        <div class="label-3 label-4">
+            <div class="form" id="forms">
+                <div class="breadcrumb">
+									<span>
+										<a href="freight.html">时间计费 </a>
+										<span class="separator">/</span>
+									</span>
+                    <span>
+										<span>时间计费模板</span>
+									</span>
+                </div>
+                <form action="" method="post" class="form-2">
+                    <div><label class="ltxt">标题:</label><input type="text" name="title" value="" id="name" /><span></span></div>
+                    <div>
+                        <label class="ltxt">配送时间段:</label>
+                        <!--<div class="Tab Tabs frgight" style="padding: 0;">-->
+                        <div class="frgight" style="padding: 0;">
+                            <span class="">间隔</span>
+                            <input type="text" class="form-control valid" name="pre_delivery_time_minute" required="true" digits="true" value="" aria-required="true" aria-invalid="false" aria-describedby="pre_delivery_time_minute-error">
+                            <span class="">分钟</span>
+                            <button  id="Setdate" type="button" class="btns">生成配送时间段</button>
+                            <!--<a href="{:url('freight/SetDate')}"  data-original-title="" title="">生成配送时间段</a>-->
+                        </div>
+                        <span></span>
+                        <!--</div>-->
+                        <!--<div class="clear"></div>-->
+                        <span></span>
+                    </div>
+                    
+                    <div class="timeul">
+                    	<div class="li" v-for="(item,i) in timedata">
+                    		<span>{{item.time}}~{{item.endtime}}</span>
+                    		<span>附加费</span>
+                    		<input type="text" name="" id="" :value="item.fee" @input="inputs(i,$event)"/>
+                    		<span>元</span>
+                    		<a v-if='item.status' class="active" @click="click_type(i)">使用中</a>
+                    		<a v-if='item.status==false' @click="click_type(i)">已废弃</a>
+                    	</div>
+                    	<div class="clear">
+                    	</div>
+                    </div>
+
+                    <div class="cityduoxuan">
+                        <span></span>
+                        <label></label>
+                        <input type="text" class="area-duoxuan" value="" data-value="" />
+                        <!--<a class="anibtn cancel-add citybtn">添加配送区域</a>-->
+                        <span></span>
+                    </div>
+                    <div><label></label><button class="btns btn-right subbtn">完成</button><a href="javaScript:history.back()" class='btns btn-right'>返回</a><span></span></div>
+                    <!--<div>-->
+                    <!--<label></label>-->
+                    <!--<div class="div">-->
+                    <!--<a href="#" class="btn-a open-win">运费计算规则</a>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class="clear"></div>
+                    <input type="hidden" class="" name="" value="" data-value="" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="wrap">
+    <div class="wrap-body express">
+        <div class="title">
+            运费计算规则
+        </div>
+        <div class="wrap-con">
+            <img src="__static__/home/img/e825205360d70e108d3bf994a30d56fb.jpg"/>
+        </div>
+        <span class="close-wrap close-win">×</span>
+        <div class="wrap-btn">
+            <span class="close-btn close-win">取消</span>
+            <span class="next-btn close-win">确认</span>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/city/City_data.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/city/areadata.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/csc/js/vue.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+		el: '#app',
+		data: {
+			timedata:[
+//				{time:'00:00 ~ 02:00',type:true,price:0,},
+//				{time:'00:00 ~ 02:00',type:false,price:0,},
+//				{time:'00:00 ~ 02:00',type:true,price:0,},
+//				{time:'00:00 ~ 02:00',type:true,price:0,},
+//				{time:'00:00 ~ 02:00',type:false,price:0,},
+//				{time:'00:00 ~ 02:00',type:true,price:0,}
+			],
+		},
+		methods:{
+			click_type:function(i){
+				app.timedata[i].status = !app.timedata[i].status
+			},
+			//iinput 值
+			inputs:function(i,o){
+				app.timedata[i].fee = o.target.value
+				//console.log(o.target.value)
+			}
+		}
+	})
+    $.ajax({
+      url:"{:url('freight/GetDate')}",
+      type:'post',
+      dataType:'json',
+      data:{
+      },
+      success:function(data){
+        var datas = JSON.parse( data.date )
+        console.log('res',datas)
+        app.timedata = []
+        for (var i = 0; i < datas.length; i++) {
+          //console.log(data.setdate[i])
+          app.timedata.push(datas[i])
+        }
+          console.log('标题',data.name)
+        //获取value并赋值
+        $("#name").val(data.name)
+        
+        
+        //				app.timedata.push(data.setdate)
+        //				console.log(data.setdate[0]);
+      }
+    })
+//  $("#forms form input[type='radio']").click(function(){
+//      var Radioval=$(this).val();
+//      var Text = ['首件（个）','续件（个）'];
+//      var Text_ = ['首重（kg）','续重（kg）'];
+//      if (Radioval == 1) {
+//          $(".c .c-r .label-3 .Tabs table th").eq(1).text(Text[0])
+//          $(".c .c-r .label-3 .Tabs table th").eq(3).text(Text[1])
+//      } else{
+//          $(".c .c-r .label-3 .Tabs table th").eq(1).text(Text_[0])
+//          $(".c .c-r .label-3 .Tabs table th").eq(3).text(Text_[1])
+//      }
+//  })
+    $("#Setdate").click(function () {
+    	if ($('.valid').val() == '' || $('.valid').val() == undefined) {
+    		prompt('请填写配送时间',0)
+    		return false;
+    	}else{
+    		$.ajax({
+	            url:"{:url('freight/SetDate')}",
+	            type:'post',
+	            dataType:'json',
+	            data:{
+					data:$('.valid').val()
+	            },
+	            success:function(data){
+					var data = JSON.parse( data )
+					console.log(data)
+                    app.timedata = []
+					for (var i = 0; i < data.setdate.length; i++) {
+						//console.log(data.setdate[i])
+						app.timedata.push(data.setdate[i])
+					}
+	//				app.timedata.push(data.setdate)
+	//				console.log(data.setdate[0]);
+	            }
+	        })
+    	}
+        
+    })
+    //提交
+    $(".subbtn").click(function(){
+//        if (!regulars('','city','配送区域','') || !regulars('','first','计费单位','') || !regulars('','freight','运费','') || !regulars('','next','运费1','') || !regulars('','freight1','续费','')) {
+//            return false
+//        }
+        var datas = JSON.stringify( app.timedata );
+        console.log(datas)
+        $.ajax({
+            url:"{:url('freight/InsertDate')}",
+            type:'post',
+            dataType:'json',
+            data:{
+                name:$('#name').val(),
+                setdate:datas,   
+            },
+            success:function( data ){
+                console.log( data )
+                if( data != 2 ){
+                    prompt('保存成功',1)
+                    //alert('保存成功')
+                }
+            }
+        })
+         return false;
+    })
+</script>
+{/block}

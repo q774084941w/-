@@ -1,0 +1,152 @@
+
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="3,0,false,运费模板管理"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/city-style.css"/>
+<style>
+	#forms{width: auto;padding: 0;}
+</style>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			插件管理
+		</div>
+		<div class="label-3 label-4">
+			<div class="form" id="forms">
+				<div class="breadcrumb">
+									<span>
+										<a href="freight.html">插件管理 </a>
+										<span class="separator">/</span>
+									</span>
+									<span>
+										<span>编辑运费模板</span>
+									</span>
+				</div>
+				<form action="insert.shtml" method="post" class="form-2">
+					<div><label class="ltxt">标题:</label><input type="text" name="title" id="" value="" /><span></span></div>
+					<div>
+						<label class="ltxt">计费方式:</label>
+						<div class="radio">
+							<!--<label><input type="radio" name="unit" id="" value="1" checked="checked"/>按件数</label>-->
+							<label><input type="radio" name="unit" id="" value="0" checked="checked" />按重量</label>
+						</div>
+						<span></span>
+					</div>
+					<div style="display: flex;">
+						<label class="ltxt">配送区域:</label>
+						<div class="Tab Tabs frgight" style="padding: 0;">
+							<table border="0" cellspacing="0" cellpadding="0" class="yftab-add">
+								<thead>
+									<tr>
+										<th>可配送区域</th>
+										<th>首重（kg）</th>
+										<th>运费（元）</th>
+										<th>续重（kg）</th>
+										<th>续费（元）</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<input type="hidden" name="city" id="City" value="" />
+										<td class="city"></td>
+										<td><input type="text" name="first" id="" value="" /></td>
+										<td><input type="text" name="freight" id="" value="" /></td>
+										<td><input type="text" name="next" id="" value="" /></td>
+										<td><input type="text" name="freight1" id="" value="" /></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="clear"></div>
+						<span></span>
+					</div>
+					<div class="cityduoxuan">
+						<span></span>
+						<label></label>
+						<input type="text" class="area-duoxuan" value="" data-value="" />
+						<a class="anibtn cancel-add citybtn">添加配送区域</a>
+						<span></span>
+					</div>
+					<div><label></label><button class="btns btn-right subbtn">完成</button><a href="javaScript:history.back()" class='btns btn-right'>返回</a><span></span></div>
+					<!--<div>-->
+						<!--<label></label>-->
+						<!--<div class="div">-->
+							<!--<a href="#" class="btn-a open-win">运费计算规则</a>-->
+						<!--</div>-->
+					<!--</div>-->
+					<div class="clear"></div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			运费计算规则
+		</div>
+		<div class="wrap-con">
+			<img src="__static__/home/img/e825205360d70e108d3bf994a30d56fb.jpg"/>
+		</div>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+
+<script src="__STATIC__/city/City_data.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/city/areadata.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	$(".citybtn").click(function(){
+		$(".area-duoxuan").click()
+	})
+
+	$("#forms form input[type='radio']").click(function(){
+		var Radioval=$(this).val();
+		var Text = ['首件（个）','续件（个）'];
+		var Text_ = ['首重（kg）','续重（kg）'];
+		if (Radioval == 1) {
+			$(".c .c-r .label-3 .Tabs table th").eq(1).text(Text[0])
+			$(".c .c-r .label-3 .Tabs table th").eq(3).text(Text[1])
+		} else{
+			$(".c .c-r .label-3 .Tabs table th").eq(1).text(Text_[0])
+			$(".c .c-r .label-3 .Tabs table th").eq(3).text(Text_[1])
+		}
+	})
+	//提交
+	$(".subbtn").click(function(){
+		if (!regulars('','city','配送区域','') || !regulars('','first','计费单位','') || !regulars('','freight','运费','') || !regulars('','next','运费1','') || !regulars('','freight1','续费','')) {
+			return false
+		}
+	})	
+	
+	
+	
+
+</script>
+
+
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

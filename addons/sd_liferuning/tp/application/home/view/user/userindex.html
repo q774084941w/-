@@ -1,0 +1,198 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<link rel="stylesheet" type="text/css" href="__STATIC__/layer/theme/default/layer.css"/>
+<script src="__STATIC__/layer/layer.js"></script>
+<input type="hidden" name="mun_url" id="mun_url" value="5,1,false,跑腿用户"/>
+<div class="c-r right">
+    <div class="label1">
+        <div class="title">
+            跑腿用户
+        </div>
+        <div class="Statistics">
+            <div class="left d">
+            	<button class="blue" onclick="jacascript:location.href='excel'"><a href="excel">导出数据</a></button>
+            </div>
+            <span class="right">共有数据：<b>{$data->total()}</b>条</span>
+            <div class="clear"></div>
+        </div>
+
+
+        <div class="label-3 label">
+            <div class="tit t">
+                <p>跑腿用户</p>
+            </div>
+            <div class="Tab">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                	<thead>
+                		<tr>
+	                        <th style="width: 40px;"><input type="checkbox" name="" id="" value="" /></th>
+                            <th style="width: 40px;">在线</th>
+	                        <th style="width: 40px;">ID</th>
+	                        <th style="width: 150px;">用户名</th>
+	                        <th style="width: 120px;">姓名</th>
+	                        <th style="width: 40px;">性别</th>
+	                        <th style="width: 160px;">身份证</th>
+	                        <th style="width: 160px;">身份证正面照片</th>
+	                        <th style="width: 160px;">身份证反面照片</th>
+	                        <th style="width: 80px;">保证金</th>
+	                        <th style="width: 160px;">加入时间</th>
+                            <th style="width: 160px;">封禁修改时间</th>
+
+	                        <th style="width: 130px;">操作</th>
+	                    </tr>
+                	</thead>
+                    <tbody>
+                    	{foreach name="data" item="vo"}
+	                    <tr>
+	                        <td style="width: 40px;"><input type="checkbox" name=""  value="" /></td>
+                            <td style="width: 40px;">
+                                {switch name="$vo['is_on']"}
+                                {case value = '0'}
+                                <img style="width: 20px;height: 20px" src="__STATIC__/img/USER_0.gif"  />
+                                {/case}
+                                {case value = '1'}
+                                <img style="width: 20px;height: 20px" src="__STATIC__/img/USER_1.gif" />
+                                {/case}
+                                {/default}
+                                迷失
+                                {/switch}
+                            </td>
+	                        <td style="width: 40px;">{$vo.uid}</td>
+	                        <td style="width: 150px;">{$vo.nickname}</td>
+	                        <td style="width: 120px;">{$vo.uname}</td>
+	                        <td style="width: 40px;">{$vo.sex}</td>
+	                        <td style="width: 160px;">{$vo.card}</td>
+	                        <th style="width: 160px;"><img src="{$vo.cardimg}" style="width: 150px;height: 100px;"></th>
+	                        <th style="width: 160px;"><img src="{$vo.cardimgf}" style="width: 150px;height: 100px;"></th>
+	                        <th style="width: 80px;">{$vo.promisemoney}</th>
+	                        <td style="width: 160px;">{$vo.createtime}</td>
+	                        <td style="width: 160px;">{:empty($vo['updatetime'])?'':date('Y:m:d H:i:s',$vo['updatetime'])}</td>
+
+	                        <td style="width: 130px;"><button class="modifybtn ml open-win" data-type="show?id={$vo.uid}&type=2">查看</button>
+
+	                           {if condition='$vo["status"] eq -1'}
+	                            <button class="modifybtn" onclick="dels('{$vo.cid}','status',3)">解封</button>
+	                            {else/}
+	                            <button class="openbtn" onclick="dels('{$vo.cid}','status',-1)">封禁</button>
+	                            {/if}
+                                <button class="modifybtn layer-open"  data-id='{$vo.cid}' data-type="1">扣费</button>
+                                <button class="modifybtn layer-open"  data-id='{$vo.cid}' data-type="2">加费</button>
+	                    </tr>
+	                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align: center" class="pages">
+                {$data->render()}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="wrap" class="wrap">
+    <div class="wrap-body express">
+        <div class="title">
+            详情查看
+        </div>
+        <iframe src="show" style="height: 100%; width: 100%;"></iframe>
+        <span class="close-wrap close-win">×</span>
+        <div class="wrap-btn">
+            <span class="close-btn close-win">取消</span>
+            <span class="next-btn close-win">确认</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(".open-win").click(function(){
+        var dataurl = $(this).attr('data-type');
+        $("iframe").attr('src',dataurl)
+    });
+
+    function dels(id,url,status){
+        if(window.confirm('您确定此操作?')){
+            $.ajax({
+                type: "get",
+                data: {id:id,status:status},
+                url: url,
+                dataType: "json",
+                success:function(data){
+                    if(data==1){
+                        window.location.reload();
+                    }else{
+                        alert('操作失败！');
+                    }
+                }
+            })
+
+        }
+    }
+
+    $('.layer-open').click(function () {
+        var id   = $(this).attr('data-id');
+        var type = $(this).attr('data-type');
+        console.log(type);
+        switch (type) {
+            case '2':
+            var title = '加费';
+                break;
+            default:
+            var title = '扣费';
+        }
+        layer.prompt({
+            formType: 0,
+            value: 10,
+            title: title,
+        }, function(value, index, elem){
+            switch (value) {
+                case 0:
+                    break;
+                case '':
+                    break;
+                case undefined:
+                    break;
+                default:
+                    //true
+                    if(!isNaN(value)){
+                        $.ajax({
+                            url  : "{:url('user/bond')}",
+                            type : 'post',
+                            data : {
+                                id      :   id,
+                                number  :   value,
+                                type    :   type,
+                            },
+                            dataType : 'json',
+                            outTime : 200000,
+                            success :   function (res) {
+                                console.log(res)
+                                if(res.code==1)
+                                {
+                                    layer.msg(title+'成功');
+                                }
+                                else
+                                {
+                                    layer.msg(title+'失败');
+                                }
+                            },
+                            error : function () {
+                                layer.msg(title+'请求失败');
+                            }
+                        })
+
+                    }else{
+
+                    }
+            }
+            layer.close(index);
+        });
+    });
+
+</script>
+{/block}
+

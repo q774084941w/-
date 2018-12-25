@@ -1,0 +1,132 @@
+@charset "UTF-8";
+
+/* 系统弹窗 */
+.windowAlert{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 99999;
+    transition: all .5s ease 0s;
+    background: #f90;
+    height: 40px;
+    line-height: 40px;
+    color: #FFF;
+    display: none;
+}
+.windowAlertShow{
+    display: block;
+}
+
+.container{
+    width: 80%;
+}
+
+.input-group{
+    width: 100%;
+    margin: 15px 0;
+    overflow: hidden;
+}
+.input-side{
+    width: 150px;
+    float: left;
+    height: 28px;
+    line-height: 28px;
+    text-align: right;
+    padding-right: 15px;
+}
+.input-control{
+    float: left;
+    width: 1000px;
+    display: flex;
+}
+
+.map-label{
+    width: 250px;
+    margin-right:15px;
+}
+.map-label h3{
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+}
+.map-container{
+    width: 800px;
+    height: 500px;
+    /*margin: 80px auto;*/
+    overflow: hidden;
+}
+
+.add-mapconfig{
+    border-radius: 5px;
+    margin: 10px 0;
+    border-left: 5px solid #e5b383;
+    padding: 5px;
+    font-size: 12px !important;
+}
+.mapconfig-title{
+    display: flex;
+    justify-content: space-between;
+    line-height: 25px;
+    margin: 5px 0;
+    padding: 0 5px;
+    font-size: 12px !important;
+}
+.mapconfig-input-group{
+    display: flex;
+    overflow: hidden;
+    margin: 5px 0;
+    font-size: 12px !important;
+}
+.mapconfig-input-group .label{
+    width: 50px !important;
+    background: #ffffff;
+    color: #111111;
+    font-weight: normal;
+    font-size: 12px !important;
+}
+.mapconfig-input-group .input-text{
+    width: 90px;
+    font-size: 12px !important;
+}
+.mapconfig-input-group .unit{
+    margin-left: 10px;
+    font-size: 12px !important;
+}
+
+.mapconfig-info{
+    border-left: 5px solid #00CC99;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 10px 0;
+    overflow: hidden;
+    font-size: 12px !important;
+}
+
+.edit-btn{
+    float: right;
+    margin-top: 5px;
+    font-size: 12px !important;
+}
+
+/* 地图 */
+.address-map-container{
+    min-height: 600px;
+    width: 900px;
+}
+.address-map-container .modal-body{
+    margin: 0;
+    padding: 0;
+}
+.address-map-container .address-map{
+    height: 600px;
+    width: 898px;
+}
+.address-map-container .input-group{
+    width: 500px;
+    display: flex;
+    margin: 0 auto;
+    float: right;
+}

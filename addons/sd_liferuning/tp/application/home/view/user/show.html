@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/style.css"/>
+		<style type="text/css">
+			#wrap #form2{padding: 35px;}
+			#form2 .lin_one{width: 100%;float: left;line-height: 40px;font-size: 14px;}
+			#form2 .lin_one span{width:80%}
+			#form2 .lin_two:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+			#form2 .lin_tow{width: 50%;display: inline-block;float: left;line-height: 40px;font-size: 14px;}
+			#form2 .lin_tow span{width: 280px}
+			#form2 .lin_tow:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+			#form2{background: #fff;width: 840px;padding: 16px;max-height: 667px;min-height: 667px;overflow-y: scroll;overflow-x: hidden;min-width: 820px;}
+			#form2 div img{display: inline-block;width: 120px;height: 120px;}
+			#form2 div label{display: inline-block;width: 70px;text-align: right;color: #333333;float: left;padding-right: 10px}
+			#form2 div span{display: inline-block; color: #999999;float: left;}
+		</style>
+	</head>
+	<body>
+	<div id="wrap" class="wrap" style="display: block;">
+		<div class="wrap-con wrap-con2" id="form2">
+			<form action="" method="post" class="form-2">
+				<div class="lin_one">
+					<label>昵称:</label><span>{$data.nickname}</span>
+				</div>
+				<div class="lin_tow">
+					<label>头像:</label><img src="{$data.head}">
+				</div>
+				<div class="lin_tow">
+					<label>手机号:</label><span>{$data.phone}</span>
+				</div>
+
+				<div class="lin_tow">
+					<label>性别:</label><span>{$data.sex}</span>
+				</div>
+				<div class="lin_tow">
+					<label>注册时间:</label><span>{$data.regtime}</span>
+				</div>
+				<div class="lin_tow">
+					<label>购买VIP时间:</label><span>{$data.viptime}</span>
+				</div>
+				<div class="lin_tow">
+					<label>VIP到期时间:</label><span>{$data.vip}</span>
+				</div>
+				<div class="lin_tow">
+					<label>登录状态:</label><span>{$data.login_status}</span>
+				</div>
+				<div class="lin_tow">
+					<label>地址:</label><span>{$data.address}</span>
+				</div>
+				{if condition='!empty($data.comment)'}
+				<div class="lin_tow">
+					<label>上月好评数:</label><span>{:empty($data['comment']['vin'])?'暂无':$data['comment']['vin']}</span>
+				</div>
+				<div class="lin_tow">
+					<label>上月差评数:</label><span>{:empty($data['comment']['lost'])?'暂无':$data['comment']['lost']}</span>
+				</div>
+				{/if}
+				{if condition='$Think.get.type eq 2'}
+				<div class="lin_one">
+					<label>身份证正面照片:</label><img src="{$data.cardimg}" style="height: 200px;width: 400px">
+				</div>
+				<div class="lin_one">
+					<label>身份证反面照片:</label><img src="{$data.cardimgf}" style="height: 200px;width: 400px">
+				</div>
+				<div class="lin_one">
+					<label>姓名:</label><span>{$data.uname}</span>
+				</div>
+				<div class="lin_one">
+					<label>身份证:</label><span>{$data.card}</span>
+				</div>
+				<div class="lin_one">
+					<label>会员等级:</label><span>{$data.step}</span>
+				</div>
+				{/if}
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+	</body>
+</html>
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>

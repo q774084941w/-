@@ -1,0 +1,119 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="8,0"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			新闻管理
+		</div>
+		<div class="label-3 label">
+			<div class="search">
+				<div class="">
+					<input type="text" name="" id="" value="" placeholder="新闻名称"/><button id="search_name"><i></i><span>搜索</span></button>
+				</div>
+			</div>
+			<div class="Statistics">
+
+				<button class="blue"><a href="add">添加新闻</a></button>
+
+
+				<div class="clear"></div>
+			</div>
+		</div>
+
+
+
+		<div class="label-3 label">
+			<div class="tit t">
+				<p>新闻管理</p>
+			</div>
+			<div class="Tab">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					<tr>
+						<th style="width: 40px;"><input type="checkbox" name="" id="" value="" /></th>
+						<th style="width: 40px;">ID</th>
+						<th style="width: 180px;">标题</th>
+
+						<th style="">内容</th>
+						<th style="width: 130px;">添加时间</th>
+						<th style="width: 130px;">修改时间</th>
+						<th style="width: 150px;">操作</th>
+					</tr>
+				</table>
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					{foreach name="data" item="vo"}
+					<tr>
+						<td style="width: 40px;"><input type="checkbox" name="" id="" value="" /></td>
+						<td style="width: 40px;">{$vo.neid}</td>
+						<td style="width: 180px;">{$vo.title}</td>
+
+						<td style="">{$vo.content}</td>
+						<td style="width: 130px;">{$vo.createtime}</td>
+						<td style="width: 130px;">{$vo.updatetime}</td>
+
+						<td style="width: 150px;"><button class="modifybtn ml open-win" data-type="show?id={$vo.neid}">详情</button><button class="modifybtn ml" onclick="compile('edit?id={$vo.neid}')">编辑</button><button class="openbtn" onclick="del('{$vo.neid}','__publicPath__/home/hzpnews/delete')">删除</button>
+					</tr>
+					{/foreach}
+				</table>
+			</div>
+			<div style="text-align: center" class="pages">
+				{$data->render()}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<iframe src="show" style="height: 100%; width: 100%;"></iframe>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".open-win").click(function(){
+		var dataurl = $(this).attr('data-type');
+		$("iframe").attr('src',dataurl)
+	})
+	function del(id,url){
+		if(window.confirm('你确定要删除吗吗？')){
+			var data = {
+				id:id
+			};
+			$.ajax({
+				type:"get",
+				data: data,
+				url:url,
+				dataType: "json",
+				success: function(data){
+					if (data == 1) {
+						prompt('删除成功',data)
+						window.location.reload();
+					} else{
+						prompt('删除失败',data)
+					}
+				},
+				error:function(){
+					prompt('操作失败',0)
+				}
+			});
+		}else{
+			//alert("取消");
+			return false;
+		}
+
+	}
+</script>
+{/block}
+

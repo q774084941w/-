@@ -1,0 +1,94 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="9,0"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			评论管理
+		</div>
+
+		<div class="information">
+			<i></i>
+			<p class="h">评论管理</p>
+			<p>显示全部用户评论，包括商品、用户名、评论内容、时间等，支持评论关闭。</p>
+		</div>
+
+		<div class="Statistics" style="margin-top: 20px">
+
+
+			<div class="clear"></div>
+		</div>
+
+		<div class="label-3 label">
+			<div class="search">
+
+			</div>
+
+
+			<div class="Tab Tabs">
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					<tr>
+						<th style="width: 40px;"><input type="checkbox" name="" id="" value="" /></th>
+						<th style="width: 30px;">id</th>
+						<th style="width: 90px;">用户</th>
+						<th style="width: 90px;">商品名</th>
+						<th style="width: 200px; ">评论内容</th>
+
+						<th style="width: 200px;">回复内容</th>
+						<th style="width: 50px;">显示</th>
+						<th style="width: 80px;">评论时间</th>
+						<th style="width: 40px;">评分</th>
+						<th style="width: 120px;">操作</th>
+					</tr>
+				</table>
+				<table border="0" cellspacing="0" cellpadding="0" style="width: 984px;">
+					{foreach name="data" item="vo"}
+					<tr>
+						<td style="width: 40px;"><input type="checkbox" name="" id="" value="" /></td>
+						<td style="width: 30px;">{$vo.coid}</td>
+						<td style="width: 90px;">{$vo.nickname}</td>
+						<td style="width: 90px;">{$vo.name}</td>
+						<td style="width: 200px;">{$vo.content}</td>
+
+						<td style="width: 200px;">{$vo.reply}</td>
+						<td style="width: 50px;">{$vo.isshow}</td>
+						<td style="width: 80px;">{$vo.createtime}</td>
+						<td style="width: 40px;">{$vo.sum_grade}</td>
+						<td style="width: 120px;"><button class="modifybtn ml open-win" data-type="show?id={$vo.coid}">查看</button><button class="openbtn" onclick="compile('add?id={$vo.coid}')">回复</button></td>
+					</tr>
+					{/foreach}
+				</table>
+			</div>
+			<div style="text-align: center" class="pages">
+				{$data->render()}
+			</div>
+		</div>
+	</div>
+</div>
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<iframe src="show" style="height: 100%; width: 100%;"></iframe>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+	$(".open-win").click(function(){
+		var dataurl = $(this).attr('data-type');
+		$("iframe").attr('src',dataurl)
+	})
+</script>
+{/block}
+

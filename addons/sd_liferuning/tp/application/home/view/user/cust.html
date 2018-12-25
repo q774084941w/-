@@ -1,0 +1,84 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="5,0,false,跑腿人员添加管理"/>
+<script src="__STATIC__/uedi/ueditor.config.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/uedi/ueditor.all.js" type="text/javascript" charset="utf-8"></script>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			跑腿人员添加管理
+		</div>
+
+
+
+		<div class="label-4">
+			<div class="form" id="forms">
+				<div class="breadcrumb">
+									<span>
+										<a href="#">跑腿人员添加管理 </a>
+										<span class="separator">/</span>
+									</span>
+									<span>
+										<span>跑腿人员添加信息</span>
+									</span>
+				</div>
+
+				<form action="{:url('user/add_cust')}" method="post" enctype="multipart/form-data" class="form-2">
+					<div><label class="ltxt">联系方式:</label><input type="text" name="tel" id="" value="" /><span></span></div>
+					<div><label class="ltxt">姓名:</label><input type="text" name="uname" id="" value="" /><span></span></div>
+					<div><label class="ltxt">身份证号:</label><input type="text" name="card" id="" value="" /><span></span></div>
+					<div><label class="ltxt">身份证图片:</label><input type="file" name="image" /><span></span></div>
+					<div><label></label><button class="btns btn-right subbtn">完成</button><a href="javaScript:history.back()" class="btns btn-right">返回</a></div>
+					<div class="clear"></div>
+					<input type="hidden" name="uid" id="uid" value="{$uid}" />
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<div id="toup">
+	<img src="__STATIC__/home/img/toup.png"/>
+</div>
+
+<script src="__STATIC__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/dateRange.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/monthPicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/js/img_yasuo.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function(e) {
+		var ue = UE.getEditor('container');
+		$('input').lc_switch();
+	});
+
+    $(".subbtn").click(function(){
+        if (!regulars('','tel','联系方式','')) {
+            return false
+        }
+        if (!regulars('','uname','姓名','')) {
+            return false
+        }
+        if (!regulars('','card','身份证号','')) {
+            return false
+        }
+        if (!regulars('','tel','联系方式','')) {
+            return false
+        }
+        if ($('input[name="image"]').val() == undefined || $('input[name="image"]').val() == '') {
+            alert('请上传身份证')
+            return false
+        }
+    })
+</script>
+{/block}
+

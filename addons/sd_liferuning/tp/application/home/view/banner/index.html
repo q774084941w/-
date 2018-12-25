@@ -1,0 +1,138 @@
+{extend name="public/base" }
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<style>
+	.vive{padding: 14px;font-size: 14px;}
+	.vive .v_li{border:1px solid rgba(0,0,0,.125);display: inline-block;border-radius: 5px;margin:0 15px 15px 0;}
+	.vive .vive_img{width: 295px;height: 160px;}
+	.vive .vive_img img{width: 100%;height: 100%;display: block;}
+	.vive .vive_body{padding: 10px;}
+	.vive .vive_foot{padding: 10px;background:#f7f7f9;border-top:1px solid rgba(0,0,0,.125) ;}
+</style>
+<input type="hidden" name="mun_url" id="mun_url" value="1,0,false,banner图"/>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			Banner管理
+		</div>
+		<div class="label-3 label">
+			<div class="search">
+
+			</div>
+			<div class="Statistics">
+
+				<button class="blue"><a href="{:url('banner/add')}">添加Banner</a></button>
+
+				<div class="clear"></div>
+			</div>
+			
+			<div class="vive">
+				{foreach name="data" item="vo"}
+				<div class="v_li">
+					<div class="vive_img">
+						<img src="{$vo.pic}"/>
+					</div>
+					<div class="vive_body">
+						<p style="margin-bottom: 14px;">标题：{$vo.name}</p>
+						<p>链接：</p>
+					</div>
+					<div class="vive_foot">
+						<a class="modifybtn ml" href="{:url('banner/banner_save',['banid'=>$vo['banid']])}">修改</a>
+						<button class="openbtn" onclick="del('{$vo.banid}','delete')">删除</button>
+					</div>
+				</div>
+				{/foreach}
+			</div>
+		</div>
+	</div>
+</div>
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			详情查看
+		</div>
+		<div class="wrap-con"id="forms">
+			<form action="" method="post" class="form-2">
+				<div><label>标题:</label><input type="text" name="" id="" value="" style="width: 225px;float: left;"/><label>标题:</label><input type="text" name="" id="" value="" style="width: 225px;;"/><span></span></div>
+
+				<div><label>标题:</label><input type="text" name="" id="" value="" /><span></span></div>
+				<div><label>图片:</label><img src="img/goumai.jpg" width="200px"height="180px"/><span></span></div>
+				<div><label>标题:</label><textarea name="" rows="" cols=""></textarea><span></span></div>
+
+			</form>
+		</div>
+		<span class="close-wrap close-win">×</span>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+//	function shelves(j,v){
+//
+//		var pid = j.parent().parent().find('.banid').text()
+//		var data = {
+//			banid:pid,status:v,
+//		};
+//		$.ajax({
+//			type:'get',
+//			url:"__publicPath__/home/banner/delete",			//请求地址加参数
+//			data: data,
+//			success: function(data){
+//				window.location.reload();
+//				//Parent.find('.green').addClass('red')
+//
+//
+//			},
+//			error:function(){
+//				alert('更新失败')
+//			}
+//		});
+//	}
+
+
+	//  1.id		2.请求地址
+	function del(id,url){
+		if(window.confirm('你确定要删除吗吗？')){
+			var data = {
+				id:id
+			};
+			$.ajax({
+				type:"get",
+				data: data,
+				url:url,
+				dataType: "json",
+				success: function(data){
+					if (data == 1) {
+						prompt('删除成功',data)
+						
+					} else{
+						prompt('删除失败',data)
+					}
+				},
+				error:function(){
+					prompt('操作失败',0)
+				}
+			});
+		}else{
+			//alert("取消");
+			return false;
+		}
+
+
+
+
+	}
+	function save_banner(id) {
+		window.location.href="{:url('banner/banner_save')}?banid="+id;
+    }
+</script>
+
+
+{/block}
+

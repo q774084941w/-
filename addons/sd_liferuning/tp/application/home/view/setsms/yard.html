@@ -1,0 +1,96 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="11,1,短信设置"/>
+				<div class="c-r right">
+					<div class="label1">
+						<div class="title">
+							修改收货码短信模板
+						</div>
+						<div class="form" id="form">
+							<form action="editers" method="post" enctype="multipart/form-data">
+								<input type="hidden" name="bid" value="{$bid}" />
+								<div><label class="ltxt">AccessKeyId:</label><input type="text" name="keyid" id="" value="{$data.keyid}" /><span style="color: red">*请先到阿里云短信服务获取参数，填写对应的KeyId。</span></div>
+
+								<div><label class="ltxt">AccessKeySecret:</label><input type="text" name="keysecret" id="" value="{$data.keysecret}" /><span style="color: red">*请先到阿里云短信服务获取参数，填写对应的KeySecret。</span></div>
+
+								<div><label class="ltxt">短信签名:</label><input type="text" name="signname" id="" value="{$data.signname}" /><span></span></div>
+
+								<div><label class="ltxt">短信模板ID:</label><input type="text" name="templatecode" id="" value="{$data.templatecode}" /><span style="color: red">*设置短信模板时请使用${msg}为变量</span></div>
+								
+								<!--<div>-->
+									<!--<label class="ltxt">图片上传:</label>-->
+									<!--<div class="img-box full">-->
+										<!--<section class=" img-section">-->
+											<!--<div class="z_photo upimg-div" >-->
+									               	 <!--<section class="z_file fl">-->
+									               	 	<!--<img src="__STATIC__/home/img/a11.png" tppabs="http://www.jq22.com/demo/imgUp201703281022/img/a11.png" class="add-img">-->
+									               	 	<!--<input type="file" name="image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multip />-->
+									               	 <!--</section>-->
+									               	  <!--<div class="clear"></div>-->
+									         <!--</div>-->
+										 <!--</section>-->
+									<!--</div>-->
+									<!--<span></span>-->
+								<!--</div>-->
+						        <!--<aside class="mask works-mask">-->
+									<!--<div class="mask-content">-->
+										<!--<p class="del-p">您确定要删除作品图片吗？</p>-->
+										<!--<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>-->
+									<!--</div>-->
+								<!--</aside>-->
+								
+								<div><button class="btns">保存</button>
+									<!--<button class="cancel" onclick="history.go(-1)">取消</button></div>-->
+								<div class="clear"></div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!--<div id="main" style="width: 600px;height:400px;"></div>-->
+
+
+
+<script>
+	$(function(){
+		$("#file").takungaeImgup({
+			formData: { "path": "Content/Images/", "name": "uploadpic" }, //path参数会发送给服务器，name参数代表上传图片成功后，自动生成input元素的name属性值
+			url: "data/page.json",    //发送请求的地址，服务器地址
+			success: function (data) {
+
+			},
+			error: function (err) {
+				alert(err);
+			}
+		});
+	})
+
+	$.ajax({
+		type:"get",
+		url:"data/page.json",
+		async:true,
+		success: function(data){
+			console.log('success')
+		}
+
+	});
+</script>
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

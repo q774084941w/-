@@ -1,0 +1,164 @@
+{extend name="public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<input type="hidden" name="mun_url" id="mun_url" value="1,0,false,Banner管理"/>
+<div class="c-r right" id="app">
+	<div class="label1">
+		<div class="title">
+			Banner管理
+		</div>
+		<div class="label-4">
+			<div class="form" id="forms">
+				<div class="breadcrumb">
+									<span>
+										<a href="#">Banner管理 </a>
+										<span class="separator">/</span>
+									</span>
+					<span>
+										<span>修改Banner</span>
+									</span>
+				</div>
+
+				<form action="{:url('banner/saveban')}" method="post" enctype="multipart/form-data" class="form-2">
+					<div><label>标题:</label><input type="text" name="name" value="{$data.name}" /><span></span></div>
+					<div>
+						<label>小程序页面链接:</label>
+						<div class="bor bor2 bor4">
+							<span data-type = "4">请选择链接</span><i></i>
+							<ul style="display: none;">
+								<template v-for="(item,i) in pages">
+									<li :data-type="i" v-on:click="url=i">{{item.name}}</li>
+								</template>
+							</ul>
+						</div>
+						<!--<select name="select">
+							<template v-for="(item,i) in pages">
+								<option :value="i">{{item.name}}</option>
+							</template>
+						</select>-->
+						<span></span></div>
+					<div><label class="ltxt">原Banner图:</label><image src="{$data.pic}" style="width: 218px;height: 175px;display: block"/><span></span></div>
+					<div><label class="ltxt">Banner图:</label><input type="file" name="image" /><span>上传需要添加的图片,图片尺寸700*400px</span></div>
+					<!--<div><label>链接URL:</label><input type="text" name="name" id="" value="" /><span></span></div>-->
+					<div><label>排序:</label><input type="text" name="sort" id="" value="{$data.sort}" /><span></span></div>
+					<div><label></label><button class="btns btn-right subbtn">完成</button><a href="javaScript:history.back()" class="btns btn-right">返回</a></div>
+					<div class="clear"></div>
+					<input type="hidden" name="banid" id="banid" value="{$data.banid}" />
+					<input type="hidden" name="url" id="pages" v-model="pages[url].url" />
+
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<div id="toup">
+	<img src="__STATIC__/home/img/toup.png"/>
+</div>
+<script src="__STATIC__/home/csc/js/vue.js"></script>
+<script type="text/javascript">
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            url:'2',
+            pages: [
+                {
+                    name: '首页',
+                    url: 'sd_liferuning/pages/constmer/index/index',
+                },
+                {
+                    name: '订单',
+                    url: 'sd_liferuning/pages/constmer/order-list/index',
+                },
+                {
+                    name: '用户中心',
+                    url: 'sd_liferuning/pages/constmer/user/index',
+                },
+
+//                {
+//                    name: '搜索',
+//                    url: '/pages/search/search',
+//                },
+//                {
+//                    name: '专题',
+//                    url: '/pages/topic-list/topic-list',
+//                },
+//                {
+//                    name: '视频专区',
+//                    url: '/pages/video/video-list',
+//                },
+//                {
+//                    name: '秒杀',
+//                    url: '/pages/miaosha/miaosha',
+//                },
+//                {
+//                    name: '附近门店',
+//                    url: '/pages/shop/shop',
+//                },
+//                {
+//                    name: '拼团',
+//                    url: '/pages/pt/index/index',
+//                },
+//                {
+//                    name: '预约',
+//                    url: '/pages/book/index/index',
+//                },
+//                {
+//                    name: '分销中心',
+//                    url: '/pages/share/index',
+//                },
+//                {
+//                    name: '快速购买',
+//                    url: '/pages/quick-purchase/index/index',
+//                },
+//                {
+//                    name: '一键拨号',
+//                    url: 'tel',
+//                    open_type:'tel'
+//                },
+//                {
+//                    name: '小程序',
+//                    url: 'wxapp',
+//                    open_type:'wxapp'
+//                },
+//                {
+//                    name: '客服',
+//                    url: 'contact',
+//                    open_type:'contact'
+//                },
+//                {
+//                    name: '外链',
+//                    url: 'web',
+//                    open_type:'web'
+//                },
+            ],
+        },
+    });
+    //console.log(app.url)
+    //console.log($('#pages').val())
+
+
+
+
+
+
+
+    $(".subbtn").click(function(){
+        // if (!regulars('','name','链接地址','')) {
+        // 	return false
+        // }
+        if ($('#forms input[type="file"]').val() == '') {
+            prompt('请添加图片',0)
+            return false
+        }
+    })
+</script>
+
+{/block}
+

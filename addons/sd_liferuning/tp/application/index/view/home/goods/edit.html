@@ -1,0 +1,451 @@
+{extend name="home/public/base" /}
+
+<!--尾部-->
+
+<!--返回顶部-->
+{block name="content"}
+{__block__}
+<script src="__static__/uedi/ueditor.config.js" type="text/javascript" charset="utf-8"></script>
+<script src="__static__/uedi/ueditor.all.js" type="text/javascript" charset="utf-8"></script>
+<div class="c-r right">
+	<div class="label1">
+		<div class="title">
+			菜单管理
+		</div>
+
+
+
+		<div class="label-4">
+			<div class="form" id="forms">
+				<div class="breadcrumb">
+									<span>
+										<a href="#">菜单管理 </a>
+										<span class="separator">/</span>
+									</span>
+									<span>
+										<span>新增修改菜单</span>
+									</span>
+				</div>
+
+				<form action="insert.shtml" method="post" class="form-2">
+					<div><label class="ltxt">商品名称:</label><input type="text" name="name" id="" value="" /><span></span></div>
+					<div>
+						<label class="ltxt">图片上传:</label>
+						<div class="img-box full">
+							<section class=" img-section">
+								<div class="z_photo upimg-div" >
+									<section class="z_file fl">
+										<img src="__static__/home/img/a11.png" tppabs="http://www.jq22.com/demo/imgUp201703281022/img/a11.png" class="add-img">
+										<input type="file" name="file" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple />
+									</section>
+									<div class="clear"></div>
+								</div>
+							</section>
+						</div>
+						<span></span>
+					</div>
+					<aside class="mask works-mask">
+						<div class="mask-content">
+							<p class="del-p">您确定要删除作品图片吗？</p>
+							<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+						</div>
+					</aside>
+					<div><label class="ltxt">菜单:</label>
+						<div class="bor bor2 bor4">
+							<span>请选择</span><i></i>
+							<ul style="display: none;">
+								{foreach name="menus" item="vo"}
+								<li data-type = "{$vo.tid}">{$vo.name}</li>
+								{/foreach}
+
+							</ul>
+						</div>
+						<span></span>
+					</div>
+
+
+					<div><label class="ltxt">分类名称:</label>
+						<div class="bor bor6 bor0" >
+							<span>请选择</span><i></i>
+							<ul style="display: none;">
+							</ul>
+						</div>
+						<div class="bor bor7 bor0">
+							<span>请选择</span><i></i>
+							<ul style="display: none;">
+							</ul>
+						</div>
+						<div class="bor bor8 bor0">
+							<span>请选择</span><i></i>
+							<ul style="display: none;">
+							</ul>
+						</div>
+						<span></span>
+					</div>
+
+					<div><label class="ltxt">商品规格:</label>
+						<a class="btns Addinput" style="display: inline-block;">添加商品规格</a>
+						<a class="btn-a open-wins" style="display: inline-block;">商品规格规则</a>
+						<table border="0" cellspacing="" cellpadding="" class="table">
+							<tr><th>规格一</th><th>规格二</th><th>规格三</th><th style="width: 14%;">价格</th><th style="width: 14%;">库存</th></tr>
+							<tr></tr>
+						</table>
+						<div class="addinput">
+
+						</div>
+						<div class="clear"></div>
+						<span></span>
+					</div>
+					<div><label class="ltxt">库存:</label><input type="text" name="stock" id="" value="" /><span></span></div>
+					<div><label class="ltxt">单位:</label><input type="text" name="unit" id="" value="" /><span></span></div>
+
+					<div><label class="ltxt">某宝价/最高价:</label><input type="text" name="max_price" id="" value="" /><span></span></div>
+					<div><label class="ltxt">最低价/售价:</label><input type="text" name="min_price" id="" value="" /><span></span></div>
+					<div><label class="ltxt">重量（KG）:</label><input type="text" name="weight" id="" value="" /><span></span></div>
+					<div>
+						<label class="ltxt">运费计算:</label>
+						<div class="radio radioa">
+							<label><input type="radio" name="freight_count" id="" value="0" checked/>按重量计算</label>
+							<label><input type="radio" name="freight_count" id="" value="1" />按件计算</label>
+
+						</div>
+						<span></span>
+					</div>
+					<div>
+						<label class="ltxt">运费设置:</label>
+						<div class="radio radios">
+							<div class="div">
+								<label><input type="radio" name="freight_unify" id="" value="0" checked/>统一邮费</label><div class="relative">
+								<input type="text" name="unify_freight" id="" value="12"/><i class="i"></i></div>
+								<div class="clear">
+								</div></div>
+							<div class="div">
+								<label><input type="radio" name="unify_fre" id="" value="2" />运费模板</label>
+								<div>
+									<div class="bor bor2 bor10 acts">
+										<div class="hide"></div>
+										<span>请选择</span><i></i>
+										<ul style="display: none;">
+											{foreach name="freight" item="vo"}
+											<li data-type = "{$vo.freid}">{$vo.title}</li>
+											{/foreach}
+										</ul>
+									</div>
+									<i></i>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="div" style="float: left;">
+								<a class="btn-a open-win">运费计算规则</a>
+								<a class="btn-a" href="freight.html">新建运费模板</a>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<span></span>
+					</div>
+					<div><label class="ltxt">排序:</label><input type="text" name="sort" id="" value="" /><span></span></div>
+					<div><label class="ltxt">是否推荐:</label><input type="checkbox" name="recom" value="0" class="lcs_check" autocomplete="off" /><span></span></div>
+					<div><label class="ltxt">详细内容:</label>
+						<script id="container" name="content" type="text/plain"></script>
+						<span></span>
+					</div>
+					<div><label></label><button class="btns btn-right subbtn">完成</button><a href="javaScript:history.back()" class='btns btn-right'>返回</a></div>
+					<div class="clear"></div>
+					<input type="hidden" name="datatype_one" id="datatype_one" value="" />
+					<input type="hidden" name="datatype_two" id="datatype_two" value="" />
+					<input type="hidden" name="menu" id="menu" value="" />
+					<input type="hidden" name="caidan" id="caidan" value="" />
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<div id="toup">
+	<img src="__static__/home/img/toup.png"/>
+</div>
+<div id="wrap" class="wrap">
+	<div class="wrap-body express">
+		<div class="title">
+			运费计算规则
+		</div>
+		<div class="wrap-con">
+			<img src="__static__/home/img/e825205360d70e108d3bf994a30d56fb.jpg"/>
+		</div>
+		<span class="close-wrap close-win">×</span>
+		<div class="clear">
+
+		</div>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+
+<div id="wrap" class="wraps">
+	<div class="wrap-body express">
+		<div class="title">
+			商品规格规则
+		</div>
+		<div class="wrap-con">
+			<img src="img/specifications.png"/>
+		</div>
+		<span class="close-wrap close-win">×</span>
+		<div class="clear">
+
+		</div>
+		<div class="wrap-btn">
+			<span class="close-btn close-win">取消</span>
+			<span class="next-btn close-win">确认</span>
+		</div>
+	</div>
+</div>
+<script src="__static__/home/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__static__/home/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="__static__/home/js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__static__/home/js/dateRange.js" type="text/javascript" charset="utf-8"></script>
+<script src="__static__/home/js/monthPicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="__static__/home/js/imgUp.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script type="text/javascript">
+
+	var ajaxurl = "__publicPath__/commtype/addajax.shtml";
+
+	$(document).ready(function(e) {
+		var ue = UE.getEditor('container');
+		$('input').lc_switch();
+	});
+	// IOS开关取值
+	$('body').delegate('.lcs_check', 'lcs-statuschange', function() {
+		var status = ($(this).is(':checked')) ? 'checked' : 'unchecked';
+		if (status == 'checked'){
+			$(".lcs_check").val(1)
+		} else{
+			$(".lcs_check").val(0)
+		}
+		console.log('field changed status: '+ status );
+	});
+
+	$(".radios input[type='radio']").click(function(){
+		var Text = ".radios input[type='text']"
+		var Select = "#forms form .bor10"
+		var Radio = $(this).val()
+		if (Radio == 0) {
+			$(Text).attr("disabled",false);
+			$(Text).removeClass('act')
+			$(Select).addClass('acts')
+			$(Select).find('.hide').show()
+
+		} else{
+			$(Text).attr("disabled",true);
+			$(Text).attr('class','act')
+			$(Select).removeClass('acts')
+			$(Select).find('.hide').hide()
+		}
+
+	})
+
+	var i=0;
+	$(".Addinput").click(function(){
+		i++
+		var html = "<p><input type='text' name='' id='' value='' class='inpa'/><input type='text' name='' id='' value='' class='inpb'/><input type='text' name='' id='' value='' class='inpc'/><input type='text' name='' id='' value='' class='inpd'/><input type='text' name='' id='' value='' class='inpe'/><i></i></p>"
+		$(".addinput").append(html);
+	})
+
+	$(document).on("click", ".addinput p i", function(){
+		$(this).parent().remove()
+	});
+
+
+	var datas = new Array();      //创建数组
+	datas[0] =""; 				  //赋值
+	$(".subbtn").click(function(){
+		$("#caidan").prop('value','')
+		var q1 = '.inpa';
+		var q2 = '.inpb';
+		var q3 = '.inpc';
+		var q4 = '.inpd';
+		var q5 = '.inpe';
+		for (var i = 0; i < $(".addinput p").length; i++) {
+			if ($(".addinput p").eq(i).find('input').val() !== ''){
+				datas[i] = $(".addinput p").eq(i).find(q1).val()+"/*max*/"
+				datas[i] += $(".addinput p").eq(i).find(q2).val()+"/*max*/"
+				datas[i] += $(".addinput p").eq(i).find(q3).val()+"/*max*/"
+				datas[i] += $(".addinput p").eq(i).find(q4).val()+"/*max*/"
+				datas[i] += $(".addinput p").eq(i).find(q5).val()
+				console.log(datas)
+			} else{
+				alert('空')
+			}
+
+		}
+		$("#caidan").prop('value',datas)
+		// 使用完数组再次清空数组
+		for (var i = 0; i < datas.length; i++) {
+			datas.splice(0,9999)
+		}
+	})
+
+
+
+	var Ptid = "0";   //获取每级id
+	var Level = "0";   //获取级别
+	$(".bor6").unbind('click').bind('click',function(){
+		$(".bor7 ul li").remove()
+		//alert('-')
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:ajaxurl,
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (var i = 0; i < data.length; i++){      //一级分类
+					are += "<li data-type="+data[i].ptid+">"+data[i].name+"</li>";
+					Level = data[i].level
+				}
+				$(".bor6 ul").html('')
+				$(".bor6 ul").append(are)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+	var Li;  				//一级索引
+	var towLi;				//二级索引
+	//二级分类
+	$(document).on("click", ".bor6 ul li", function(){
+		$(".bor7 ul li").remove()
+		$(".bor7 span").text('请选择')
+		$(".bor8 ul li").remove()
+		$(".bor8 span").text('请选择')
+		Li = $(this).index()
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:ajaxurl,
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (towLi = 0; towLi < data[Li].sub.length; towLi++) {   //二级菜单
+					are += "<li data-type="+data[Li].sub[towLi].ptid+">"+data[Li].sub[towLi].name+"</li>"
+					Level = data[Li].sub[towLi].level
+				}
+				$(".bor7 ul").html('')
+				$(".bor7 ul").append(are)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+	//三级分类
+	$(document).on("click", ".bor7 ul li", function(){
+		$(".bor8 ul li").remove()
+		$(".bor8 span").text('请选择')
+		var stowLi = $(this).index()
+		var	are = '';
+		$.ajax({
+			type:"get",
+			url:ajaxurl,
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (var i = 0; i < data[Li].sub[stowLi].sub.length; i++) {   //三级菜单
+					are += "<li data-type="+data[Li].sub[stowLi].sub[i].ptid+">"+data[Li].sub[stowLi].sub[i].name+"</li>"
+					Level = data[Li].sub[stowLi].sub[i].level
+				}
+				$(".bor8 ul").html('')
+				$(".bor8 ul").append(are)
+				//console.log(Level)
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+
+
+
+	$(".subbtn").click(function(){
+		$("#menu").val()
+		if ($(".bor6 span").text() != "请选择"){
+			Ptid = $(".bor6 span").attr('data-type')
+			if ($(".bor7 span").text() != "请选择"){
+				Ptid = $(".bor7 span").attr('data-type')
+				if ($(".bor8 span").text() != "请选择"){
+					Ptid = $(".bor8 span").attr('data-type')
+				}
+			}
+		} else{
+			return false
+		}
+		console.log("级别："+Ptid+" 级数："+Level)
+		$("#menu").val(Ptid)
+	})
+
+	var onehtml = '';
+	$.ajax({
+		type:"get",
+		url:'__publicPath__/commtype/templateajax.shtml',
+		data: '',
+		dataType: "json",
+		success: function(data){
+			for (var i = 0; i < data.length; i++){
+				if (data[i].unit == 0) {
+					onehtml += "<li data-type="+data[i].freid+">"+data[i].title+"</li>"
+					$(".bor10 ul").html('')
+					$(".bor10 ul").append(onehtml)
+				}
+			}
+
+		},
+		error:function(){
+			alert('失败')
+		}
+	});
+
+
+	$("#forms form > div .radioa label").click(function(){
+		var Index = $(this).index();
+		console.log(Index)
+		var ones = '';
+		var twos = '';
+		$.ajax({
+			type:"get",
+			url:'__publicPath__/commtype/templateajax.shtml',
+			data: '',
+			dataType: "json",
+			success: function(data){
+				for (var i = 0; i < data.length; i++){
+					if (Index == 0) {
+						if (data[i].unit == 0) {
+							ones += "<li data-type="+data[i].freid+">"+data[i].title+"</li>"
+							$(".bor10 ul").html('')
+							$(".bor10 ul").append(ones)
+						}
+					} if (Index == 1){
+						if (data[i].unit == 1) {
+							ones += "<li data-type="+data[i].freid+">"+data[i].title+"</li>"
+							$(".bor10 ul").html('')
+							$(".bor10 ul").append(ones)
+						}
+					}
+				}
+
+			},
+			error:function(){
+				alert('失败')
+			}
+		});
+	})
+</script>
+{/block}
+
