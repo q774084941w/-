@@ -51,6 +51,11 @@
 				<div class="lin_tow">
 					<label>地址:</label><span>{$data.address}</span>
 				</div>
+				{if condition='!empty($data.la_name)'}
+				<div class="lin_tow">
+					<label>用户类型:</label><span>{$data.la_name}</span>
+				</div>
+				{/if}
 				{if condition='!empty($data.comment)'}
 				<div class="lin_tow">
 					<label>上月好评数:</label><span>{:empty($data['comment']['vin'])?'暂无':$data['comment']['vin']}</span>

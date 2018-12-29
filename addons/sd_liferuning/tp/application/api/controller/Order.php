@@ -84,11 +84,12 @@ class Order extends Controller
             //var_dump($res1);exit;
             $cid = array();
             foreach ($res1 as $k=>$v){
+                $res['price'] = OrderModel::instance()->f_price($res['price']);
                 $data = array(
                     date("Y年m月d日 H:i:s",$res['time']),
                     $res['mudadds'],
                     $res['myadds'],
-                    ($res['price']*0.8)
+                    $res['price']
                 );
                 $msg[] =  \app\api\model\MessageModel::sendMsg($v['open_id'],$v['formId'],$data,'oeGoSj02a4ocZnO548z4W-Xofz6pwRgCiBRJ54uPvRc');
                 $cid[] = $v['cid'];

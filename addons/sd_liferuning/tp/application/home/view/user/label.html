@@ -74,10 +74,21 @@
                 url:"{:url('user/Label')}",
                 type:'post',
                 data:{
-                    number:value
+                    number:value,
+                    type : 1
                 },
+                dataType:'json',
                 success:function (res) {
                     console.log(res)
+                    if(res.code==1)
+                    {
+                        layer.msg('添加成功');
+                    }
+                    else
+                    {
+                        layer.msg('添加失败');
+                    }
+                    window.location.reload()
                 }
             });
 
@@ -92,18 +103,30 @@
         var name = $(this).attr('data-name');
         layer.prompt({
             formType: 0,
-            value: 0,
-            title: '添加',
+            value: name,
+            title: '修改',
         }, function(value, index, elem){
 
             $.ajax({
                 url:"{:url('user/Label')}",
                 type:'post',
                 data:{
-                    number:value
+                    id : id,
+                    name:value,
+                    type : 2
                 },
+                dataType:'json',
                 success:function (res) {
                     console.log(res)
+                    if(res.code==1)
+                    {
+                        layer.msg('修改成功');
+                    }
+                    else
+                    {
+                        layer.msg('修改失败');
+                    }
+                    window.location.reload()
                 }
             });
 

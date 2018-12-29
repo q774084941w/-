@@ -1143,6 +1143,19 @@ class OrderModel
             }
         }
     }
+    public function f_price ($price,$bid=1) {
+        $myssl =  Db::name('percent')
+            ->where(['bid' => $bid])
+            ->find();//提成佣金
+        if($myssl != 0){
+            $p_price =$price* $myssl['percent']/100;
+            $f_price = $price - $p_price ;
+            return $f_price;
+        }
+        return $price;
+    }
+
+
     /**
      * 跑腿完成订单
      */

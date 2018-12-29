@@ -32,10 +32,15 @@ class User extends Controller
         $where =[];
         $where1='';
         if(isset($selet)){
-            if($selet != 3&&$selet!='null')
-                $where=array(
-                    'step'=>$selet
-                );
+            if($selet != 3&&$selet!='null'){
+                if ($selet != '') {
+                    $where=array(
+//                    'step'=>$selet
+                        'a.la_id' => $selet
+                    );
+                }
+            }
+
         }
 
         if(isset($search) && $search !='null'){
@@ -55,10 +60,36 @@ class User extends Controller
             $data['count']=count($list);
             $result->offsetSet($k,$data);
         }
+        $label = db('UserLabel')
+            -> field('la_id,la_name')
+            -> where(array('delete_time'=>1))
+            ->select();
 
-        return view('user/index',['data'=>$result]);
+
+        return view('user/index',['data'=>$result,'label'=>$label]);
 
     }
+
+    /**
+     * 修改用户类型
+     */
+    public function changeLabel(Request $request) {
+        $uid = $request->post('uid');
+        $value = $request->post('value');
+        if (!empty($uid) && !empty($value)) {
+            $result = Db::name('user')
+                -> where(['uid'=>$uid])
+                -> update(['la_id'=>$value]);
+            if ($result) {
+                exit(json_encode(['code'=>1]));
+            } else {
+                exit(json_encode(['code'=>2]));
+            }
+        } else {
+            exit(json_encode(['code'=>0]));
+        }
+    }
+
     /**
      * 详情
      */
@@ -92,6 +123,7 @@ class User extends Controller
         $details['vip'] == 0 ? $details['vip'] = '' : $details['vip'] = date('Y-m-d H:i:s',$details['vip']);
         $details['viptime'] == 0 ? $details['viptime'] = '' : $details['viptime'] = date('Y-m-d H:i:s',$details['viptime']);
         $details['step'] == 0 ? $details['step'] = '非会员' : $details['step'] = '会员';
+
         return view('user/show',['data'=>$details]);
     }
 
@@ -705,12 +737,25 @@ class User extends Controller
     public function Label (Request $request) {
         if ($request -> isPost()) {
             $data = $request -> param();
-            var_dump($data) ;
-            if ($data['number']) {
+            if (!empty($data['type'])) {
+                switch ($data['type']) {
+                    case 1:
+                        $result =  UserModel::instance() -> label ($data['number']);
+                        break;
+                    case 2:
+                        $result =  UserModel::instance() -> updateLabe ($data['id'],$data['name']);
+                        break;
+                    default:
 
-               $result =  UserModel::instance() -> label ($data['number']);
-               var_dump($result)  ; exit;
+                }
+                if ($result) {
+                    exit(json_encode(array('code'=>1)));
+                } else {
+                    exit(json_encode(array('code'=>0)));
+                }
             }
+
+
         exit;
         }
 

@@ -11,6 +11,8 @@
 <style type="text/css">
 	.c .c-r .query .left label select{width: 100px;height: 27px;}
 	.searchbtn{float: right;background: #39f;border: 1px solid #39f;color: #fff;padding: 2px 7px;transition: color .2s linear,background-color .2s linear,border .2s linear;cursor: pointer;margin-left: 10px}
+	.layer-change {cursor:pointer;
+		color: #ff7539;}
 </style>
 <div class="c-r right">
 	<div class="label1">
@@ -26,9 +28,13 @@
 				<div class="left">
 					<label>
 					<select name="selet" onchange="selet($(this))">
-						<option value="3">选择类型</option>
+						<option value="" {:input('selet')==''?"selected":""}>选择类型</option>
+						{foreach name="label" item="vo"}
+						<option value="{$vo.la_id}" {:input('selet')==$vo["la_id"]?"selected":""}>{$vo.la_name}</option>
+						{/foreach}
+						<!--<option value="3">选择类型</option>
 						<option value="0">普通用户</option>
-						<option value="1">VIP会员</option>
+						<option value="1">VIP会员</option>-->
 					</select>
 					</label>
 					<button class="blue" onclick="javascript:location.href='excels'"><a href="excels">导出全部数据</a></button>
@@ -49,15 +55,16 @@
 				<table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
 					<thead>
 						<tr>
-							<th><input type="checkbox" name="" id="" value="" /></th>
+							<th><input type="checkbox" name=""  value="" /></th>
 							<th>ID</th>
+							<th>用户类型</th>
 							<th>用户名</th>
 							<th>性别</th>
 							<th>手机号</th>
 							<!--<th>出生日期</th>-->
 							<th>地址</th>
 							<th>加入时间</th>
-							<th>身份</th>
+							<!--<th>身份</th>-->
 							<td>当前积分</td>
 							<td>当前余额</td>
 							<td>下单数</td>
@@ -68,20 +75,21 @@
 					<thead>
 						{foreach name="data" item="vo"}
 						<tr>
-							<td><input type="checkbox" name="" id="" value="" /></td>
+							<td><input type="checkbox" name="" value="" /></td>
 							<td>{$vo.uid}</td>
+							<td><span class="layer-change" data-la_id="{$vo.la_id}" data-uid="{$vo.uid}">{$vo.la_name}</span></td>
 							<td>{$vo.nickname}</td>
 							<td>{if condition="$vo['sex'] ==1"}男{else /}女{/if}</td>
 							<td>{$vo.phone}</td>
 							<!--<td>{$vo.birthday}1saszcx12</td>-->
 							<td>{$vo.address}</td>
 							<td>{$vo.regtime}</td>
-							{if condition="$vo['step']==1"}
+							<!--{if condition="$vo['step']==1"}
 
 							<td>VIP{$vo.member_grade}</td>
 							{else /}
 							<td>普通用户</td>
-							{/if}
+							{/if}-->
 							<td>{$vo.integral}</td>
 							<td>{$vo.money}</td>
 							<td>{$vo.count}</td>
@@ -116,24 +124,13 @@
 	</div>
 </div>
 <script type="text/javascript">
+
 	$(".open-win").click(function(){
 		var dataurl = $(this).attr('data-type');
 		$("iframe").attr('src',dataurl)
-	})
-	function save_cust(id,obj) {
-		$.ajax({
-			url:"{:url('user/add_cust')}",
-			dataType:'json',
-			type:'get',
-			data:{
-			    id:id,
-			},
-			success:function (res) {
-				console.log(res)
-            }
-		})
-    }
-	
+	});
+
+
 	if (location.search == '' || location.search == undefined) {
 		
 	}else{
@@ -145,7 +142,7 @@
 	function getUrlParam(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 		var r = window.location.search.substr(1).match(reg);
-		if (r != null) return unescape(r[2]); return null;
+		if (r != null) return unescape(r[2]); return '';
 	}
 	
 	
@@ -155,25 +152,14 @@
 		var searchval = getUrlParam('search');
 		window.location.href='https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/index.php/user/index.shtml?selet='+o.val()+'&search='+searchval
 	}
+
 	//搜索
 	$('.searchbtn').click(function(){
 		var selet = getUrlParam('selet');
 		var searchval = $('#search').val();
 		var tel = $('#tel').val();
+		window.location.href='https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/index.php/user/index.shtml?selet='+selet+'&search='+searchval+'&tel='+tel;
 
-
-			window.location.href='https://xam.chaojiyuanma.com/addons/sd_liferuning/tp/index.php/user/index.shtml?selet='+selet+'&search='+searchval+'&tel='+tel;
-			$.ajax({
-				url:"{:url('user/index')}",
-				type:'get',
-				data:{
-                    selet:selet,
-				    search:searchval,
-				},
-				success:function (res) {
-					
-	            }
-			})
 	});
 
 	$('.layer-open').click(function () {
@@ -202,26 +188,61 @@
                             },
 							dataType: 'json',
                             success:function (res) {
-                                console.log(res)
-								if(res.code==1)
-								{
+                                console.log(res);
+								if(res.code==1) {
                                     layer.msg('充值成功');
-								}
-								else
-								{
+								} else {
                                     layer.msg('充值失败');
 								}
                             }
                         })
-
-                    }else{
+					}else{
 
                     }
-            }
+			}
             layer.close(index);
         });
     });
 
+	$('.layer-change').click(function () {
+	    var uid = $(this).attr('data-uid');
+        layer.open({
+            title: '修改',
+			content: "<form><select name=\"selet\" >" +
+               "{foreach name='label' item='vo'}" +
+                "<option  value=\"{$vo.la_id}\" >" +
+				"{$vo.la_name}" +
+				"</option>" +
+                "{/foreach}" +
+                "</select></form>",
+			btn:['修改'],
+			btn1:function (value) {
+				console.log(value);
+                if(!isNaN(value)){
+                    $.ajax({
+                        url:"{:url('user/changeLabel')}",
+                        type:'post',
+                        data:{
+                            uid:uid,
+                            value:value
+                        },
+                        dataType: 'json',
+                        success:function (res) {
+                            console.log(res);
+                            if(res.code==1) {
+                                layer.msg('修改成功');
+                            } else {
+                                layer.msg('修改失败');
+                            }
+                        }
+                    })
+                }else{
+
+                }
+            }
+        });
+
+    })
 </script>
 {/block}
 

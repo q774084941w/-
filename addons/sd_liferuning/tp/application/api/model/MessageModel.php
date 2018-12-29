@@ -41,11 +41,12 @@ class MessageModel
 
     }
 
-    public static function sendMsg($openId,$formId,$data,$templateId){
+    public static function sendMsg($openId,$formId,$data,$templateId,$page="service/pages/service/index/index"){
         $datass=array(
             "touser"=>$openId,//openid
             "template_id"=>$templateId,
             "form_id"=>$formId,
+            "page"=>$page,
             "data"=>array(
                 "keyword1"=>array(
                     "value"=> $data[0],
