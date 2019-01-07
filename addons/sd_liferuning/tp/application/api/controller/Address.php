@@ -22,6 +22,7 @@ class Address extends Controller
             'city' => $address['city'],
             'area' => $address['area'],
             'default' => isset($address['default']) ? $address['default'] : 0,
+            'address_type' => isset($address['type']) ? $address['type'] : 0,
             'createtime' => time()
         ];
 
@@ -54,9 +55,13 @@ class Address extends Controller
         $uid = $request->get('uid');
         $uaid = $request->get('uaid');
         $bid = $request->get('bid');
+        $type = $request->get('type');
+        if(empty($type)) {
+            $type=0;
+        }
         isset($uaid) ? $uaid = $uaid : $uaid = '';
         $field = 'id,uaid,uid,address,name,phone,province,city,area,default';
-        $list = AddressModel::instance()->datalist($uid,$field,$uaid,$bid);
+        $list = AddressModel::instance()->datalist($uid,$field,$uaid,$bid,$type);
         $this->jsonOut($list);
     }
     /**
@@ -64,6 +69,10 @@ class Address extends Controller
      */
     public function siteupdate(Request $request){
         $info = $request->post();
+        $type = $info['type'];
+        if(empty($type)) {
+            $type=0;
+        }
         if(isset($info['address'])) $data['address'] = $info['address'];
         if(isset($info['name'])) $data['name'] = $info['name'];
         if(isset($info['phone'])) $data['phone'] = $info['phone'];
@@ -73,7 +82,7 @@ class Address extends Controller
 
         $data['updatetime'] = time();
     
-        $result = AddressModel::instance()->siteupdate($data,$info['uaid']);
+        $result = AddressModel::instance()->siteupdate($data,$info['uaid'],$type);
         if($result == 1){
             $this->jsonOut(['success'=>$result]);
         }else{
@@ -85,7 +94,11 @@ class Address extends Controller
      */
     public function defaultsite(Request $request){
         $uaid = $request->get('uaid');
-        $result = AddressModel::instance()->defaultsite($uaid,$this->uid);
+        $type = $request->get('type');
+        if(empty($type)) {
+            $type=0;
+        }
+        $result = AddressModel::instance()->defaultsite($uaid,$this->uid,$type);
         if($result == 1){
             $this->jsonOut(['success'=>$result]);
         }else{
@@ -98,7 +111,11 @@ class Address extends Controller
      */
     public function delAddress(Request $request){
         $uaid = $request->get('uaid');
-        $result = AddressModel::instance()->delAddress($uaid);
+        $type = $request->get('type');
+        if(empty($type)) {
+            $type=0;
+        }
+        $result = AddressModel::instance()->delAddress($uaid,$type);
         if($result){
             $this->jsonOut(['success'=>$result]);
         }else{
@@ -112,7 +129,11 @@ class Address extends Controller
     public function mrAddress(Request $request){
         $uid = $request->get('uid');
         $bid = $request->get('bid');
-        $result = AddressModel::instance()->defaultaddr($uid,$bid);
+        $type = $request->get('type');
+        if(empty($type)) {
+            $type=0;
+        }
+        $result = AddressModel::instance()->defaultaddr($uid,$bid,$type);
         $res = [
             'uaid' => $result['uaid'],
             'adress' => $result['province'].$result['city'].$result['area'].$result['address'],
@@ -130,7 +151,11 @@ class Address extends Controller
      */
     public function getarea(Request $request){
         $bid = $request->post('bid');
-        $result = AddressModel::instance()->area($bid);
+        $type = $request->post('type');
+        if(empty($type)) {
+            $type=0;
+        }
+        $result = AddressModel::instance()->area($bid,$type);
         if($result){
             $this->jsonOut($result);
         }else{

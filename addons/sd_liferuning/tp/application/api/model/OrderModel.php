@@ -30,14 +30,10 @@ class OrderModel
     /**
      * 余额支付
      */
-    public static function pricePay($data){
-        $price = $data['MyMoney']-$data['price'];
-        array_pop($data);
-
-        $data['status']=1;
+    public static function pricePay($data,$price){
+          $data['status']=1;
         $data['time']=time();
         $data['payway']='pricePay';
-
         Db::startTrans();
         $rs=db('Runorder')->where(['order_no'=>$data['order_no'],'uid'=>$data['uid']])->update($data);
         $result=db('User')->where('uid',$data['uid'])->update(['money'=>$price]);
@@ -342,13 +338,13 @@ class OrderModel
         Db::commit(); //提交事务
         return true;
     }
-    public function getAllOrder($uid) {
+   public function getAllOrder($uid) {
         $list = Db::name('runorder')
             ->alias('a')
             ->field('a.status')
             ->where(['a.uid'=>$uid,])
             ->select();
-        $count = array('count'=>0,'waiting'=>0,'received'=>0,'completed'=>0,'cancelled'=>0);
+       $count = array('count'=>0,'waiting'=>0,'received'=>0,'completed'=>0,'cancelled'=>0);
         foreach ($list as $val) {
             switch ($val['status']){
                 case -1:
@@ -687,7 +683,12 @@ class OrderModel
             return false;
         }
 
-        if($result['payway']=='pricePay'){
+        if (empty($result['price'])) {
+            db('Runorder')->where('order_no',$order_no)->update(['status'=>-1,'outtime'=>time()]);
+            return true;
+        }
+      
+        //if($result['payway']=='pricePay'){
             Db::startTrans();
             $rs=db('Runorder')->where('order_no',$order_no)->update(['status'=>-1,'outtime'=>time()]);
             $rss=db('User')->where('uid',$result['uid'])->setInc('money',$result['price']);
@@ -701,9 +702,8 @@ class OrderModel
                 return false;
             }
 
-        }
+       // }
         $result['trade_no']=trade_no();
-        //微信退款
         $rs=new wxpay();
         $msg=$rs->out_price($result);
         MessageModel::OutMsg($order_no);
@@ -906,7 +906,7 @@ class OrderModel
     /**
      * 服务端订单列表
      */
-    public function ServerOrder($bid,$status,$rid,$limit){
+       public function ServerOrder($bid,$status,$rid,$limit){
         $money=db('Percent')->where('bid',$bid)->value('percent');
         $money=(100-$money)/100;
         $class=db('Class')->select();
@@ -933,7 +933,7 @@ class OrderModel
                 ->limit($limit)
                 ->select();
             foreach($result as $key =>&$vo){
-                switch ($vo['status']) {
+               switch ($vo['status']) {
                     case 1:
                         $result[$key]['look_time']="已下单：".$this ->timediff(time(),$vo['time']);;
                         break;
@@ -963,7 +963,7 @@ class OrderModel
                 }else{
                     $vo['times']=$time.'分钟';
                 }
-
+               
 
             }
         }else{
@@ -1038,7 +1038,7 @@ class OrderModel
 
         return $result;
     }
-
+  
     private function timediff($begin_time,$end_time)
     {
         if($begin_time < $end_time){
@@ -1059,18 +1059,18 @@ class OrderModel
         $mins = intval($remain/60);
         //计算秒数
         $secs = $remain%60;
-        $res =  $days.'天 '. $hours.'时'. $mins.'分'.$secs.'秒';
+           $res =  $days.'天 '. $hours.'时'. $mins.'分'.$secs.'秒';
         return $res;
     }
     /**
      * 服务端订单详情
      */
-    public function ServerOrderInfor($orderid){
+ public function ServerOrderInfor($orderid){
         $result=Db::name('runorder')
             ->alias('g')
-            ->join('135k_user u','g.uid = u.uid')
+            ->join('user u','g.uid = u.uid')
             ->where(['g.id'=>$orderid])
-            ->field('g.order_no,g.username,g.type,g.imgurl,g.phone,g.message,g.audiotime,g.oktime,g.id,g.time,g.bid,g.times,g.status,g.price,g.uid,g.yinpin,g.xphoto,g.goodsname,u.nickname,g.myadds,g.mudadds,g.redbao,g.num_star,g.why_text,g.worth,g.worth_type,g.seller_type')
+            ->field('g.order_no,g.username,g.type,g.imgurl,g.my_username,g.phone,g.message,g.audiotime,g.oktime,g.id,g.time,g.bid,g.times,g.status,g.price,g.uid,g.yinpin,g.xphoto,g.goodsname,u.nickname,g.myadds,g.mudadds,g.redbao,g.num_star,g.why_text,g.worth,g.worth_type,g.seller_type,g.my_phone,g.pretime,g.pre_price,g.rid')
             ->find();
         if ($result['oktime']){
             $result['succ'] = 1;
@@ -1082,7 +1082,11 @@ class OrderModel
         $result['imgurl'] = explode(',',$result['imgurl']);
         if($result['type']=='帮我买'||$result['type']=='帮我送'){
             if(!empty($result['times'])){
-                $result['timesss']=date('Y-m-d H:i:s',$result['times']);
+                if (is_integer($result['times'])){
+                    $result['timesss']=date('Y-m-d H:i:s',$result['times']);
+                } else {
+                    $result['timesss'] = $result['times'];
+                }
             }else{
                 $result['timesss']='立即送往';
             }
@@ -1143,31 +1147,20 @@ class OrderModel
             }
         }
     }
-    public function f_price ($price,$bid=1) {
-        $myssl =  Db::name('percent')
-            ->where(['bid' => $bid])
-            ->find();//提成佣金
-        if($myssl != 0){
-            $p_price =$price* $myssl['percent']/100;
-            $f_price = $price - $p_price ;
-            return $f_price;
-        }
-        return $price;
-    }
 
-
+ 
     /**
      * 跑腿完成订单
      */
-    public function OkOrder($orderid,$bid,$uid,$code,$status){
+     public function OkOrder($orderid,$bid,$uid,$code,$status,$pay_type){
         if($status==1){
             if($code==''){
-                exit(json_encode(['status'=>0]));
+                exit(json_encode(['code'=>2,'msg'=>'收貨碼為空']));
             }else{
                 $oneorder =  Db::name('runorder')
                     -> alias('a')
                     -> join('user b','a.uid=b.uid')
-                    -> field('a.*,b.formId,b.openid,b.money')
+                    -> field('a.*,b.formId2,b.openid,b.money')
                     ->where(['a.id' => $orderid,'a.status'=>2,'a.code'=>$code])
                     ->find();//提成佣金
             }
@@ -1175,14 +1168,14 @@ class OrderModel
             $oneorder =  Db::name('runorder')
                 -> alias('a')
                 -> join('user b','a.uid=b.uid')
-                -> field('a.*,b.formId,b.openid,b.money')
+                -> field('a.*,b.formId2,b.openid,b.money')
                 ->where(['a.id' => $orderid,'a.status'=>2])
                 ->find();//提成佣金
         }
-        if(empty($oneorder))exit(json_encode(['code'=>0,'msg'=>'订单已经确认过']));
-       $myssl =  Db::name('percent')
-           ->where(['bid' => $bid])
-           ->find();//提成佣金
+        if(empty($oneorder))exit(json_encode(['code'=>2,'msg'=>'收貨碼錯誤']));
+        $myssl =  Db::name('percent')
+            ->where(['bid' => $bid])
+            ->find();//提成佣金
         if($myssl != 0){
             $p_price =$oneorder['price']* $myssl['percent']/100;
             $f_price = $oneorder['price'] - $p_price + $oneorder['redbao'];
@@ -1196,39 +1189,97 @@ class OrderModel
             $data ['f_price']=$f_price;
         }
 
-       $data['oktime'] = time();
-        $msg=[
+        $data['oktime'] = time();
+        $msg = $this -> makeMsg($uid,$data ['f_price'],$oneorder['order_no']);
+
+        $data['status'] = 3;
+        Db::startTrans();
+        $proxy=true;
+        $rss=db('PriceMsg')->insert($msg);
+        $returnMoney= $oneorder['money'];
+  		 $resss = true;
+         $ressss = true;
+        switch ($pay_type) {
+            case  1:// 现金
+                $pay_price = $oneorder['pre_price'];
+             
+     
+                break;
+            case 2://钱包
+                $pay_price = $oneorder['pre_price'];
+               if ($oneorder['worth']>$oneorder['pre_price']) {
+                    $number = $oneorder['worth']-$oneorder['pre_price'];
+                    if ($returnMoney<$number) {
+                        exit(json_encode(['code'=>0,'msg'=>'客戶錢包餘額不足，請提醒客戶充值，或選擇現金收款']));
+                    }
+                    $resss = Db::name('user')
+                        -> where('uid',$oneorder['uid'])
+                        ->setDec('money',$number);
+                   $ressss=MessageModel::index($oneorder['uid'],$oneorder['order_no'].'商品預付補迴',$number,$oneorder['order_no'],'pay');
+                    $returnMoney -= $number;
+                    $pay_price = $oneorder['pre_price'];
+                }
+             
+                break;
+            default:
+                if ($oneorder['worth']<$oneorder['pre_price']) {
+                    $number = $oneorder['pre_price']-$oneorder['worth'];
+                    $resss = $this -> refund($oneorder['uid'],$number);
+                    $ressss= MessageModel::index($oneorder['uid'],$oneorder['order_no'].'商品預付回退',$number,$oneorder['order_no']);
+                    $returnMoney += $number;
+                }
+              $pay_price = $oneorder['worth'];
+               
+
+    }
+        $msg2 = $this -> makeMsg($uid,$pay_price,$oneorder['order_no'],'商品价值');
+                $rsss=db('PriceMsg')->insert($msg2);
+        $f_price += $pay_price;
+
+        if(!empty($data['proxy_price']))$proxy=db('Proxy')->where(['proxy_id'=>$oneorder['proxy_id'],'proxy_status'=>1])->setInc('proxy_price',$data['proxy_price']);
+        $rs=Db::name('runorder')->where(['id' => $orderid])->update($data);
+        $cust = Db::name('cust_user')->where(['uid' => $uid])->setInc('money',$f_price);
+        if($rs&&$cust&&$proxy&&$rss&&$rsss&&$resss&&$ressss){
+            Db::commit();
+            $data = array(
+                "MOP:".$f_price,
+                "MOP:".$pay_price,
+                $oneorder['distance']."公里-縂花費MOP:".$oneorder['price'],
+                "MOP:".$returnMoney
+            );
+            \app\api\model\MessageModel::sendMsg($oneorder['openid'],$oneorder['formId2'],$data,'spy0M2xDQzMwSQfcR3hZM-delgzaEMAnEyMqJfK5Zl8');
+            return ['code'=>1,'msg'=>'感謝您的付出'];
+        }else{
+            Db::rollback();
+            return ['code'=>0,'msg'=>'扣款失敗'];
+        }
+    }
+
+    /**
+     * 退款
+     */
+    private function refund ($uid,$money) {
+        return Db::name('user')
+            -> where('uid',$uid)
+            ->setInc('money',$money);
+    }
+
+    /**
+     * 记录数据组合
+     */
+    private function makeMsg ($uid,$f_price,$order_no,$msg='订单收入') {
+       return $msgArray=[
             'uid'=>$uid,
-            'money'=>$data ['f_price'],
-            'order_no'=>$oneorder['order_no'],
+            'money'=>$f_price,
+            'order_no'=>$order_no,
             'paytype'=>'outpay',
-            'msg'=>$oneorder['order_no'].'订单收入',
+            'msg'=>$order_no.$msg,
             'createtime'=>time(),
             'type'=>1,
             'cust'=>1
         ];
-        $data['status'] = 3;
-        Db::startTrans();
-       $proxy=true;
-       $rss=db('PriceMsg')->insert($msg);
-       if(!empty($data['proxy_price']))$proxy=db('Proxy')->where(['proxy_id'=>$oneorder['proxy_id'],'proxy_status'=>1])->setInc('proxy_price',$data['proxy_price']);
-       $rs=Db::name('runorder')->where(['id' => $orderid])->update($data);
-       $cust = Db::name('cust_user')->where(['uid' => $uid])->setInc('money',$f_price);
-        if($rs&&$cust&&$proxy&&$rss){
-            Db::commit();
-            $data = array(
-                $oneorder['price']+$oneorder['worth'],
-                $oneorder['worth'],
-                $oneorder['distance']."公里花費：".$oneorder['price'],
-                $oneorder['money']
-            );
-//            \app\api\model\MessageModel::sendMsg($oneorder['openid'],$oneorder['formId'],$data,'');
-            return true;
-        }else{
-            Db::rollback();
-            return false;
-        }
     }
+
     /**
      * 跑腿添加商品价值
      */
@@ -1237,12 +1288,8 @@ class OrderModel
             'worth' => $code,
             'worth_type' => 0
         );
-       $rs=Db::name('runorder')
-           -> where(['id' => $orderid])
-           -> update($data);
-
-
-        if($rs){
+       $rs=Db::name('runorder')->where(['id' => $orderid])->update($data);
+      if($rs){
 
             $result = Db::name('runorder')
                 -> alias('a')
@@ -1442,12 +1489,16 @@ class OrderModel
             ->field('status')
             ->where($where)
             ->select();
-        $count = array('waiting'=>0,'received'=>0,'completed'=>0);
+      	
+          $count = Db::name('runorder')
+            ->where(['bid'=>$bid,'status' => 1])
+            ->field('count(*)')
+            ->where($where)
+            ->find();
+        $count = array('waiting'=>$count["count(*)"],'received'=>0,'completed'=>0);
         foreach ($result as $val) {
             switch ($val['status']) {
-                case 1:
-                   $count['waiting']++;
-                   break;
+               
                 case 2:
                     $count['received']++;
                     break;
@@ -1455,8 +1506,22 @@ class OrderModel
                     $count['completed']++;
                     break;
                 default:
+                  
             }
         }
+      
         return $count;
+    }
+  
+   public function f_price ($price,$bid=1) {
+        $myssl =  Db::name('percent')
+            ->where(['bid' => $bid])
+            ->find();//提成佣金
+        if($myssl != 0){
+            $p_price =$price* $myssl['percent']/100;
+            $f_price = $price - $p_price ;
+            return $f_price;
+        }
+        return $price;
     }
 }

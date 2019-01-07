@@ -37,7 +37,7 @@ class Seller extends Controller
     public function insertOrder(Request $request)
     {
         $data = $request -> param();
-
+		
         if($data){
             $order_no = trade_no();
 
@@ -45,26 +45,32 @@ class Seller extends Controller
                 'goodsname' => '',
                 'mudadds' => $data['uarea'],
                 'myadds' => $data['uaddress'],
-                'select_name' => isset($data['select_name']) ? $data['select_name']: '',
+                 'select_name' => isset($data['select_name']) ? $data['select_name']: '',
                 'price' => '',
                 'times' => '',
                 'time' => time(),
                 'uid' => $data['uid'],
                 'order_no' => $order_no,
-                'distance' => isset($data['distance']) ? $data['distance']: '',
                 'order_type' => isset($data['order_type']) ? $data['order_type']: '',
                 'old_order_no' => isset($data['old_order_no']) ? $data['old_order_no']: '',
+               'prepay_id' => isset($data['formId']) ? $data['formId']: '',
+                'distance' => isset($data['distance']) ? $data['distance']: '',
                 'ins' => '',
                 'status' => 1,
                 'redbao' =>'',
-                'xphoto' =>'',
-                'yinpin' =>'',
+                 'prepay_id' => isset($data['formId']) ? $data['formId']: '',
+                'xphoto' =>isset($data['xphoto']) ? $data['xphoto']: '',
+                'yinpin' =>isset($data['yinpin']) ? $data['yinpin']: '',
+                'my_phone' => isset($data['my_phone']) ? $data['my_phone']: '',
+                'pre_price' => isset($data['pre_price']) ? $data['pre_price']: '',
+                'pretime' => isset($data['pretime']) ? $data['pretime']: '',
                 'tip' => '',
                 'type' => '商家点单',
                 'message' => '',
                 'distype' => 0,
-                'username' =>  $data['uname'],
-                'phone' =>  $data['utel'],
+                 'username' =>  '',
+                'my_username' =>  $data['uname'],
+                'phone' =>  '',
                 'bid' => 1,
                 'audiotime' => empty($data['audiotime'])?"":$data['audiotime'],
                 'imgurl' =>  empty($data['imgurl'])?"":$data['imgurl'],
@@ -73,8 +79,9 @@ class Seller extends Controller
             ];
 
             $result = db('runorder')->insert($datas);
-            Order::sendMsg();
+
             if($result){
+             \app\api\controller\Order::sendMsg();
                 $info =$order_no;
                 $this->jsonOut($info);
             }else{

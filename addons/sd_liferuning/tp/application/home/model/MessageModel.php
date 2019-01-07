@@ -21,7 +21,7 @@ class MessageModel{
                 'uid'=>$order['uid'],
                 'msg'=>$order_no.'订单号余额支付',
                 'paytype'=>'pay',
-                'money'=>$order['price'],
+                'money'=>($order['price']+$order['pre_price']),
                 'order_no'=>$order_no,
                 'createtime'=>time()
             ];

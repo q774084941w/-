@@ -83,7 +83,6 @@ class Login extends Controller
         }
 
     }
-    
 	public static function removeEmoji($text) {
         $clean_text = "";
         // Match Emoticons

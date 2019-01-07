@@ -32,7 +32,7 @@ class User extends Controller
         $where =[];
         $where1='';
         if(isset($selet)){
-            if($selet != 3&&$selet!='null'){
+           if($selet != 3&&$selet!='null'){
                 if ($selet != '') {
                     $where=array(
 //                    'step'=>$selet
@@ -40,7 +40,6 @@ class User extends Controller
                     );
                 }
             }
-
         }
 
         if(isset($search) && $search !='null'){
@@ -60,7 +59,8 @@ class User extends Controller
             $data['count']=count($list);
             $result->offsetSet($k,$data);
         }
-        $label = db('UserLabel')
+
+         $label = db('UserLabel')
             -> field('la_id,la_name')
             -> where(array('delete_time'=>1))
             ->select();
@@ -69,7 +69,8 @@ class User extends Controller
         return view('user/index',['data'=>$result,'label'=>$label]);
 
     }
-
+  
+  
     /**
      * 修改用户类型
      */
@@ -77,6 +78,7 @@ class User extends Controller
         $uid = $request->post('uid');
         $value = $request->post('value');
         if (!empty($uid) && !empty($value)) {
+          //dump($value); dump($uid);exit;
             $result = Db::name('user')
                 -> where(['uid'=>$uid])
                 -> update(['la_id'=>$value]);
@@ -89,7 +91,7 @@ class User extends Controller
             exit(json_encode(['code'=>0]));
         }
     }
-
+  
     /**
      * 详情
      */
@@ -123,7 +125,6 @@ class User extends Controller
         $details['vip'] == 0 ? $details['vip'] = '' : $details['vip'] = date('Y-m-d H:i:s',$details['vip']);
         $details['viptime'] == 0 ? $details['viptime'] = '' : $details['viptime'] = date('Y-m-d H:i:s',$details['viptime']);
         $details['step'] == 0 ? $details['step'] = '非会员' : $details['step'] = '会员';
-
         return view('user/show',['data'=>$details]);
     }
 
@@ -734,6 +735,8 @@ class User extends Controller
     }
 
 
+
+
     public function Label (Request $request) {
         if ($request -> isPost()) {
             $data = $request -> param();
@@ -763,5 +766,4 @@ class User extends Controller
         $this -> assign('data',$data);
         return view();
     }
-    
 }

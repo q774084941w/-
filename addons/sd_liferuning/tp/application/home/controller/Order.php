@@ -453,8 +453,8 @@ class Order extends Controller
                 'time' => time(),
                 'uid' => $data['uid'],
                 'order_no' => $order_no,
+               'distance' => isset($data['distance']) ? $data['distance']: 0,
                 'order_type' => isset($data['order_type']) ? $data['order_type']: '',
-                'distance' => isset($data['distance']) ? $data['distance']: 0,
                 'old_order_no' => isset($data['old_order_no']) ? $data['old_order_no']: '',
               	 'weight' => isset($data['weight']) ? $data['weight']: '',
                  'select_name' => isset($data['select_name']) ? $data['select_name']: '',
@@ -470,7 +470,6 @@ class Order extends Controller
                 'username' =>  $data['username'],
                 'phone' =>  $data['tel'],
                 'bid' => $data['bid'],
-                'weight' => $data['weight'],
                 'payway' => 'pricePay',
                 'audiotime' => empty($data['audiotime'])?"":$data['audiotime'],
                 'imgurl' =>  empty($data['imgurl'])?"":$data['imgurl'],
@@ -487,7 +486,7 @@ class Order extends Controller
 //            if($adds['info']=='OK')$data['location']=$adds['geocodes'][0]['location'];
 
             $result = db('runorder')->insert($datas);
-
+          
             /**
              * 检测禾匠订单并且修改发货状态
              */
@@ -509,7 +508,7 @@ class Order extends Controller
                 $result = $this-> pricePay($data['uid'],null,null,$order_no);
                 if ($result['code']==1)
                 {
-                    \app\api\controller\Order::sendMsg();
+                   \app\api\controller\Order::sendMsg();
                     $this -> success('添加成功','order/index');
                 }
                 else
@@ -627,6 +626,5 @@ class Order extends Controller
         if($result) {echo json_encode(['code'=>1,'msg'=>'有新的订单']);}
         else echo json_encode(['code'=>0,'msg'=>'暂无订单']);
     }
-
 
 }

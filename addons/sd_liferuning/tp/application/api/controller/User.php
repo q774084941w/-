@@ -369,22 +369,36 @@ class User extends Controller
 
     }
     //获取商家注册状态
-    public function getSeller(){
+   public function getSeller(){
         $uid = input('uid');
         if(empty(input('uid'))){
             echo json_encode(['data'=>'没有获取权限']);
         }else{
+            $where = array(
+                'uid' => $uid
+            );
             $loginId  = Db::name('CustSeller')
-                -> where('uid',$uid)
+                -> where($where)
                 -> field('id,uname,utel,uimg,uaddress,status,carname')
                 -> find();
+
             if(empty($loginId)){
                 $loginId['id']=0;
+            } else {
+                $result =    Db::name('runorder')
+                    -> where($where)
+                    -> whereTime('oktime','m')
+                    -> field('count(*) as number,sum(price) as price')
+                    -> find();
+                $loginId['number'] = $result['number'];
+                  $loginId['price'] = round($result['price'],2);
             }
             echo json_encode($loginId);
 
         }
     }
+  
+  
     public function getUid() {
         $openid = input('param.openid');
 //        var_dump($openid);
@@ -616,6 +630,8 @@ class User extends Controller
             ->sum('f_price');
         if(!$daySum){
             $daySum = 0;
+        }else {
+            $daySum = round($daySum,2);
         }
         //完成订单数 和 金额
         $orderCompleteNum = db('runorder')->where(['rid'=>$uid,'bid'=>$bid,'status'=>3])->count();
@@ -657,6 +673,8 @@ class User extends Controller
      * 可提现的金额
      */
     public function money(Request $request){
+       $uid = $request-> param('uid');
+        $bid = $request-> param('bid');
         $money = db('user')->where(['uid'=>$uid,'bid'=>$bid])->value('money');
         if($money){
             echo json_encode(['money'=>$money]);
@@ -665,7 +683,7 @@ class User extends Controller
     /**
      * 统计报表
      */
-    public function statistics()
+       public function statistics()
     {
         $uid=input("uid");
         $num=[];
@@ -765,6 +783,7 @@ class User extends Controller
             }
             $num["price_month"]=$nump2;
         }
+         
         //累计
         $time=time();
         $sql3="select count(id) num_total,sum(f_price) price_total from 135k_runorder where rid=".$uid;
@@ -773,7 +792,7 @@ class User extends Controller
         if($num["num_total"]==0){
             $num["price_total"]=0;
         }else{
-            $sqlp3="select f_price from 135k_runorder where rid=".$uid;
+            $sqlp3="select f_price from 135k_runorder where rid=".$uid ;
             $listp3=Db::query($sqlp3);
             $nump3=0;
             foreach ($listp3 as $key=>$val){
@@ -984,11 +1003,11 @@ class User extends Controller
     public function insertOpenIdFormId (Request $request) {
         $data = $request->param();
         if($data){
-
-            if ($data['formId']=="the formId is a mock one"){
+           if ($data['formId']=="the formId is a mock one"){
                 echo json_encode(['code'=>2,'msg'=>'请用真机测试']);
                 exit;
             }
+          
             if ($data['uid']) {
                 $result=db('User')
                     ->where(['uid'=>$data['uid']])
@@ -998,15 +1017,13 @@ class User extends Controller
                     'uid'=>$data['uid'],
                 ];
                 $in = [
-                    'open_id' => $result['openid'],
+                   'open_id'  => $result['openid'],
                     'formId'  => $data['formId'],
                     'is_form' => 1
                 ];
-
-                $result = db('CustUser')
-                    -> where($where)
-                    -> update($in);
-                // Order::sendMsg();
+           
+                $result = db('CustUser')->where($where)->update($in);
+                // Order::sendMsg();    
                 if($result){
                     exit(json_encode(['code'=>1,'msg'=>'搶單提醒開啟']));
                 }else{
@@ -1018,8 +1035,7 @@ class User extends Controller
         }
 
     }
-
-    public function getOneFormId (Request $request) {
+ 	   public function getOneFormId (Request $request) {
         $data = $request->param();
         if ($data) {
 
@@ -1027,9 +1043,18 @@ class User extends Controller
                 echo json_encode(['code'=>2,'msg'=>'请用真机测试']);
                 exit;
             }
-            $result = db('user')
-                -> where(['uid'=>$data['uid']])
-                -> update(['formId'=>$data['formId']]);
+                     $type = empty($data['type'])?'0':$data['type'];
+            switch ($type) {
+                case 2:
+                    $result = db('user')
+                        -> where(['uid'=>$data['uid']])
+                        -> update(['formId2'=>$data['formId']]);
+                    break;
+                default:
+                    $result = db('user')
+                        -> where(['uid'=>$data['uid']])
+                        -> update(['formId'=>$data['formId']]);
+            }
             if ($result) {
                 $this -> jsonOut($result);
             } else {
@@ -1038,6 +1063,40 @@ class User extends Controller
 
         }
         exit(json_encode(['code'=>0,'msg'=>'失敗']));
+    }
+  
+  /**
+     * 账单提醒
+     * @param Request $request
+     */
+    public function enough(Request $request){
+        $uid          = $request-> param('uid');
+        $bid          = $request-> param('bid');
+        $pre_price    = $request-> param('pre_price');
+        $theLastPrice = $request-> param('thisLastPrice');
+        $money = db('user')->where(['uid'=>$uid,'bid'=>$bid])->value('money');
+         if(!empty($money)){
+            $type = 1;
+            $msg = '';
+            if ($money<$pre_price+$theLastPrice) {
+                $type = 2;
+                $msg  = '(餘額不足)';
+            }
+            $pre_price = $pre_price==''?'0.00':$pre_price;
+            $data = array(
+                "預計金額：{$pre_price}",
+                "車手費用：{$theLastPrice}",
+                "當前餘額：{$money}{$msg}",
+            );
+            echo json_encode(['code'=>1,'data'=>$data,'title'=>'支付詳情','type'=>$type]);
+        } else {
+            if ($money==0) {
+                echo json_encode(['code'=>2,'msg'=>'您的餘額為0']);
+            } else {
+                echo json_encode(['code'=>0,'msg'=>'沒有查到數據']);
+            }
+         
+        }
     }
 
 }

@@ -16,12 +16,31 @@ use app\home\model\UserModel as HomeUserModel;
 
 class Order extends Controller
 {
-    /**
+  /*退款，付款*/
+    public function payOrder(Request $request){
+        $orderid = $request->get('orderid');
+        $runid = $request->get('runid');
+        $yupay = $request->get('yupay');
+        $dianpay = $request->get('dianpay');
+        $uid = $request->get('uid');
+        if($yupay>$dianpay){
+            $money = $yupay-$dianpay;//预付款多
+            exit(json_encode(
+                ['code'=>1,'msg'=>'预付款多','orderid'=>$orderid,'runid'=>$runid,'uid'=>$uid]
+            ));
+        }elseif ($yupay<$dianpay){
+            $money = $dianpay-$yupay;//预付款少
+            exit(json_encode(['code'=>1,'msg'=>'预付款少']));
+        }else{
+            exit(json_encode(['code'=>1,'msg'=>'刚好']));
+        }
+    } 
+  /**
      * 添加订单
      * @return \think\response\View
-
+     
      */
-
+  
     public static function curl_get($url){
         $curl = curl_init(); // 启动一个CURL会话
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -84,7 +103,7 @@ class Order extends Controller
             //var_dump($res1);exit;
             $cid = array();
             foreach ($res1 as $k=>$v){
-                $res['price'] = OrderModel::instance()->f_price($res['price']);
+               $res['price'] = OrderModel::instance()->f_price($res['price']);
                 $data = array(
                     date("Y年m月d日 H:i:s",$res['time']),
                     $res['mudadds'],
@@ -135,21 +154,18 @@ class Order extends Controller
         return "未查到订单数据";
 
     }
-
-    public function insertOrder(Request $request)
+  
+   public function insertOrder(Request $request)
     {
-
-
-        //$this->sendMsg();exit;
-
-
-
-        $data = $request->param();
-
+     
+    
+     //$this->sendMsg();exit;
+     $data = $request->param();
+     
         if($data){
             $times    = BusinessModel::getOpenTime($data['bid']);
             $thisTime = date('H:i:s');
-            if ($thisTime<$times['openTime'] || $thisTime > $times['closeTime']) {
+             if ($thisTime<$times['openTime'] || $thisTime > $times['closeTime']) {
                 echo json_encode(['data' => 3,'msg' => '商家已經打樣']);exit;
             }
             $order_no = trade_no();
@@ -158,38 +174,42 @@ class Order extends Controller
             $datas = [
                 'goodsname' => $data['goodsname'],
                 'mudadds' => $data['mudadds'],
-                'myadds' => $data['myadds'],
-                'price' => $data['price'],
-                'times' => $data['times'],
-                'time' => time(),
-                'uid' => $data['uid'],
-                'order_no' => $order_no,
-                'order_type' => isset($data['order_type']) ? $data['order_type']: '',
+                 'myadds' => $data['myadds'],
+                 'price' => $data['price'],
+                 'times' =>$data['times'],
+                 'time' => time(),
+                 'uid' => $data['uid'],
+                 'order_no' => $order_no,
+              'my_username' => isset($data['my_username']) ? $data['my_username']: '',
+              'my_phone' => isset($data['my_phone']) ? $data['my_phone']: '',
+                'pre_price' => isset($data['pre_price']) ? $data['pre_price']: '',
+                'pretime' => isset($data['pretime']) ? $data['pretime']: '',
                 'distance' => isset($data['distance']) ? $data['distance']: '',
-                'old_order_no' => isset($data['old_order_no']) ? $data['old_order_no']: '',
-                'weight' => isset($data['weight']) ? $data['weight']: '',
-                'select_name' => isset($data['select_name']) ? $data['select_name']: '',
-                'ins' => $data['ins'],
-                'status' => 0,
-                'redbao' =>$data['redbao'],
-                'xphoto' =>$data['xphoto'],
-                'yinpin' =>$data['yinpin'],
-                'tip' => $data['tip'],
-                'type' => $data['type'],
-                'message' => $data['message'],
-                'distype' =>  $data['distype'],
-                'username' =>  $data['username'],
-                'phone' =>  $data['phone'],
-                'bid' => $data['bid'],
-                'audiotime' => empty($data['audiotime'])?"":$data['audiotime'],
-                'imgurl' =>  empty($data['imgurl'])?"":$data['imgurl'],
-                'proxy_id'=>$data['proxy_id'],
+                 'order_type' => isset($data['order_type']) ? $data['order_type']: '',
+                 'old_order_no' => isset($data['old_order_no']) ? $data['old_order_no']: '',
+              	 'weight' => isset($data['weight']) ? $data['weight']: '',
+                 'select_name' => isset($data['select_name']) ? $data['select_name']: '',
+                 'ins' => $data['ins'],
+                 'status' => 0,
+                 'redbao' =>$data['redbao'],
+                 'xphoto' =>$data['xphoto'],
+                 'yinpin' =>$data['yinpin'],
+                 'tip' => $data['tip'],
+                 'type' => $data['type'],
+                 'message' => $data['message'],
+                 'distype' =>  $data['distype'],
+                 'username' =>  $data['username'],
+                 'phone' =>  $data['phone'],
+                 'bid' => $data['bid'],
+                 'audiotime' => empty($data['audiotime'])?"":$data['audiotime'],
+                 'imgurl' =>  empty($data['imgurl'])?"":$data['imgurl'],
+                 'proxy_id'=>$data['proxy_id'],
                 'code'  =>$code
             ];
-
-
-
-
+          
+          
+      
+          
 //            $url='https://restapi.amap.com/v3/geocode/geo';
 //            $input=[
 //                'address'=>$data['myadds'],
@@ -199,7 +219,7 @@ class Order extends Controller
 //            if($adds['info']=='OK')$data['location']=$adds['geocodes'][0]['location'];
 
             $result = db('runorder')->insert($datas);
-
+         
             /**
              * 检测禾匠订单并且修改发货状态
              */
@@ -217,11 +237,10 @@ class Order extends Controller
                 ];
                 Db::table('ims_cjdc_order')->where('order_num',$data['old_order_no'])->update($is);
             }
-
             if($result){
-
-                $info['order_no'] =$order_no;
-                $info['msg'] =$result;
+              
+               $info =$order_no;
+               
                 $this->jsonOut($info);
             }else{
                 echo json_encode(['data' => 0,'msg'=>'添加失敗']);
@@ -230,13 +249,13 @@ class Order extends Controller
             echo json_encode(['data' => 0,'msg'=>'錯誤操作']);
         }
     }
-
-
-
-
-
-
-
+  
+  	
+  	
+  
+  
+  
+  
     public function insertOrders(Request $request)
     {
         $data = $request->param();
@@ -283,7 +302,7 @@ class Order extends Controller
             }
             $order_no = trade_no();
             $Goods=db('Goods')->where('bid',$bid)->find();
-
+            
             $data=[
                 'order_no'=>$order_no,
                 'gid'=>0,
@@ -304,7 +323,7 @@ class Order extends Controller
     }
     /**
      * 获取订单支付参数
-     *
+     * 
      */
     public function orderPayParams(Request $request)
     {
@@ -334,48 +353,50 @@ class Order extends Controller
         if(\request()->isPost()){
             $result = OrderModel::instance()->out_money($order_no);
 //            var_dump($result);die;
-            if($result){
-                exit(json_encode(['code'=>1,'msg'=>'退款成功']));
-            }else{
-                exit(json_encode(['code'=>0,'msg'=>'退款失败']));
-            }
+           if($result){
+               exit(json_encode(['code'=>1,'msg'=>'退款成功']));
+           }else{
+               exit(json_encode(['code'=>0,'msg'=>'退款失败']));
+           }
         }
     }
 
-    private function timediff($begin_time,$end_time)
-    {
-        if($begin_time < $end_time){
-            $starttime = $begin_time;
-            $endtime = $end_time;
-        }else{
-            $starttime = $end_time;
-            $endtime = $begin_time;
-        }
-        //计算天数
-        $timediff = $endtime-$starttime;
-        $days = intval($timediff/86400);
-        //计算小时数
-        $remain = $timediff%86400;
-        $hours = intval($remain/3600);
-        //计算分钟数
-        $remain = $remain%3600;
-        $mins = intval($remain/60);
-        //计算秒数
-        $secs = $remain%60;
-        $res =  $days.'天 '. $hours.'时'. $mins.'分'.$secs.'秒';
-        return $res;
+   private function timediff($begin_time,$end_time)
+{
+    if($begin_time < $end_time){
+        $starttime = $begin_time;
+        $endtime = $end_time;
+    }else{
+        $starttime = $end_time;
+        $endtime = $begin_time;
     }
-
+    //计算天数
+    $timediff = $endtime-$starttime;
+    $days = intval($timediff/86400);
+    //计算小时数
+    $remain = $timediff%86400;
+    $hours = intval($remain/3600);
+    //计算分钟数
+    $remain = $remain%3600;
+    $mins = intval($remain/60);
+    //计算秒数
+    $secs = $remain%60;
+       $res =  $days.'天 '. $hours.'时'. $mins.'分'.$secs.'秒';
+    return $res;
+}
+  
     /**
      * 我的订单 订单列表
      *
      */
-    public function getOrderLists(Request $request){
+      public function getOrderLists(Request $request){
         $this->_isGET();
         $status = $request->get('status');
         $limit=$request->get('limit');
         $result = OrderModel::instance()->getOrderLists($status,$this->uid,$limit);
         foreach ($result as $key=>$val){
+
+
             $result[$key]['look_time']='待接单';
             switch ($val['status']){
                 case -1:
@@ -403,19 +424,18 @@ class Order extends Controller
             }
             $result[$key]['time']=date('Y-m-d H:i:s',$val['time']);
         }
-        $count = OrderModel::instance() -> getAllOrder($this->uid);
+       $count = OrderModel::instance() -> getAllOrder($this->uid);
         $array = array('data'=>$result,'count'=>$count);
         echo json_encode($array);
         //$this->jsonOut($result);
 
 
     }
-
     /**
      * 我的订单 订单列表
      *
      */
-    public function getOrderListss(Request $request){
+       public function getOrderListss(Request $request){
         $this->_isGET();
         $status = $request->get('status');
         $limit=$request->get('limit');
@@ -462,7 +482,7 @@ class Order extends Controller
         }
         $this->jsonOut(['orderid'=>$orderid]);
     }
-    /**
+/**
      * 订单详情
      */
     public function getOneOrder(Request $request){
@@ -487,7 +507,7 @@ class Order extends Controller
     public function rechargePay(Request $request){
 
         $money = $request->get('money');       //订单描述
-
+      
         if(empty($money)) $this->outPut(null, 1001, "money");
         $uid = $this->uid;
         $res_parms = OrderModel::instance()->rechargePay($money,$uid,trade_no());
@@ -496,7 +516,7 @@ class Order extends Controller
         }
         $this->jsonOut($res_parms);
     }
-    /**
+/**
      * 余额/积分 购买
      */
     public function orderPayIntegral(Request $request){
@@ -510,7 +530,7 @@ class Order extends Controller
         if($result == false)  $this->outPut(null,$info);
         $this->jsonOut($info);
     }
-    /**
+/**
      * 充值记录
      */
     public function recharge(Request $request){
@@ -521,8 +541,8 @@ class Order extends Controller
         $this->jsonOut($result);
     }
     /**
-     * 订单详情
-     */
+    * 订单详情
+    */
     public function getOrderInfo(Request $request){
         $order = $request->get('orderid');
 
@@ -557,11 +577,11 @@ class Order extends Controller
 
         $bid = $request->get('bid');
         $status = $request->get('status');
-        $thisStatic = $request->get('thisStatic');
+      	$thisStatic = $request->get('thisStatic');
         $rid = $request->get('uid');
         $limit=$request->get('limit');
         $result = OrderModel::instance()->ServerOrder($bid,$status,$rid,$limit);
-        if (!$thisStatic) {
+  		if (!$thisStatic) {
             $count = OrderModel::instance() -> OrderCount($bid,$rid);
             $array['count'] = $count;
         }
@@ -638,15 +658,13 @@ class Order extends Controller
     public function OkOrder(Request $request){
         $orderid = $request->get('orderid');
         $bid = $request->get('bid');
-        $bids  = Db::name('business')
-            ->where(['bid'=>$bid])
-            ->field('distype')
-            ->find();
+            $pay_type = $request->get('pay_type');
+        $bids  = Db::name('business')->where(['bid'=>$bid])->field('distype')->find();
         $uid = $request->get('uid');
         $code=$request->get('code');
-        $result = OrderModel::instance()->OkOrder($orderid,$bid,$uid,$code,$bids['distype']);
+        $result = OrderModel::instance()->OkOrder($orderid,$bid,$uid,$code,$bids['distype'],$pay_type);
         //查询奖励条件
-        $map['reendtime'] = array('>',time());
+      $map['reendtime'] = array('>',time());
         $dis = db('reward')
             ->where('bid',$bid)
             ->where('type',1)
@@ -674,10 +692,12 @@ class Order extends Controller
                 }
             }
         }
-        $this->jsonOut($result);
+     
+        //$this->jsonOut($result);
+       echo json_encode($result);
     } /**
- * 跑腿完成订单
- */
+     * 跑腿完成订单
+     */
     public function OkWorth(Request $request){
         $orderid = $request->get('orderid');
         $code=$request->get('code');
@@ -713,13 +733,13 @@ class Order extends Controller
                     'createtime'=>time(),
                     'status'=>0
                 ];
-                $result=db('Out_balance')->insert($data);
-                if($result){
-                    exit(json_encode(['code'=>1,'msg'=>'退款成功']));
-                }else{
-                    db('Cust_user')->where('cid',$cid)->update($user);//回退操作
-                    exit(json_encode(['code'=>0,'msg'=>'退款失败']));
-                }
+              $result=db('Out_balance')->insert($data);
+              if($result){
+                  exit(json_encode(['code'=>1,'msg'=>'退款成功']));
+              }else{
+                  db('Cust_user')->where('cid',$cid)->update($user);//回退操作
+                  exit(json_encode(['code'=>0,'msg'=>'退款失败']));
+              }
             }else{
                 exit(json_encode(['code'=>0,'msg'=>'退款失败']));
             }
@@ -768,7 +788,7 @@ class Order extends Controller
      */
     public function balance($uid){
         $result=db('User')->where('uid',$uid)->value('money');
-        exit(json_encode(['code'=>1,'data'=>number_format($result, 2)]));
+         exit(json_encode(['code'=>1,'data'=>number_format($result, 2)]));
 
     }
     /**
@@ -800,34 +820,28 @@ class Order extends Controller
     public function pricePay($uid,$formId,$openid,$order_no){
         if(\request()->isPost()){
             $MyMoney=db('User')->where('uid',$uid)->value('money');
-            $money=db('Runorder')->where('order_no',$order_no)->field('code,phone,price')->find();
+            $money=db('Runorder')->where('order_no',$order_no)->field('code,phone,price,pre_price')->find();
             $phone=$money['phone'];
             $code =$money['code'];
-            $money =$money['price'];
+            $money =$money['price']+$money['pre_price'];
 
             if($MyMoney<$money){
                 exit(json_encode(['code'=>0,'msg'=>'余额不足']));
             }else{
                 $data=[
                     'uid'=>$uid,
-                    'price'=>$money,
                     'prepay_id'=>$formId,
-                    'order_no'=>$order_no,
-                    'MyMoney'=>$MyMoney,
+                    'order_no'=>$order_no
                 ];
-
-
-
-                $result=OrderModel::pricePay($data);
-                array_pop($data);
+                $price = $MyMoney - $money;
+                $result=OrderModel::pricePay($data,$price);
                 if($result){
                     echo json_encode(['code'=>1,'msg'=>'支付成功']);
                     model('Sms')->index($phone,$code);
                     fastcgi_finish_request();
                     sleep(1);
                     MessageModel::PayMsg($data['order_no']);
-                    //OrderModel::SendMsg($order_no);
-                    $result = Order::sendMsg();
+                    Order::sendMsg();
                     return false;
                 }else{
                     exit(json_encode(['code'=>0,'msg'=>'支付失败']));
@@ -1166,21 +1180,21 @@ class Order extends Controller
     }
 
     public function MsgView($code,$state){
-        $bid=db('User')->where('uid',$state)->value('bid');
-        $weixin=db('WxService')->where('bid',$bid)->find();
-        $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$weixin['appid'].'&secret='.$weixin['secret'].'&code='.$code.'&grant_type=authorization_code';
-        $rs=file_get_contents($url);
-        $result=json_decode($rs);
-        if(!empty($result->errcode)){
-            echo '错误提示:'.$result->errmsg;
-        }else{
+       $bid=db('User')->where('uid',$state)->value('bid');
+       $weixin=db('WxService')->where('bid',$bid)->find();
+       $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$weixin['appid'].'&secret='.$weixin['secret'].'&code='.$code.'&grant_type=authorization_code';
+       $rs=file_get_contents($url);
+       $result=json_decode($rs);
+       if(!empty($result->errcode)){
+           echo '错误提示:'.$result->errmsg;
+       }else{
             $rss=db('CustUser')->where('uid',$state)->update(['open_id'=>$result->openid]);
             if($rss){
                 return view();
             }else{
                 echo "获取openid失败";
             }
-        }
+       }
 
     }
     public function goorder(){
@@ -1206,7 +1220,7 @@ class Order extends Controller
         }
     }
     //  用户付款商品
-    public function payWorth(Request $request){
+   public function payWorth(Request $request){
         $order_no   = $request->post('order_no');
         $orderid    = $request->post('orderid');
         $uid        = $request->post('uid');
@@ -1215,7 +1229,7 @@ class Order extends Controller
 
         $money = Db::name('user')->where(['uid' => $uid]) -> value('money');
         if ($money < $worth) {
-            echo json_encode(['code'=>0,'msg'=>'您的餘額不足，請充值']);exit;
+             echo json_encode(['code'=>0,'msg'=>'您的餘額不足，請充值']);exit;
         }
         $worth = $money-$worth;
         $res   = OrderModel::instance()->payWorth($order_no,$uid,$worth,$orderid,$formId);
@@ -1226,15 +1240,15 @@ class Order extends Controller
             echo json_encode(['code'=>0,'msg'=>$res['msg']]);
         }
     }
-    /*
-     * 用户确认订单后，分配佣金
-     * */
+/*
+ * 用户确认订单后，分配佣金
+ * */
     public function divideMoney(){
         return 1;
     }
-    /***
-     * @多图上传
-     */
+/***
+ * @多图上传
+ */
     public function  OrderUploadsImg(){
         $image = CommonModel:: instance()->uploads('user');
         exit(json_encode(['code'=>1,'url'=>uploadpath('user',$image)]));

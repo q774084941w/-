@@ -260,6 +260,4 @@ class Member extends Controller
             $this->jsonOut($result);
         }
     }
-
-
 }

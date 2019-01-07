@@ -61,7 +61,7 @@ return [
             'status' => 1
         ];
         $details = GoodsModel::instance()->details($goodsid);
-
+        
         $details['pic'] = uploadpath('goods',$details['pic']);
 
         if($details['template'] != 0){
@@ -72,10 +72,10 @@ return [
             $details['freid'] = '';
             $details['title'] = '';
         }
-        $menus = GoodsModel::instance()->menus($bid);
-        $details['template'] == 0 ? $details['aaxa'] = 0 : $details['aaxa'] = 1;
-        $details['freight_unify'] == 0 ? $details['freight_unify'] = '' : $details['freight_unify'] = $details['freight_unify'];
-        return view('goods/edit',['menus'=>$menus,'data'=>$details]);
+            $menus = GoodsModel::instance()->menus($bid);
+            $details['template'] == 0 ? $details['aaxa'] = 0 : $details['aaxa'] = 1;
+            $details['freight_unify'] == 0 ? $details['freight_unify'] = '' : $details['freight_unify'] = $details['freight_unify'];
+            return view('goods/edit',['menus'=>$menus,'data'=>$details]);
 
     }
     /**
@@ -114,9 +114,9 @@ return [
             'type' =>1
         ];
 
-        $menus = GoodsModel::instance()->menus($bid);
-        $freight = GoodsModel::instance()->freight($bida);
-        return view('goods/add',['menus'=>$menus,'freight'=>$freight]);
+            $menus = GoodsModel::instance()->menus($bid);
+            $freight = GoodsModel::instance()->freight($bida);
+            return view('goods/add',['menus'=>$menus,'freight'=>$freight]);
     }
     /**
      * 商品添加
@@ -136,7 +136,7 @@ return [
 
         return $freight;
     }
-
+    
 
     /**
      * 添加数据库
@@ -181,14 +181,14 @@ return [
             $data['caidan'] = $list;
         }
         $imgs = implode(',',$imgs);
-
+        
         $result = GoodsModel::instance()->addgoods($data,$imgs);
         if($result > 0){
             $this->success('添加成功', 'goods/index');
         }else{
             $this->error('新增失败');
         }
-
+        
     }
     /**
      * 添加数据库
@@ -197,7 +197,7 @@ return [
     public function editinsert(Request $request){
         header('Content-type:text/html;charset=utf-8');
         $data = $request->post();
-
+        
         $pic = CommonModel::instance()->upload('goods');
         if($pic != 0) $data['pic'] = $pic;
 
@@ -224,7 +224,7 @@ return [
                 }
             }
         }
-
+       
 
         $imgs = implode(',',$imgs);
         $result = GoodsModel::instance()->editinsert($data,$imgs);
@@ -253,7 +253,7 @@ return [
         $result = GoodsModel::instance()->editajax($id);
         return $result;
     }
-    /**
+/**
      * 改库存
      */
     public function inventory(Request $request){
@@ -278,7 +278,8 @@ return [
         $result = GoodsModel::instance()->deleteban($banid);
         return $result;
     }
-    public function takeTheUrl($data) {
+
+       public function takeTheUrl($data) {
 
         $url = "https://apis.map.qq.com/ws/direction/v1/driving/?from=".$data['myaddswd'].",".$data['myaddsjd']."&to=".$data['mudaddswd'].",".$data['mudaddsjd']."&output=json&callback=cb&key=EKJBZ-72L3P-FHXDL-VSLEP-JEAGJ-JTFSD";
         $ch = curl_init();
@@ -344,5 +345,5 @@ return [
     }
 
 
-
+        
 }

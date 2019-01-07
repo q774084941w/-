@@ -191,6 +191,7 @@
                                 console.log(res);
 								if(res.code==1) {
                                     layer.msg('充值成功');
+                                          window.location.reload();
 								} else {
                                     layer.msg('充值失败');
 								}
@@ -208,7 +209,7 @@
 	    var uid = $(this).attr('data-uid');
         layer.open({
             title: '修改',
-			content: "<form><select name=\"selet\" >" +
+			content: "<form><select name=\"selet\" id='selected'  >" +
                "{foreach name='label' item='vo'}" +
                 "<option  value=\"{$vo.la_id}\" >" +
 				"{$vo.la_name}" +
@@ -217,20 +218,22 @@
                 "</select></form>",
 			btn:['修改'],
 			btn1:function (value) {
-				console.log(value);
-                if(!isNaN(value)){
+				var select = $('#selected').val();
+            	
+                if(!isNaN(select)){
                     $.ajax({
                         url:"{:url('user/changeLabel')}",
                         type:'post',
                         data:{
                             uid:uid,
-                            value:value
+                            value:select
                         },
                         dataType: 'json',
                         success:function (res) {
                             console.log(res);
                             if(res.code==1) {
                                 layer.msg('修改成功');
+                                      window.location.reload();
                             } else {
                                 layer.msg('修改失败');
                             }

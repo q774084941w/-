@@ -20,7 +20,7 @@ class UserModel
     /**
      * 用户列表
      */
-    public function userlist($bid,$where=[],$where1=''){
+  public function userlist($bid,$where=[],$where1=''){
         $list = Db::name('user')
             -> alias('a')
             ->field('uid,bid,phone,address,nickname,sex,birthday,regtime,integral,step,member_grade,money,tel,la_name,a.la_id')
@@ -35,7 +35,7 @@ class UserModel
     /**
      * 用户详情
      */
-    public function details($uid){
+  public function details($uid){
         $result = Db::name('user')
             -> alias('a')
             -> join('UserLabel b','a.la_id=b.la_id')
@@ -92,9 +92,7 @@ class UserModel
         switch ($type)
         {
             case 2:
-                return Db::name('CustUser')
-                    -> where('cid',$id)
-                    -> setInc('money',$number);
+                return Db::name('CustUser') -> where('cid',$id) -> setInc('money',$number);
                 break;
             default:
                 $result  = Db::name('CustUser') ->  where('cid',$id) -> field('promisemoney') -> find();
@@ -102,9 +100,7 @@ class UserModel
                 {
                     return Db::name('CustUser')->where('cid',$id)->update(['status'=>-1]);
                 }
-                return Db::name('CustUser')
-                    -> where('cid',$id)
-                    -> setDec('promisemoney',$number);
+                return Db::name('CustUser') -> where('cid',$id) -> setDec('promisemoney',$number);
         }
 		return false;
     }
@@ -168,12 +164,12 @@ class UserModel
     /**
      * 跑腿用户详情
      */
-    public function defaults($uid){
+     public function defaults($uid){
 
         $result = Db::name('user')
             -> alias('u')
             -> join('CustUser a','a.uid=u.uid')
-            -> join('UserLatel c','a.la_id=c.la_id')
+            -> join('UserLabel c','u.la_id=c.la_id','LEFT')
             -> join('CustSeller b','b.uid=u.uid','LEFT')
             -> field('a.uid,bid,phone,nickname,name,step,head,sex,birthday,address,vip,viptime,regtime,a.*,b.uname as seller_uname,b.utel as seller_utel,b.uaddress as seller_uaddress,b.uimg as seller_uimg,b.status as seller_status,c.la_name')
             -> where('u.uid',$uid)
@@ -422,8 +418,7 @@ class UserModel
         return true;
 
     }
-
-    public function label ($name) {
+     public function label ($name) {
         $data = array(
             'la_name' => $name,
             'creat_time' => time()
@@ -432,8 +427,10 @@ class UserModel
     }
 
     public function updateLabe ($id ,$name) {
-        return db('userLabel')
-            ->where(['la_id'=>$id])
+        return db('userLabel') 
+            ->where(['la_id'=>$id]) 
             -> update(['la_name'=>$name]);
     }
+
+
 }

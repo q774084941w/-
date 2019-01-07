@@ -156,7 +156,7 @@ class Goods extends Controller
     /**
      *距离计算金额
      */
-    public function addprice(Request $request){
+   public function addprice(Request $request){
         $adds = $request->param();
         $bid = $adds['bid'];
         $rs=GoodsModel::instance()->region($adds,$bid);//区域代理
@@ -170,7 +170,6 @@ class Goods extends Controller
         $data = $this -> takeTheUrl($adds);
         if (isset($data['result'])) {
             $results['more'] = $data['result'];
-            $results['more'] = $data['result']['routes'][0]['distance']/1000;
             $results['add']  = $adds;
             $result = round($data['result']['routes'][0]['distance']/1000,2);
             $results['distance'] = $result;

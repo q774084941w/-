@@ -110,27 +110,4 @@ class UserModel
             ->where('135k_user.uid',$uid)->find();
         return $list;
     }
-
-
-    /*
-     *
-     */
-    public function Statistics ($rid) {
-        $num= $arr7= $num7= $arr30= $num30= $price7= $price30=[];
-        $where = array(
-            'rid' => $rid
-        );
-
-
-
-        array("num"=>$num,"arr7"=>$arr7,"num7"=>$num7,"arr30"=>$arr30,"num30"=>$num30,"prcie7"=>$price7,"prcie30"=>$price30);
-    }
-
-    public function getData ($field,$where,$range,$op,$which="oktime") {
-        return Db::name('runorder')
-            -> field($field)
-            -> whereTime($which,$op,$range)
-            -> where($where)
-            -> select();
-    }
 }
